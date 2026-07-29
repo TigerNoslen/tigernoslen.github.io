@@ -3,94 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tiger Noslen Gaming</title>
 
-    <style>
-        body{
-            margin:0;
-            font-family:Arial, Helvetica, sans-serif;
-            background:#111;
-            color:white;
-            text-align:center;
-        }
+    <title>Tiger Nation HQ | Tiger Noslen Gaming</title>
+    <meta name="description" content="Official website of Tiger Noslen Gaming. Live streams, Fortnite content, community, Creator Code, and more.">
 
-        header{
-            background:linear-gradient(135deg,#ff6a00,#ff9500);
-            padding:60px 20px;
-        }
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        h1{
-            font-size:3em;
-            margin:0;
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        h2{
-            font-weight:normal;
-            color:#ddd;
-        }
-
-        .button{
-            display:inline-block;
-            margin:12px;
-            padding:15px 35px;
-            background:#ff7b00;
-            color:white;
-            text-decoration:none;
-            border-radius:12px;
-            font-size:1.2em;
-            transition:.25s;
-        }
-
-        .button:hover{
-            background:#ffaa33;
-            transform:scale(1.05);
-        }
-
-        section{
-            padding:60px 20px;
-        }
-
-        footer{
-            background:#1d1d1d;
-            padding:25px;
-            color:#888;
-        }
-    </style>
-
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<header>
+<header class="site-header">
+    <div class="nav-container">
 
-<h1>🐯 Tiger Noslen Gaming</h1>
+        <a href="#hero" class="site-logo" aria-label="Tiger Nation HQ home">
+            <img
+                src="images/logos/tng-logo.png"
+                alt="Tiger Noslen Gaming"
+            >
+        </a>
 
-<h2>Welcome to Tiger Nation!</h2>
+        <nav class="main-nav" aria-label="Main navigation">
+            <ul class="nav-links">
+                <li><a href="#hero" class="active">Home</a></li>
+                <li><a href="#schedule">Streams</a></li>
+                <li><a href="#fortnite">Fortnite</a></li>
+                <li><a href="#community">Community</a></li>
+                <li><a href="#connect">Connect</a></li>
+            </ul>
+        </nav>
 
-<a class="button" href="#">YouTube</a>
-<a class="button" href="#">TikTok</a>
-<a class="button" href="#">Discord</a>
+        <div class="nav-actions">
+            <div class="live-indicator">
+                <span class="live-dot" aria-hidden="true"></span>
+                <span>Live Now</span>
+            </div>
 
+            <a href="#" class="watch-live-button">
+                <span aria-hidden="true">◉</span>
+                Watch Live
+            </a>
+
+            <button
+                class="mobile-menu-button"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+    </div>
 </header>
 
-<section>
+<main>
 
-<h2>This website is under construction.</h2>
+    <section id="hero" class="hero-section">
+    <div class="hero-overlay"></div>
 
-<p>
-Soon you'll find stream schedules, social links,
-Fortnite content, creator code information,
-and much more.
-</p>
+    <div class="hero-container">
+        <div class="hero-content">
 
+            <p class="hero-kicker">Welcome to</p>
+
+            <h1 class="hero-title">
+                <span>Tiger Nation</span>
+                <strong>HQ</strong>
+            </h1>
+
+            <p class="hero-description">
+                The official home of Tiger Noslen Gaming.
+                Live streams, Fortnite content, community,
+                and everything Tiger Nation.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#" class="hero-button hero-button-primary">
+                    <span aria-hidden="true">▶</span>
+                    Watch Live
+                </a>
+
+                <a href="#" class="hero-button hero-button-secondary">
+                    Join Discord
+                </a>
+            </div>
+
+            <div class="hero-status">
+                <span class="hero-status-dot" aria-hidden="true"></span>
+                <strong>Live Now</strong>
+                <span>Fortnite Zero Build</span>
+            </div>
+
+        </div>
+
+        <div class="hero-visual">
+            <div class="hero-glow"></div>
+
+            <img
+                src="images/mascot/hero-mascot.png"
+                alt="Tiger Noslen Gaming mascot"
+                class="hero-mascot"
+            >
+        </div>
+    </div>
 </section>
 
+    <section id="about">
+        <!-- About -->
+    </section>
+
+    <section id="schedule">
+        <!-- Schedule -->
+    </section>
+
+    <section id="creator-code">
+        <!-- Creator Code -->
+    </section>
+
+    <section id="fortnite">
+        <!-- Fortnite -->
+    </section>
+
+    <section id="community">
+        <!-- Community -->
+    </section>
+
+</main>
+
 <footer>
-
-Creator Code:
-<b>TIGERNOSLEN</b>
-
+    <!-- Footer -->
 </footer>
+
+<script src="js/script.js"></script>
 
 </body>
 </html>
