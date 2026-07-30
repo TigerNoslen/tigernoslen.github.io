@@ -177,6 +177,41 @@ if (copyCreatorCodeButton) {
 }
 
 /* ---------------------------------
+   Mobile Navigation
+---------------------------------- */
+
+const mobileMenuButton = document.querySelector(
+    ".mobile-menu-button"
+);
+
+const mainNavigation = document.querySelector(
+    ".main-nav"
+);
+
+if (mobileMenuButton && mainNavigation) {
+    mobileMenuButton.addEventListener("click", () => {
+        const isOpen = mainNavigation.classList.toggle("is-open");
+
+        mobileMenuButton.classList.toggle("is-open", isOpen);
+        mobileMenuButton.setAttribute(
+            "aria-expanded",
+            String(isOpen)
+        );
+    });
+
+    document.querySelectorAll(".nav-links a").forEach((link) => {
+        link.addEventListener("click", () => {
+            mainNavigation.classList.remove("is-open");
+            mobileMenuButton.classList.remove("is-open");
+            mobileMenuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+        });
+    });
+}
+
+/* ---------------------------------
    Active Navigation / Scrollspy
 ---------------------------------- */
 
@@ -244,6 +279,58 @@ if (navLinks.length > 0 && navSections.length > 0) {
     });
 }
 
+/* Close mobile menu with outside click or Escape */
+
+if (mobileMenuButton && mainNavigation) {
+    document.addEventListener("click", (event) => {
+        const menuIsOpen =
+            mainNavigation.classList.contains("is-open");
+
+        if (!menuIsOpen) {
+            return;
+        }
+
+        const clickedInsideMenu =
+            mainNavigation.contains(event.target);
+
+        const clickedMenuButton =
+            mobileMenuButton.contains(event.target);
+
+        if (!clickedInsideMenu && !clickedMenuButton) {
+            mainNavigation.classList.remove("is-open");
+            mobileMenuButton.classList.remove("is-open");
+            mobileMenuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+        }
+    });
+
+    document.addEventListener(
+    "keydown",
+    (event) => {
+        if (
+            event.key !== "Escape" ||
+            !mainNavigation.classList.contains("is-open")
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
+        mainNavigation.classList.remove("is-open");
+        mobileMenuButton.classList.remove("is-open");
+        mobileMenuButton.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+    },
+    true
+);
+}
+
 /* ---------------------------------
    Footer
 ---------------------------------- */
@@ -284,3 +371,4 @@ if (footerCopyCodeButton) {
         }
     });
 }
+
