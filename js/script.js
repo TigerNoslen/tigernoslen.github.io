@@ -246,65 +246,56 @@ function setActiveNavLink(sectionId) {
 }
 
 if (navLinks.length > 0 && navSections.length > 0) {
-    const navObserver = new IntersectionObserver(
-        (entries) => {
-            const visibleSections = entries
-                .filter((entry) => entry.isIntersecting)
-                .sort(
-                    (firstEntry, secondEntry) =>
-                        secondEntry.intersectionRatio -
-                        firstEntry.intersectionRatio
-                );
+    const updateActiveNavLink = () => {
+        const headerOffset = 150;
+        const scrollPosition =
+            window.scrollY + headerOffset;
 
-            if (visibleSections.length > 0) {
-                setActiveNavLink(visibleSections[0].target.id);
+        let currentSectionId =
+            navSections[0].id;
+
+        navSections.forEach((section) => {
+            if (section.offsetTop <= scrollPosition) {
+                currentSectionId = section.id;
             }
-        },
-        {
-            rootMargin: "-18% 0px -55% 0px",
-            threshold: [0, 0.1, 0.25, 0.5]
+        });
+
+        const pageBottom =
+            window.innerHeight + window.scrollY;
+
+        const documentHeight =
+            document.documentElement.scrollHeight;
+
+        if (pageBottom >= documentHeight - 5) {
+            currentSectionId =
+                navSections[navSections.length - 1].id;
         }
+
+        setActiveNavLink(currentSectionId);
+    };
+
+    window.addEventListener(
+        "scroll",
+        updateActiveNavLink,
+        { passive: true }
     );
 
-    navSections.forEach((section) => {
-        navObserver.observe(section);
-    });
+    window.addEventListener(
+        "resize",
+        updateActiveNavLink
+    );
 
     navLinks.forEach((link) => {
         link.addEventListener("click", () => {
-            const targetId = link.getAttribute("href").slice(1);
+            const targetId =
+                link.getAttribute("href").slice(1);
 
             setActiveNavLink(targetId);
         });
     });
+
+    updateActiveNavLink();
 }
-
-/* Close mobile menu with outside click or Escape */
-
-if (mobileMenuButton && mainNavigation) {
-    document.addEventListener("click", (event) => {
-        const menuIsOpen =
-            mainNavigation.classList.contains("is-open");
-
-        if (!menuIsOpen) {
-            return;
-        }
-
-        const clickedInsideMenu =
-            mainNavigation.contains(event.target);
-
-        const clickedMenuButton =
-            mobileMenuButton.contains(event.target);
-
-        if (!clickedInsideMenu && !clickedMenuButton) {
-            mainNavigation.classList.remove("is-open");
-            mobileMenuButton.classList.remove("is-open");
-            mobileMenuButton.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-        }
-    });
 
     document.addEventListener(
     "keydown",
@@ -329,6 +320,98 @@ if (mobileMenuButton && mainNavigation) {
     },
     true
 );
+
+/* ==================================================
+   TIGER'S MAPS — CLASSIFIED FILE
+================================================== */
+
+const classifiedButton =
+    document.getElementById("classifiedButton");
+
+const classifiedMessage =
+    document.getElementById("classifiedMessage");
+
+if (classifiedButton && classifiedMessage) {
+    let classifiedSequenceRunning = false;
+
+    const wait = (milliseconds) =>
+        new Promise((resolve) => {
+            window.setTimeout(resolve, milliseconds);
+        });
+
+    classifiedButton.addEventListener(
+        "click",
+        async () => {
+            if (classifiedSequenceRunning) {
+                return;
+            }
+
+            classifiedSequenceRunning = true;
+            classifiedButton.disabled = true;
+            classifiedButton.textContent =
+                "Decrypting...";
+
+            classifiedMessage.classList.remove(
+                "is-denied"
+            );
+
+            classifiedMessage.classList.add(
+                "is-visible",
+                "is-decrypting"
+            );
+
+            classifiedMessage.textContent =
+                "CONNECTING TO SECURE SERVER...";
+
+            await wait(500);
+
+            classifiedMessage.textContent =
+                "DECRYPTING CLASSIFIED FILE...\n" +
+                "██░░░░░░░░ 18%";
+
+            await wait(550);
+
+            classifiedMessage.textContent =
+                "DECRYPTING CLASSIFIED FILE...\n" +
+                "█████░░░░░ 52%";
+
+            await wait(550);
+
+            classifiedMessage.textContent =
+                "DECRYPTING CLASSIFIED FILE...\n" +
+                "████████░░ 84%";
+
+            await wait(650);
+
+            classifiedMessage.classList.remove(
+                "is-decrypting"
+            );
+
+            classifiedMessage.classList.add(
+                "is-denied"
+            );
+
+            classifiedMessage.textContent =
+                "ACCESS DENIED\n" +
+                "INSUFFICIENT CLEARANCE — NICE TRY.";
+
+            classifiedButton.textContent =
+                "Clearance Denied";
+
+            await wait(2600);
+
+            classifiedMessage.classList.remove(
+                "is-visible",
+                "is-denied"
+            );
+
+            classifiedButton.textContent =
+                "View Classified File";
+
+            classifiedButton.disabled = false;
+            classifiedSequenceRunning = false;
+        }
+    );
 }
 
 /* ---------------------------------
