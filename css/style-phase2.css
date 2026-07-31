@@ -4090,13 +4090,3 @@ main {
         display: none;
     }
 }
-
-/* Emergency visibility fix — You're Never Alone */
-
-#never-alone .never-alone-reveal {
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: none !important;
-    animation: none !important;
-    transition: none !important;
-}
