@@ -176,6 +176,63 @@ if (copyCreatorCodeButton) {
     });
 }
 
+const creatorCodeBanner = document.querySelector(
+    "#creatorCodeBanner"
+);
+
+const creatorCodeBannerStatus = document.querySelector(
+    "#creatorCodeBannerStatus"
+);
+
+let creatorCodeBannerResetTimer;
+
+if (creatorCodeBanner) {
+    creatorCodeBanner.addEventListener("click", async () => {
+        const creatorCode =
+            creatorCodeBanner.dataset.code || "TIGERNOSLEN";
+
+        clearTimeout(creatorCodeBannerResetTimer);
+
+        try {
+            await copyTextToClipboard(creatorCode);
+
+            creatorCodeBanner.classList.add("is-copied");
+
+            const codeValue = creatorCodeBanner.querySelector(
+                ".creator-code-value"
+            );
+
+            if (codeValue) {
+                codeValue.textContent = "COPIED!";
+            }
+
+            if (creatorCodeBannerStatus) {
+                creatorCodeBannerStatus.textContent =
+                    `${creatorCode} copied to your clipboard.`;
+            }
+
+            creatorCodeBannerResetTimer = window.setTimeout(() => {
+                creatorCodeBanner.classList.remove("is-copied");
+
+                if (codeValue) {
+                    codeValue.textContent = creatorCode;
+                }
+
+                if (creatorCodeBannerStatus) {
+                    creatorCodeBannerStatus.textContent = "";
+                }
+            }, 2500);
+        } catch (error) {
+            if (creatorCodeBannerStatus) {
+                creatorCodeBannerStatus.textContent =
+                    "Copy failed. Please copy TIGERNOSLEN manually.";
+            }
+
+            console.error(error);
+        }
+    });
+}
+
 /* ---------------------------------
    Mobile Navigation
 ---------------------------------- */
@@ -639,14 +696,14 @@ function renderLiveStatus(status) {
     }
 }
 
-function renderStatusUnavailable() {
+function renderFallbackStatus() {
     const nextStream = formatNextStream();
 
     setStatusClasses(liveStatusElements.navIndicator, "stale");
     setStatusClasses(liveStatusElements.heroStatus, "stale");
 
     if (liveStatusElements.navText) {
-        liveStatusElements.navText.textContent = "Status Unavailable";
+        liveStatusElements.navText.textContent = "OFFLINE";
     }
 
     if (liveStatusElements.heroLabel) {
@@ -722,14 +779,14 @@ async function refreshLiveStatus() {
                 LIVE_STATUS_CONFIG.staleAfterMinutes * 60 * 1000;
 
             if (Number.isFinite(ageMs) && ageMs > staleAfterMs) {
-                renderStatusUnavailable();
+                renderFallbackStatus();
                 return;
             }
         }
 
         renderLiveStatus(status);
     } catch (error) {
-        renderStatusUnavailable();
+        renderFallbackStatus();
         console.error(error);
     }
 }

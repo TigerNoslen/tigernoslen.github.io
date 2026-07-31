@@ -184,7 +184,6 @@
             <h2>Stream Schedule</h2>
         </div>
 
-        <a href="#" class="schedule-link">View Full Schedule</a>
     </div>
 
     <div class="schedule-grid">
@@ -198,7 +197,7 @@
             <time>5:00 PM ET</time>
         </article>
 
-        <article class="schedule-card featured">
+        <article class="schedule-card">
             <span class="schedule-day">Tuesday</span>
             <h3>Tiger Strike Tuesdays</h3>
             <p>
@@ -276,13 +275,26 @@
 
 
 <section id="creator-code" class="creator-code-section">
-    <div class="creator-code-container">
-        <div class="creator-code-label">Use Code</div>
+    <button
+        class="creator-code-container"
+        id="creatorCodeBanner"
+        type="button"
+        data-code="TIGERNOSLEN"
+        aria-describedby="creatorCodeBannerStatus"
+    >
+        <span class="creator-code-label">Use Code</span>
 
-        <div class="creator-code-value">TIGERNOSLEN</div>
+        <span class="creator-code-value">TIGERNOSLEN</span>
 
-        <div class="creator-code-partner">#EpicPartner</div>
-    </div>
+        <span class="creator-code-partner">#EpicPartner</span>
+    </button>
+
+    <span
+        class="creator-code-banner-status"
+        id="creatorCodeBannerStatus"
+        role="status"
+        aria-live="polite"
+    ></span>
 </section>
 
 <section id="fortnite" class="fortnite-section">
@@ -620,6 +632,47 @@
                     </span>
                 </a>
 
+            
+
+                <!-- YouTube Membership -->
+                <a
+                    class="social-card social-card-small social-membership"
+                    href="https://www.youtube.com/channel/UCL_7vE1aQotckbp-SpFZv2A/join"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Join the Tiger Noslen YouTube channel as a member"
+                >
+                    <div
+                        class="social-logo social-membership-logo"
+                        aria-hidden="true"
+                    >
+                        <img
+                            src="images/icons/youtube-membership.svg"
+                            alt=""
+                        >
+                    </div>
+
+                    <div class="social-card-copy">
+                        <span class="social-card-label">
+                            Support the Channel
+                        </span>
+
+                        <h3>Join Tiger Nation</h3>
+
+                        <p>
+                            Unlock exclusive member perks and help Tiger Nation
+                            continue to grow.
+                        </p>
+                    </div>
+
+                    <span
+                        class="social-external-arrow"
+                        aria-hidden="true"
+                    >
+                        ↗
+                    </span>
+                </a>
+                
             </div>
         </div>
 
@@ -630,7 +683,8 @@
                 <span>Welcoming</span>
             </div>
 
-            <strong>Stronger together. That’s the TNG way.</strong>
+            <strong>Stronger together. That’s the TNG way.
+            </strong>
         </div>
 
     </div>
