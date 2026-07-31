@@ -467,7 +467,7 @@ const LIVE_STATUS_CONFIG = {
      * Example:
      * https://tng-live-status.your-name.workers.dev/status
      */
-    endpoint: "https://tng-live-status.tiger-noslen.workers.dev/status",
+    endpoint: "https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev/status",
 
     youtubeChannelUrl: "https://www.youtube.com/@TigerNoslen",
     refreshIntervalMs: 15000,
