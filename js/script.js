@@ -840,3 +840,42 @@ if (neverAloneRevealItems.length) {
     });
 
 }
+
+/* ==========================================
+   LATEST GITHUB RELEASE
+========================================== */
+
+async function loadLatestSiteVersion() {
+    const versionElement = document.getElementById("site-version");
+
+    if (!versionElement) {
+        return;
+    }
+
+    const releaseUrl =
+        "https://api.github.com/repos/TigerNoslen/tigernoslen.github.io/releases/latest";
+
+    try {
+        const response = await fetch(releaseUrl, {
+            headers: {
+                Accept: "application/vnd.github+json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`GitHub API returned ${response.status}`);
+        }
+
+        const release = await response.json();
+        const version = release.tag_name || "v1.0.0";
+
+        versionElement.textContent = `Tiger Nation HQ • ${version}`;
+    } catch (error) {
+        console.error("Unable to load the latest website version:", error);
+
+        // Safe fallback if GitHub cannot be reached.
+        versionElement.textContent = "Tiger Nation HQ • v1.0.0";
+    }
+}
+
+loadLatestSiteVersion();
