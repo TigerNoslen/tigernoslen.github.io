@@ -3753,9 +3753,9 @@ main {
     margin: 0;
     color: #fff4df;
     font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(1.55rem, 3.2vw, 2.65rem);
+    font-size: clamp(1.7rem, 3.5vw, 2.9rem);
     font-style: italic;
-    line-height: 1.4;
+    line-height: 1.5;
 }
 
 .never-alone-reminder {
@@ -3958,7 +3958,7 @@ main {
     stroke-dasharray: 310;
     stroke-dashoffset: 310;
     filter: drop-shadow(0 0 7px rgba(255, 184, 77, 0.5));
-    animation: neverAloneHeartbeat 4.8s ease-in-out infinite;
+    animation: neverAloneHeartbeat 2.5s ease-in-out infinite;
 }
 
 .never-alone-particles {
@@ -4099,4 +4099,161 @@ main {
     transform: none !important;
     animation: none !important;
     transition: none !important;
+}
+
+/* ==========================================
+   SPECIAL ANNOUNCEMENT
+========================================== */
+
+.announcement-section {
+    padding: 2rem 1.5rem 4rem;
+}
+
+.announcement-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.announcement-alert {
+    position: relative;
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255,140,0,.12),
+        rgba(20,20,20,.96)
+    );
+
+    border: 1px solid rgba(255,140,0,.35);
+    border-radius: 18px;
+
+    padding: 2rem 2.5rem;
+
+    box-shadow:
+        0 0 30px rgba(255,140,0,.15),
+        inset 0 0 25px rgba(255,140,0,.04);
+
+    backdrop-filter: blur(10px);
+}
+
+.announcement-alert::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -35%;
+    width: 35%;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,170,50,.12),
+        transparent
+    );
+
+    animation: announcementSweep 8s linear infinite;
+}
+
+@keyframes announcementSweep {
+    from {
+        left: -35%;
+    }
+    to {
+        left: 135%;
+    }
+}
+
+.announcement-label {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+
+    color: var(--accent-color);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    font-size: .9rem;
+
+    margin-bottom: 1rem;
+}
+
+.announcement-icon {
+    width: 60px;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.announcement-dot {
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    /* Same blue family used elsewhere on the site */
+    background: #3ba8ff;
+
+    box-shadow:
+        0 0 8px #3ba8ff,
+        0 0 18px #3ba8ff;
+
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%,100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.35);
+        opacity: .6;
+    }
+}
+
+.announcement-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.announcement-message {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,.88);
+    max-width: 850px;
+}
+
+.announcement-footer {
+    margin-top: 1.5rem;
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
+@media (max-width:768px) {
+
+    .announcement-alert {
+        padding: 1.5rem;
+    }
+
+    .announcement-title {
+        font-size: 2rem;
+    }
+
+    .announcement-message {
+        font-size: 1rem;
+    }
+}
+
+.announcement-flag {
+    display: inline-block;
+    width: 42px;
+    height: auto;
+    margin: 0;
+    flex-shrink: 0;
 }
