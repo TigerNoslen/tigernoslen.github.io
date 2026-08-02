@@ -539,9 +539,43 @@ const liveStatusElements = {
     heroStatus: document.querySelector("#heroLiveStatus"),
     heroLabel: document.querySelector("#heroStatusLabel"),
     heroDetail: document.querySelector("#heroStatusDetail"),
+    heroCountdown: document.querySelector("#heroCountdown"),
     heroButton: document.querySelector("#heroWatchButton"),
     heroButtonText: document.querySelector("#heroWatchText")
 };
+
+function getAnnouncementStreamOverride() {
+    const announcement =
+        document.querySelector("#announcement");
+
+    if (!announcement) {
+        return null;
+    }
+
+    const title =
+        announcement.dataset.nextStreamTitle;
+
+    const dateValue =
+        announcement.dataset.nextStreamDate;
+
+    if (!title || !dateValue) {
+        return null;
+    }
+
+    const date = new Date(dateValue);
+
+    if (
+        !Number.isFinite(date.getTime()) ||
+        date <= new Date()
+    ) {
+        return null;
+    }
+
+    return {
+        title,
+        date
+    };
+}
 
 const weeklyStreams = [
     { day: 1, title: "Mod Mondays", hour: 17, minute: 0 },
@@ -569,16 +603,51 @@ function setStatusClasses(element, state) {
 function formatNextStream() {
     const now = new Date();
 
+    const announcementOverride =
+        getAnnouncementStreamOverride();
+
+    if (announcementOverride) {
+        const dateText = new Intl.DateTimeFormat(
+            "en-CA",
+            {
+                weekday: "long",
+                month: "short",
+                day: "numeric",
+                hour: "numeric",
+                minute: "2-digit",
+                timeZone: "America/Toronto",
+                timeZoneName: "short"
+            }
+        ).format(announcementOverride.date);
+
+        return {
+            title: announcementOverride.title,
+            detail: dateText,
+            date: announcementOverride.date
+        };
+    }
+
     const candidates = weeklyStreams.map((stream) => {
         const candidate = new Date(now);
+
         const daysUntil =
             (stream.day - now.getDay() + 7) % 7;
 
-        candidate.setDate(now.getDate() + daysUntil);
-        candidate.setHours(stream.hour, stream.minute, 0, 0);
+        candidate.setDate(
+            now.getDate() + daysUntil
+        );
+
+        candidate.setHours(
+            stream.hour,
+            stream.minute,
+            0,
+            0
+        );
 
         if (candidate <= now) {
-            candidate.setDate(candidate.getDate() + 7);
+            candidate.setDate(
+                candidate.getDate() + 7
+            );
         }
 
         return {
@@ -587,7 +656,9 @@ function formatNextStream() {
         };
     });
 
-    candidates.sort((a, b) => a.date - b.date);
+    candidates.sort(
+        (a, b) => a.date - b.date
+    );
 
     const next = candidates[0];
 
@@ -606,16 +677,108 @@ function formatNextStream() {
 
     return {
         title: next.title,
-        detail: `${dateText}`
+        detail: dateText,
+        date: next.date
     };
 }
 
+let countdownTargetDate = null;
+
+function stopStreamCountdown() {
+    countdownTargetDate = null;
+
+    if (liveStatusElements.heroCountdown) {
+        liveStatusElements.heroCountdown.textContent = "";
+        liveStatusElements.heroCountdown.hidden = true;
+    }
+}
+
+function updateStreamCountdown() {
+    if (
+        !countdownTargetDate ||
+        !liveStatusElements.heroCountdown
+    ) {
+        return;
+    }
+
+    const remainingMs =
+        countdownTargetDate.getTime() - Date.now();
+
+    if (remainingMs <= 0) {
+        const nextStream = formatNextStream();
+
+        countdownTargetDate = nextStream.date;
+
+        liveStatusElements.heroCountdown.textContent =
+            "Stream starting soon!";
+
+        return;
+    }
+
+    const totalSeconds =
+        Math.floor(remainingMs / 1000);
+
+    const days =
+        Math.floor(totalSeconds / 86400);
+
+    const hours =
+        Math.floor((totalSeconds % 86400) / 3600);
+
+    const minutes =
+        Math.floor((totalSeconds % 3600) / 60);
+
+    const seconds =
+        totalSeconds % 60;
+
+    liveStatusElements.heroCountdown.hidden = false;
+
+    liveStatusElements.heroCountdown.innerHTML = `
+        <span class="countdown-unit">
+            <strong>${String(days).padStart(2, "0")}</strong>
+            <small>Days</small>
+        </span>
+
+        <span class="countdown-unit">
+            <strong>${String(hours).padStart(2, "0")}</strong>
+            <small>Hours</small>
+        </span>
+
+        <span class="countdown-unit">
+            <strong>${String(minutes).padStart(2, "0")}</strong>
+            <small>Minutes</small>
+        </span>
+
+        <span class="countdown-unit">
+            <strong>${String(seconds).padStart(2, "0")}</strong>
+            <small>Seconds</small>
+        </span>
+    `;
+
+    liveStatusElements.heroCountdown.setAttribute(
+        "aria-label",
+        `${days} days, ${hours} hours, ` +
+        `${minutes} minutes, and ${seconds} seconds until the next stream`
+    );
+}
+
+function startStreamCountdown(date) {
+    if (!(date instanceof Date)) {
+        stopStreamCountdown();
+        return;
+    }
+
+    countdownTargetDate = date;
+
+    updateStreamCountdown();
+}
+  
 function renderLiveStatus(status) {
     const isLive = status.live === true;
     const streamUrl =
         status.streamUrl || LIVE_STATUS_CONFIG.youtubeChannelUrl;
 
     if (isLive) {
+        stopStreamCountdown();
         setStatusClasses(liveStatusElements.navIndicator, "live");
         setStatusClasses(liveStatusElements.heroStatus, "live");
 
@@ -654,6 +817,8 @@ function renderLiveStatus(status) {
     }
 
     const nextStream = formatNextStream();
+
+    startStreamCountdown(nextStream.date);
 
     setStatusClasses(liveStatusElements.navIndicator, "offline");
     setStatusClasses(liveStatusElements.heroStatus, "offline");
@@ -698,6 +863,8 @@ function renderLiveStatus(status) {
 
 function renderFallbackStatus() {
     const nextStream = formatNextStream();
+
+    startStreamCountdown(nextStream.date);
 
     setStatusClasses(liveStatusElements.navIndicator, "stale");
     setStatusClasses(liveStatusElements.heroStatus, "stale");
@@ -796,6 +963,11 @@ refreshLiveStatus();
 window.setInterval(
     refreshLiveStatus,
     LIVE_STATUS_CONFIG.refreshIntervalMs
+);
+
+window.setInterval(
+    updateStreamCountdown,
+    1000
 );
 
 

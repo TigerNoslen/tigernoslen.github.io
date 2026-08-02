@@ -130,13 +130,18 @@
                 role="status"
                 aria-live="polite"
             >
-                <span class="hero-status-dot" aria-hidden="true"></span>
-
                 <div class="hero-status-copy">
                     <strong id="heroStatusLabel">Checking stream status...</strong>
+
                     <span id="heroStatusDetail">
                         Connecting to Tiger Nation HQ
                     </span>
+
+                    <div
+                        id="heroCountdown"
+                        class="hero-countdown"
+                        aria-live="off"
+                    ></div>
                 </div>
             </div>
 
@@ -157,7 +162,12 @@
 </section>
 
 <!-- Special Announcement -->
-<section id="announcement" class="announcement-section">
+<section
+    id="announcement"
+    class="announcement-section"
+    data-next-stream-title="Tiger Strike Tuesdays"
+    data-next-stream-date="2026-08-04T17:00:00-04:00"
+>
     <div class="announcement-container">
         <div class="announcement-alert">
             <div class="announcement-label">
