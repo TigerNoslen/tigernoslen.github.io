@@ -1,1407 +1,1149 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="images/logos/tng-logo.png">
 
     <title>Tiger Nation HQ | Tiger Noslen Gaming</title>
-    <meta name="description" content="Official website of Tiger Noslen Gaming. Live streams, Fortnite content, community, Creator Code, and more.">
+    <meta name="description"
+        content="Official website of Tiger Noslen Gaming. Live streams, Fortnite content, community, Creator Code, and more.">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- CSS -->
-     <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<header class="site-header">
-    <div class="nav-container">
+    <header class="site-header">
+        <div class="nav-container">
 
-        <a href="#hero" class="site-logo" aria-label="Tiger Nation HQ home">
-            <img
-                src="images/logos/tng-logo.png"
-                alt="Tiger Noslen Gaming"
-            >
-        </a>
-
-        <nav class="main-nav" aria-label="Main navigation">
-            <ul class="nav-links">
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#schedule">Streams</a></li>
-                <li><a href="#fortnite">Fortnite</a></li>
-                <li><a href="#maps">Tiger's Maps</a></li>
-                <li><a href="#community">Community</a></li>
-                <li><a href="#never-alone">Never Alone</a></li>
-                <li><a href="#support">Support</a></li>
-            </ul>
-        </nav>
-
-        <div class="nav-actions">
-            <div
-                class="live-indicator is-checking"
-                id="navLiveIndicator"
-                role="status"
-                aria-live="polite"
-            >
-                <span class="live-dot" aria-hidden="true"></span>
-                <span id="navLiveText">Checking...</span>
-            </div>
-
-            <a
-                href="https://www.youtube.com/@TigerNoslen"
-                class="watch-live-button"
-                id="navWatchButton"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <span aria-hidden="true">◉</span>
-                <span id="navWatchText">YouTube</span>
+            <a href="#hero" class="site-logo" aria-label="Tiger Nation HQ home">
+                <img src="images/logos/tng-logo.png" alt="Tiger Noslen Gaming">
             </a>
 
-            <button
-                class="mobile-menu-button"
-                type="button"
-                aria-label="Open navigation menu"
-                aria-expanded="false"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
+            <nav class="main-nav" aria-label="Main navigation">
+                <ul class="nav-links">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#schedule">Streams</a></li>
+                    <li><a href="#fortnite">Fortnite</a></li>
+                    <li><a href="#maps">Tiger's Maps</a></li>
+                    <li><a href="#community">Community</a></li>
+                    <li><a href="#never-alone">Never Alone</a></li>
+                    <li><a href="#support">Support</a></li>
+                </ul>
+            </nav>
 
-    </div>
-</header>
+            <div class="nav-actions">
+                <div class="live-indicator is-checking" id="navLiveIndicator" role="status" aria-live="polite">
+                    <span class="live-dot" aria-hidden="true"></span>
+                    <span id="navLiveText">Checking...</span>
+                </div>
 
-<main>
-
-    <section id="hero" class="hero-section">
-    <div class="hero-overlay"></div>
-
-    <div class="hero-container">
-        <div class="hero-content">
-
-            <p class="hero-kicker">Welcome to</p>
-
-            <h1 class="hero-title">
-                <span>Tiger Nation</span>
-                <strong>HQ</strong>
-            </h1>
-
-            <p class="hero-description">
-                The official home of Tiger Noslen Gaming.
-                Live streams, Fortnite content, community,
-                and everything Tiger Nation.
-            </p>
-
-            <div class="hero-actions">
-                <a
-                    href="https://www.youtube.com/@TigerNoslen"
-                    class="hero-button hero-button-primary"
-                    id="heroWatchButton"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <span aria-hidden="true">▶</span>
-                    <span id="heroWatchText">Visit YouTube</span>
+                <a href="https://www.youtube.com/@TigerNoslen" class="watch-live-button" id="navWatchButton"
+                    target="_blank" rel="noopener noreferrer">
+                    <span aria-hidden="true">◉</span>
+                    <span id="navWatchText">YouTube</span>
                 </a>
 
-                <a
-                    href="https://discord.gg/w4anUNCzE"
-                    class="hero-button hero-button-secondary"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Join Discord
-                </a>
-            </div>
-
-            <div
-                class="hero-status is-checking"
-                id="heroLiveStatus"
-                role="status"
-                aria-live="polite"
-            >
-                <div class="hero-status-copy">
-                    <strong id="heroStatusLabel">Checking stream status...</strong>
-
-                    <span id="heroStatusDetail">
-                        Connecting to Tiger Nation HQ
-                    </span>
-
-                    <div
-                        id="heroCountdown"
-                        class="hero-countdown"
-                        aria-live="off"
-                    ></div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="hero-visual">
-            <div class="hero-glow"></div>
-
-            <img
-                src="images/mascot/hero-mascot.png"
-                alt="Tiger Noslen Gaming mascot"
-                class="hero-mascot"
-            >
-        </div>
-    </div>
-    
-
-</section>
-
-<!-- Special Announcement -->
-<section
-    id="announcement"
-    class="announcement-section"
-    data-next-stream-title="Tiger Strike Tuesdays"
-    data-next-stream-date="2026-08-04T17:00:00-04:00"
->
-    <div class="announcement-container">
-        <div class="announcement-alert">
-            <div class="announcement-label">
-                <img
-                    src="images/ui/announcement-icon.png"
-                    alt="Announcement"
-                    class="announcement-icon">
-                Special Announcement
-            </div>
-
-            <h2 id="announcement-title" class="announcement-title">
-                No Stream Monday — Civic Holiday
-                <img
-                    src="images/ui/canada-flag.png"
-                    alt="Canada"
-                    class="announcement-flag">
-            </h2>
-
-            <p id="announcement-message" class="announcement-message">
-                Tiger will be spending time with family this Monday.
-                Streams return Tuesday at 5:00 PM ET with
-                <strong>Tiger Strike Tuesdays!</strong>
-            </p>
-
-            <p class="announcement-footer">
-                Thanks for understanding, and enjoy the holiday!
-            </p>
-        </div>
-    </div>
-</section>
-
-    <section class="home-panels">
-    <div class="home-panels-container">
-
-        <article id="about" class="about-card">
-            <div class="about-mark" aria-hidden="true">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
-            <div class="about-copy">
-                <p class="section-label">About</p>
-
-                <h2>About Tiger Nation</h2>
-
-                <p>
-                    Tiger Nation is a family-friendly gaming community built on
-                    positivity, respect, and having a blast together.
-                </p>
-
-                <strong>Stronger together. That’s the TNG way.</strong>
-            </div>
-        </article>
-
-        <section id="schedule" class="schedule-panel">
-    <div class="schedule-heading">
-        <div>
-            <p class="section-label">Weekly Streams</p>
-            <h2>Stream Schedule</h2>
-        </div>
-
-    </div>
-
-    <div class="schedule-grid">
-
-        <article class="schedule-card">
-            <span class="schedule-day">Monday</span>
-            <h3>Mod Mondays</h3>
-            <p>
-                Item Shop review, quests, community games, and moderator fun.
-            </p>
-            <time>5:00 PM ET</time>
-        </article>
-
-        <article class="schedule-card">
-            <span class="schedule-day">Tuesday</span>
-            <h3>Tiger Strike Tuesdays</h3>
-            <p>
-                Item Shop review, quests, and community matches.
-            </p>
-            <time>5:00 PM ET</time>
-        </article>
-
-        <article class="schedule-card">
-            <span class="schedule-day">Thursday</span>
-            <h3>Thrilling Thursdays</h3>
-            <p>
-                Item Shop review, quests, challenges, and community games.
-            </p>
-            <time>5:00 PM ET</time>
-        </article>
-
-        <article class="schedule-card">
-            <span class="schedule-day">Friday</span>
-            <h3>Fight Night Fridays</h3>
-            <p>
-                Item Shop review, customs, squads, and late-night battles.
-            </p>
-            <time>6:00 PM ET</time>
-        </article>
-
-        <article class="schedule-card">
-            <span class="schedule-day">Saturday</span>
-            <h3>Squad Up Saturdays</h3>
-
-            <p>
-                Item Shop review,
-                <button
-                    class="tpp-info-trigger"
-                    type="button"
-                    aria-expanded="false"
-                    aria-controls="tpp-description"
-                >
-                    TPP
-                </button>,
-                customs, giveaways, and extended streams.
-            </p>
-
-            <div
-                class="tpp-popover"
-                id="tpp-description"
-                role="tooltip"
-                aria-hidden="true"
-            >
-                <strong>Tiger's Perfect Prediction</strong>
-
-                <span>
-                    Predict exactly what place Tiger will finish in the next match.
-                </span>
-
-                <span>
-                    <b>Exact prediction:</b> Earn a guaranteed spot on Tiger's squad
-                    for the rest of the stream.
-                </span>
-
-                <span>
-                    <b>Off by one:</b> Earn one free match with Tiger that you can
-                    redeem anytime during the stream.
-                </span>
-            </div>
-
-            <time>6:30 PM ET</time>
-        </article>
-
-    </div>
-</section>
-
-</div>
-</section>
-
-
-<section id="creator-code" class="creator-code-section">
-    <button
-        class="creator-code-container"
-        id="creatorCodeBanner"
-        type="button"
-        data-code="TIGERNOSLEN"
-        aria-describedby="creatorCodeBannerStatus"
-    >
-        <span class="creator-code-label">Use Code</span>
-
-        <span class="creator-code-value">TIGERNOSLEN</span>
-
-        <span class="creator-code-partner">#EpicPartner</span>
-    </button>
-
-    <span
-        class="creator-code-banner-status"
-        id="creatorCodeBannerStatus"
-        role="status"
-        aria-live="polite"
-    ></span>
-</section>
-
-<section id="fortnite" class="fortnite-section">
-    <div class="fortnite-container">
-
-        <div class="fortnite-intro">
-            <span class="section-eyebrow">Fortnite</span>
-
-            <h2>Drop In With Tiger Nation</h2>
-
-            <p>
-                From Zero Build battles and weekly quests to community games,
-                customs, and special events, Fortnite is at the heart of
-                Tiger Nation.
-            </p>
-
-            <a href="#community" class="fortnite-cta">
-                Join the Community
-            </a>
-        </div>
-
-        <div class="fortnite-content-grid">
-
-            <article class="fortnite-feature-card fortnite-feature-main">
-                <div class="fortnite-card-number">01</div>
-
-                <div class="fortnite-card-content">
-                    <span class="fortnite-card-label">Main Mode</span>
-
-                    <h3>Zero Build</h3>
-
-                    <p>
-                        Fast-paced Fortnite action focused on movement,
-                        teamwork, positioning, and smart decisions.
-                    </p>
-                </div>
-            </article>
-
-            <article class="fortnite-feature-card">
-                <div class="fortnite-card-number">02</div>
-
-                <div class="fortnite-card-content">
-                    <span class="fortnite-card-label">Community</span>
-
-                    <h3>Viewer Games</h3>
-
-                    <p>
-                        Subscribers and community members get opportunities
-                        to squad up with Tiger during live streams.
-                    </p>
-                </div>
-            </article>
-
-            <article class="fortnite-feature-card">
-                <div class="fortnite-card-number">03</div>
-
-                <div class="fortnite-card-content">
-                    <span class="fortnite-card-label">Weekly Fun</span>
-
-                    <h3>Quests & Challenges</h3>
-
-                    <p>
-                        Weekly quests, ranked progress, challenges, predictions,
-                        and plenty of unexpected Fortnite moments.
-                    </p>
-                </div>
-            </article>
-
-            <article class="fortnite-feature-card">
-                <div class="fortnite-card-number">04</div>
-
-                <div class="fortnite-card-content">
-                    <span class="fortnite-card-label">Saturday</span>
-
-                    <h3>Customs & Giveaways</h3>
-
-                    <p>
-                        Squad Up Saturdays bring customs, giveaways,
-                        extended streams, and community-wide events.
-                    </p>
-                </div>
-            </article>
-
-        </div>
-
-    </div>
-</section>
-
-<section id="maps" class="maps-section">
-    <div class="section-container maps-container">
-
-        <div class="maps-heading">
-            <p class="maps-eyebrow">Tiger's Maps</p>
-
-            <h2>Something Big Is Coming</h2>
-
-            <p class="maps-intro">
-                Tiger has been hard at work creating something brand new
-                for Tiger Nation.
-            </p>
-        </div>
-
-        <div class="classified-file">
-            <div class="classified-grid" aria-hidden="true"></div>
-
-            <div class="classified-stamp">
-                Top Secret
-            </div>
-
-            <div class="classified-content">
-                <div class="classified-lock" aria-hidden="true">
-                    🔒
-                </div>
-
-                <p class="classified-label">
-                    Classified Project
-                </p>
-
-                <div class="classified-file-details">
-                    <span>Project: TNG-001</span>
-                    <span>Classification: Omega</span>
-                    <span>Status: Locked</span>
-                </div>
-
-                <h3>Access Restricted</h3>
-
-                <p>
-                    A few clues have already been shared, but the full
-                    reveal remains classified.
-                </p>
-
-                <div class="classified-redactions" aria-hidden="true">
+                <button class="mobile-menu-button" type="button" aria-label="Open navigation menu"
+                    aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
-                </div>
-
-                <button
-                    class="classified-button"
-                    id="classifiedButton"
-                    type="button"
-                    aria-describedby="classifiedMessage"
-                >
-                    View Classified File
                 </button>
-
-                <p
-                    class="classified-message"
-                    id="classifiedMessage"
-                    aria-live="polite"
-                ></p>
             </div>
+
         </div>
+    </header>
 
-        <div class="maps-teaser">
-            <p>
-                <strong>You've seen the teasers...</strong>
-                That's all you're getting for now.
-            </p>
+    <main>
 
-            <p class="maps-stay-tuned">
-                Stay tuned. The reveal is getting closer.
-            </p>
-        </div>
+        <section id="hero" class="hero-section">
+            <div class="hero-overlay"></div>
 
-    </div>
-</section>
+            <div class="hero-container">
+                <div class="hero-content">
 
-<section id="community" class="community-section">
-    <div class="community-container">
+                    <p class="hero-kicker">Welcome to</p>
 
-        <header class="community-heading">
-            <span class="community-eyebrow">Tiger Nation</span>
+                    <h1 class="hero-title">
+                        <span>Tiger Nation</span>
+                        <strong>HQ</strong>
+                    </h1>
 
-            <h2>Join the Community</h2>
+                    <p class="hero-description">
+                        The official home of Tiger Noslen Gaming.
+                        Live streams, Fortnite content, community,
+                        and everything Tiger Nation.
+                    </p>
 
-            <p>
-                Follow Tiger Noslen across your favourite platforms for live
-                streams, community games, announcements, clips, and everything
-                happening throughout Tiger Nation.
-            </p>
-        </header>
+                    <div class="hero-actions">
+                        <a href="https://www.youtube.com/@TigerNoslen" class="hero-button hero-button-primary"
+                            id="heroWatchButton" target="_blank" rel="noopener noreferrer">
+                            <span aria-hidden="true">▶</span>
+                            <span id="heroWatchText">Visit YouTube</span>
+                        </a>
 
-        <div class="community-social-grid">
-
-            <!-- Discord -->
-            <a
-                class="social-card social-card-featured social-discord"
-                href="https://discord.gg/w4anUNCzE"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Join the Tiger Nation Discord server"
-            >
-                <div class="social-card-top">
-                    <span class="social-card-label">The Tiger's Den</span>
-
-                    <span class="social-external-arrow" aria-hidden="true">
-                        ↗
-                    </span>
-                </div>
-
-                <div class="social-featured-content">
-                    <div class="social-logo social-logo-featured">
-                        <img
-                            src="https://cdn.simpleicons.org/discord/FFFFFF"
-                            alt=""
-                            aria-hidden="true"
-                        >
+                        <a href="https://discord.gg/w4anUNCzE" class="hero-button hero-button-secondary" target="_blank"
+                            rel="noopener noreferrer">
+                            Join Discord
+                        </a>
                     </div>
 
-                    <div>
-                        <h3>Join the Discord</h3>
+                    <div class="hero-status is-checking" id="heroLiveStatus" role="status" aria-live="polite">
+                        <div class="hero-status-copy">
+                            <strong id="heroStatusLabel">Checking stream status...</strong>
+
+                            <span id="heroStatusDetail">
+                                Connecting to Tiger Nation HQ
+                            </span>
+
+                            <div id="heroCountdown" class="hero-countdown" aria-live="off"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="hero-visual">
+                    <div class="hero-glow"></div>
+
+                    <img src="images/mascot/hero-mascot.png" alt="Tiger Noslen Gaming mascot" class="hero-mascot">
+                </div>
+            </div>
+
+
+        </section>
+
+        <!-- Special Announcement -->
+        <section id="announcement" class="announcement-section" data-next-stream-title="Tiger Strike Tuesdays"
+            data-next-stream-date="2026-08-04T17:00:00-04:00">
+            <div class="announcement-container">
+                <div class="announcement-alert">
+                    <div class="announcement-label">
+                        <img src="images/ui/announcement-icon.png" alt="Announcement" class="announcement-icon">
+                        Special Announcement
+                    </div>
+
+                    <h2 id="announcement-title" class="announcement-title">
+                        No Stream Monday — Civic Holiday
+                        <img src="images/ui/canada-flag.png" alt="Canada" class="announcement-flag">
+                    </h2>
+
+                    <p id="announcement-message" class="announcement-message">
+                        Tiger will be spending time with family this Monday.
+                        Streams return Tuesday at 5:00 PM ET with
+                        <strong>Tiger Strike Tuesdays!</strong>
+                    </p>
+
+                    <p class="announcement-footer">
+                        Thanks for understanding, and enjoy the holiday!
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-panels">
+            <div class="home-panels-container">
+
+                <article id="about" class="about-card">
+                    <div class="about-mark" aria-hidden="true">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <div class="about-copy">
+                        <p class="section-label">About</p>
+
+                        <h2>About Tiger Nation</h2>
 
                         <p>
-                            Chat with Tiger Nation, receive stream announcements,
-                            keep up with community news, and take part in special
-                            events.
+                            Tiger Nation is a family-friendly gaming community built on
+                            positivity, respect, and having a blast together.
                         </p>
+
+                        <strong>Stronger together. That’s the TNG way.</strong>
+                    </div>
+                </article>
+
+                <section id="schedule" class="schedule-panel">
+                    <div class="schedule-heading">
+                        <div>
+                            <p class="section-label">Weekly Streams</p>
+                            <h2>Stream Schedule</h2>
+                        </div>
+
+                    </div>
+
+                    <div class="schedule-grid">
+
+                        <article class="schedule-card">
+                            <span class="schedule-day">Monday</span>
+                            <h3>Mod Mondays</h3>
+                            <p>
+                                Item Shop review, quests, community games, and moderator fun.
+                            </p>
+                            <time>5:00 PM ET</time>
+                        </article>
+
+                        <article class="schedule-card">
+                            <span class="schedule-day">Tuesday</span>
+                            <h3>Tiger Strike Tuesdays</h3>
+                            <p>
+                                Item Shop review, quests, and community matches.
+                            </p>
+                            <time>5:00 PM ET</time>
+                        </article>
+
+                        <article class="schedule-card">
+                            <span class="schedule-day">Thursday</span>
+                            <h3>Thrilling Thursdays</h3>
+                            <p>
+                                Item Shop review, quests, challenges, and community games.
+                            </p>
+                            <time>5:00 PM ET</time>
+                        </article>
+
+                        <article class="schedule-card">
+                            <span class="schedule-day">Friday</span>
+                            <h3>Fight Night Fridays</h3>
+                            <p>
+                                Item Shop review, customs, squads, and late-night battles.
+                            </p>
+                            <time>6:00 PM ET</time>
+                        </article>
+
+                        <article class="schedule-card">
+                            <span class="schedule-day">Saturday</span>
+                            <h3>Squad Up Saturdays</h3>
+
+                            <p>
+                                Item Shop review,
+                                <button class="tpp-info-trigger" type="button" aria-expanded="false"
+                                    aria-controls="tpp-description">
+                                    TPP
+                                </button>,
+                                customs, giveaways, and extended streams.
+                            </p>
+
+                            <div class="tpp-popover" id="tpp-description" role="tooltip" aria-hidden="true">
+                                <strong>Tiger's Perfect Prediction</strong>
+
+                                <span>
+                                    Predict exactly what place Tiger will finish in the next match.
+                                </span>
+
+                                <span>
+                                    <b>Exact prediction:</b> Earn a guaranteed spot on Tiger's squad
+                                    for the rest of the stream.
+                                </span>
+
+                                <span>
+                                    <b>Off by one:</b> Earn one free match with Tiger that you can
+                                    redeem anytime during the stream.
+                                </span>
+                            </div>
+
+                            <time>6:30 PM ET</time>
+                        </article>
+
+                    </div>
+                </section>
+
+            </div>
+        </section>
+
+
+        <section id="creator-code" class="creator-code-section">
+            <button class="creator-code-container" id="creatorCodeBanner" type="button" data-code="TIGERNOSLEN"
+                aria-describedby="creatorCodeBannerStatus">
+                <span class="creator-code-label">Use Code</span>
+
+                <span class="creator-code-value">TIGERNOSLEN</span>
+
+                <span class="creator-code-partner">#EpicPartner</span>
+            </button>
+
+            <span class="creator-code-banner-status" id="creatorCodeBannerStatus" role="status"
+                aria-live="polite"></span>
+        </section>
+
+        <section id="fortnite" class="fortnite-section">
+            <div class="fortnite-container">
+
+                <div class="fortnite-intro">
+                    <span class="section-eyebrow">Fortnite</span>
+
+                    <h2>Drop In With Tiger Nation</h2>
+
+                    <p>
+                        From Zero Build battles and weekly quests to community games,
+                        customs, and special events, Fortnite is at the heart of
+                        Tiger Nation.
+                    </p>
+
+                    <a href="#community" class="fortnite-cta">
+                        Join the Community
+                    </a>
+                </div>
+
+                <div class="fortnite-content-grid">
+
+                    <article class="fortnite-feature-card fortnite-feature-main">
+                        <div class="fortnite-card-number">01</div>
+
+                        <div class="fortnite-card-content">
+                            <span class="fortnite-card-label">Main Mode</span>
+
+                            <h3>Zero Build</h3>
+
+                            <p>
+                                Fast-paced Fortnite action focused on movement,
+                                teamwork, positioning, and smart decisions.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="fortnite-feature-card">
+                        <div class="fortnite-card-number">02</div>
+
+                        <div class="fortnite-card-content">
+                            <span class="fortnite-card-label">Community</span>
+
+                            <h3>Viewer Games</h3>
+
+                            <p>
+                                Subscribers and community members get opportunities
+                                to squad up with Tiger during live streams.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="fortnite-feature-card">
+                        <div class="fortnite-card-number">03</div>
+
+                        <div class="fortnite-card-content">
+                            <span class="fortnite-card-label">Weekly Fun</span>
+
+                            <h3>Quests & Challenges</h3>
+
+                            <p>
+                                Weekly quests, ranked progress, challenges, predictions,
+                                and plenty of unexpected Fortnite moments.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="fortnite-feature-card">
+                        <div class="fortnite-card-number">04</div>
+
+                        <div class="fortnite-card-content">
+                            <span class="fortnite-card-label">Saturday</span>
+
+                            <h3>Customs & Giveaways</h3>
+
+                            <p>
+                                Squad Up Saturdays bring customs, giveaways,
+                                extended streams, and community-wide events.
+                            </p>
+                        </div>
+                    </article>
+
+                </div>
+
+            </div>
+        </section>
+
+        <section id="maps" class="maps-section">
+            <div class="section-container maps-container">
+
+                <div class="maps-heading">
+                    <p class="maps-eyebrow">Tiger's Maps</p>
+
+                    <h2>Something Big Is Coming</h2>
+
+                    <p class="maps-intro">
+                        Tiger has been hard at work creating something brand new
+                        for Tiger Nation.
+                    </p>
+                </div>
+
+                <div class="classified-file">
+                    <div class="classified-grid" aria-hidden="true"></div>
+
+                    <div class="classified-stamp">
+                        Top Secret
+                    </div>
+
+                    <div class="classified-content">
+                        <div class="classified-lock" aria-hidden="true">
+                            🔒
+                        </div>
+
+                        <p class="classified-label">
+                            Classified Project
+                        </p>
+
+                        <div class="classified-file-details">
+                            <span>Project: TNG-001</span>
+                            <span>Classification: Omega</span>
+                            <span>Status: Locked</span>
+                        </div>
+
+                        <h3>Access Restricted</h3>
+
+                        <p>
+                            A few clues have already been shared, but the full
+                            reveal remains classified.
+                        </p>
+
+                        <div class="classified-redactions" aria-hidden="true">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                        <button class="classified-button" id="classifiedButton" type="button"
+                            aria-describedby="classifiedMessage">
+                            View Classified File
+                        </button>
+
+                        <p class="classified-message" id="classifiedMessage" aria-live="polite"></p>
                     </div>
                 </div>
 
-                <span class="social-action">
-                    Enter The Tiger's Den
-                    <span aria-hidden="true">→</span>
-                </span>
-            </a>
+                <div class="maps-teaser">
+                    <p>
+                        <strong>You've seen the teasers...</strong>
+                        That's all you're getting for now.
+                    </p>
 
-            <div class="community-social-stack">
+                    <p class="maps-stay-tuned">
+                        Stay tuned. The reveal is getting closer.
+                    </p>
+                </div>
 
-                <!-- YouTube -->
-                <a
-                    class="social-card social-card-small social-youtube"
-                    href="https://www.youtube.com/@TigerNoslen"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Visit Tiger Noslen on YouTube"
-                >
-                    <div class="social-logo">
-                        <img
-                            src="https://cdn.simpleicons.org/youtube/FFFFFF"
-                            alt=""
-                            aria-hidden="true"
-                        >
-                    </div>
+            </div>
+        </section>
 
-                    <div class="social-card-copy">
-                        <span class="social-card-label">Watch & Subscribe</span>
-                        <h3>YouTube</h3>
-                        <p>Live Fortnite streams, viewer games, and videos.</p>
-                    </div>
+        <section id="community" class="community-section">
+            <div class="community-container">
 
-                    <span class="social-external-arrow" aria-hidden="true">
-                        ↗
-                    </span>
-                </a>
+                <header class="community-heading">
+                    <span class="community-eyebrow">Tiger Nation</span>
 
-                <!-- TikTok -->
-                <a
-                    class="social-card social-card-small social-tiktok"
-                    href="https://www.tiktok.com/@tigernoslen"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Follow Tiger Noslen on TikTok"
-                >
-                    <div class="social-logo">
-                        <img
-                            src="https://cdn.simpleicons.org/tiktok/FFFFFF"
-                            alt=""
-                            aria-hidden="true"
-                        >
-                    </div>
+                    <h2>Join the Community</h2>
 
-                    <div class="social-card-copy">
-                        <span class="social-card-label">@tigernoslen</span>
-                        <h3>TikTok</h3>
-                        <p>Vertical livestreams, highlights, and short clips.</p>
-                    </div>
+                    <p>
+                        Follow Tiger Noslen across your favourite platforms for live
+                        streams, community games, announcements, clips, and everything
+                        happening throughout Tiger Nation.
+                    </p>
+                </header>
 
-                    <span class="social-external-arrow" aria-hidden="true">
-                        ↗
-                    </span>
-                </a>
+                <div class="community-social-grid">
 
-                <!-- Twitch -->
-                <a
-                    class="social-card social-card-small social-twitch"
-                    href="https://www.twitch.tv/tigernoslen"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Visit Tiger Noslen on Twitch"
-                >
-                    <div class="social-logo">
-                        <img
-                            src="https://cdn.simpleicons.org/twitch/FFFFFF"
-                            alt=""
-                            aria-hidden="true"
-                        >
-                    </div>
+                    <!-- Discord -->
+                    <a class="social-card social-card-featured social-discord" href="https://discord.gg/w4anUNCzE"
+                        target="_blank" rel="noopener noreferrer" aria-label="Join the Tiger Nation Discord server">
+                        <div class="social-card-top">
+                            <span class="social-card-label">The Tiger's Den</span>
 
-                    <div class="social-card-copy">
-                        <span class="social-card-label">Follow The Channel</span>
-                        <h3>Twitch</h3>
-                        <p>Follow Tiger and stay connected across platforms.</p>
-                    </div>
+                            <span class="social-external-arrow" aria-hidden="true">
+                                ↗
+                            </span>
+                        </div>
 
-                    <span class="social-external-arrow" aria-hidden="true">
-                        ↗
-                    </span>
-                </a>
+                        <div class="social-featured-content">
+                            <div class="social-logo social-logo-featured">
+                                <img src="https://cdn.simpleicons.org/discord/FFFFFF" alt="" aria-hidden="true">
+                            </div>
 
-                <!-- X -->
-                <a
-                    class="social-card social-card-small social-x"
-                    href="https://x.com/tigernoslen"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Follow Tiger Noslen on X"
-                >
-                    <div class="social-logo">
-                        <img
-                            src="https://cdn.simpleicons.org/x/FFFFFF"
-                            alt=""
-                            aria-hidden="true"
-                        >
-                    </div>
+                            <div>
+                                <h3>Join the Discord</h3>
 
-                    <div class="social-card-copy">
-                        <span class="social-card-label">@tigernoslen</span>
-                        <h3>X</h3>
-                        <p>Updates, announcements, and community posts.</p>
-                    </div>
+                                <p>
+                                    Chat with Tiger Nation, receive stream announcements,
+                                    keep up with community news, and take part in special
+                                    events.
+                                </p>
+                            </div>
+                        </div>
 
-                    <span class="social-external-arrow" aria-hidden="true">
-                        ↗
-                    </span>
-                </a>
-
-            
-
-                <!-- YouTube Membership -->
-                <a
-                    class="social-card social-card-small social-membership"
-                    href="https://www.youtube.com/channel/UCL_7vE1aQotckbp-SpFZv2A/join"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Join the Tiger Noslen YouTube channel as a member"
-                >
-                    <div
-                        class="social-logo social-membership-logo"
-                        aria-hidden="true"
-                    >
-                        <img
-                            src="images/icons/youtube-membership.svg"
-                            alt=""
-                        >
-                    </div>
-
-                    <div class="social-card-copy">
-                        <span class="social-card-label">
-                            Support the Channel
+                        <span class="social-action">
+                            Enter The Tiger's Den
+                            <span aria-hidden="true">→</span>
                         </span>
+                    </a>
 
-                        <h3>Join Tiger Nation</h3>
+                    <div class="community-social-stack">
 
-                        <p>
-                            Unlock exclusive member perks and help Tiger Nation
-                            continue to grow.
-                        </p>
+                        <!-- YouTube -->
+                        <a class="social-card social-card-small social-youtube"
+                            href="https://www.youtube.com/@TigerNoslen" target="_blank" rel="noopener noreferrer"
+                            aria-label="Visit Tiger Noslen on YouTube">
+                            <div class="social-logo">
+                                <img src="https://cdn.simpleicons.org/youtube/FFFFFF" alt="" aria-hidden="true">
+                            </div>
+
+                            <div class="social-card-copy">
+                                <span class="social-card-label">Watch & Subscribe</span>
+                                <h3>YouTube</h3>
+                                <p>Live Fortnite streams, viewer games, and videos.</p>
+                            </div>
+
+                            <span class="social-external-arrow" aria-hidden="true">
+                                ↗
+                            </span>
+                        </a>
+
+                        <!-- TikTok -->
+                        <a class="social-card social-card-small social-tiktok"
+                            href="https://www.tiktok.com/@tigernoslen" target="_blank" rel="noopener noreferrer"
+                            aria-label="Follow Tiger Noslen on TikTok">
+                            <div class="social-logo">
+                                <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" alt="" aria-hidden="true">
+                            </div>
+
+                            <div class="social-card-copy">
+                                <span class="social-card-label">@tigernoslen</span>
+                                <h3>TikTok</h3>
+                                <p>Vertical livestreams, highlights, and short clips.</p>
+                            </div>
+
+                            <span class="social-external-arrow" aria-hidden="true">
+                                ↗
+                            </span>
+                        </a>
+
+                        <!-- Twitch -->
+                        <a class="social-card social-card-small social-twitch" href="https://www.twitch.tv/tigernoslen"
+                            target="_blank" rel="noopener noreferrer" aria-label="Visit Tiger Noslen on Twitch">
+                            <div class="social-logo">
+                                <img src="https://cdn.simpleicons.org/twitch/FFFFFF" alt="" aria-hidden="true">
+                            </div>
+
+                            <div class="social-card-copy">
+                                <span class="social-card-label">Follow The Channel</span>
+                                <h3>Twitch</h3>
+                                <p>Follow Tiger and stay connected across platforms.</p>
+                            </div>
+
+                            <span class="social-external-arrow" aria-hidden="true">
+                                ↗
+                            </span>
+                        </a>
+
+                        <!-- X -->
+                        <a class="social-card social-card-small social-x" href="https://x.com/tigernoslen"
+                            target="_blank" rel="noopener noreferrer" aria-label="Follow Tiger Noslen on X">
+                            <div class="social-logo">
+                                <img src="https://cdn.simpleicons.org/x/FFFFFF" alt="" aria-hidden="true">
+                            </div>
+
+                            <div class="social-card-copy">
+                                <span class="social-card-label">@tigernoslen</span>
+                                <h3>X</h3>
+                                <p>Updates, announcements, and community posts.</p>
+                            </div>
+
+                            <span class="social-external-arrow" aria-hidden="true">
+                                ↗
+                            </span>
+                        </a>
+
+
+
+                        <!-- YouTube Membership -->
+                        <a class="social-card social-card-small social-membership"
+                            href="https://www.youtube.com/channel/UCL_7vE1aQotckbp-SpFZv2A/join" target="_blank"
+                            rel="noopener noreferrer" aria-label="Join the Tiger Noslen YouTube channel as a member">
+                            <div class="social-logo social-membership-logo" aria-hidden="true">
+                                <img src="images/icons/youtube-membership.svg" alt="">
+                            </div>
+
+                            <div class="social-card-copy">
+                                <span class="social-card-label">
+                                    Support the Channel
+                                </span>
+
+                                <h3>Join Tiger Nation</h3>
+
+                                <p>
+                                    Unlock exclusive member perks and help Tiger Nation
+                                    continue to grow.
+                                </p>
+                            </div>
+
+                            <span class="social-external-arrow" aria-hidden="true">
+                                ↗
+                            </span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="community-values">
+                    <div class="community-value-list">
+                        <span>Family-Friendly</span>
+                        <span>Positive</span>
+                        <span>Welcoming</span>
                     </div>
 
-                    <span
-                        class="social-external-arrow"
-                        aria-hidden="true"
-                    >
-                        ↗
-                    </span>
-                </a>
-                
+                    <strong>Stronger together. That’s the TNG way.
+                    </strong>
+                </div>
+
             </div>
-        </div>
-
-        <div class="community-values">
-            <div class="community-value-list">
-                <span>Family-Friendly</span>
-                <span>Positive</span>
-                <span>Welcoming</span>
-            </div>
-
-            <strong>Stronger together. That’s the TNG way.
-            </strong>
-        </div>
-
-    </div>
-</section>
+        </section>
 
 
-<!-- ---------------------------------
+        <!-- ---------------------------------
      You're Never Alone
 ---------------------------------- -->
 
-<section id="never-alone" class="never-alone-section">
-    <div class="never-alone-container">
+        <section id="never-alone" class="never-alone-section">
+            <div class="never-alone-container">
 
-        <header class="never-alone-heading never-alone-reveal">
-            <span class="never-alone-eyebrow">
-                A Message From Tiger Nation
-            </span>
+                <header class="never-alone-heading never-alone-reveal">
+                    <span class="never-alone-eyebrow">
+                        A Message From Tiger Nation
+                    </span>
 
-            <div class="never-alone-heartbeat" aria-hidden="true">
-                <span></span>
+                    <div class="never-alone-heartbeat" aria-hidden="true">
+                        <span></span>
 
-                <svg viewBox="0 0 220 32" focusable="false">
-                    <path
-                        d="M0 16h67l8-9 10 19 12-24 14 28 11-14h98"
-                    />
-                </svg>
+                        <svg viewBox="0 0 220 32" focusable="false">
+                            <path d="M0 16h67l8-9 10 19 12-24 14 28 11-14h98" />
+                        </svg>
 
-                <span></span>
+                        <span></span>
+                    </div>
+
+                    <h2>You're Never Alone</h2>
+
+                    <p>
+                        Life is not always easy, and that is okay. Whether you are
+                        celebrating a victory or going through a difficult time,
+                        Tiger Nation is built on kindness, respect, and looking out
+                        for one another.
+                    </p>
+                </header>
+
+                <div class="never-alone-grid">
+
+                    <article class="never-alone-card never-alone-kindness never-alone-reveal">
+                        <div class="never-alone-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                <path
+                                    d="M12 21s-7-4.35-9.33-8.18C.66 9.5 2.17 5.5 6.17 5.07A6.1 6.1 0 0 1 12 8.1a6.1 6.1 0 0 1 5.83-3.03c4 .43 5.51 4.43 3.5 7.75C19 16.65 12 21 12 21Z" />
+                            </svg>
+                        </div>
+
+                        <span class="never-alone-card-label">
+                            Kindness
+                        </span>
+
+                        <h3>Small Words Matter</h3>
+
+                        <p>
+                            A few encouraging words can make someone's entire day.
+                            Every member of Tiger Nation deserves kindness and
+                            respect.
+                        </p>
+                    </article>
+
+                    <article class="never-alone-card never-alone-community never-alone-reveal">
+                        <div class="never-alone-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                <path
+                                    d="M16 11a4 4 0 1 0-3.5-5.93A5.5 5.5 0 0 1 14 9c0 .7-.13 1.36-.36 1.97.72.02 1.52.03 2.36.03Zm-8 0c.84 0 1.64-.01 2.36-.03A5.44 5.44 0 0 1 10 9a5.5 5.5 0 0 1 1.5-3.93A4 4 0 1 0 8 11Zm4-1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-4 2c-3.31 0-6 1.57-6 3.5V18h6.08A5.47 5.47 0 0 1 10 13.84 10.2 10.2 0 0 0 8 12Zm8 0c-.72 0-1.4.08-2 .22A5.48 5.48 0 0 1 15.92 18H22v-2.5c0-1.93-2.69-3.5-6-3.5Zm-4 0c-3.31 0-6 1.79-6 4v3h12v-3c0-2.21-2.69-4-6-4Z" />
+                            </svg>
+                        </div>
+
+                        <span class="never-alone-card-label">
+                            Community
+                        </span>
+
+                        <h3>Everyone Belongs</h3>
+
+                        <p>
+                            Tiger Nation is more than Fortnite. It is a place where
+                            friendships are made, laughter is shared, and people
+                            can feel welcome.
+                        </p>
+                    </article>
+
+                    <article class="never-alone-card never-alone-reach-out never-alone-reveal">
+                        <div class="never-alone-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                <path d="M4 3h16v14H8l-4 4V3Zm3 4v2h10V7H7Zm0 4v2h7v-2H7Z" />
+                            </svg>
+                        </div>
+
+                        <span class="never-alone-card-label">
+                            Reach Out
+                        </span>
+
+                        <h3>Talk To Someone You Trust</h3>
+
+                        <p>
+                            If you are struggling, do not keep everything inside.
+                            Talk to a friend, family member, teacher, mentor, or
+                            someone who cares about you.
+                        </p>
+                    </article>
+
+                </div>
+
+                <blockquote class="never-alone-quote never-alone-reveal">
+                    <p>
+                        Sometimes all someone needs is to know someone cares.
+                    </p>
+                </blockquote>
+
+                <div class="never-alone-reminder never-alone-reveal">
+                    <span class="never-alone-reminder-label">
+                        Remember
+                    </span>
+
+                    <div class="never-alone-reminder-copy">
+                        <strong>You matter.</strong>
+                        <strong>Your story matters.</strong>
+                        <strong>Your future matters.</strong>
+                    </div>
+
+                    <p>
+                        Whatever you are facing today, you do not have to face it
+                        alone.
+                    </p>
+
+                    <span class="never-alone-final-line">
+                        You're Never Alone.
+                    </span>
+                </div>
+
+                <div class="never-alone-closing never-alone-reveal">
+                    <span aria-hidden="true"></span>
+
+                    <p>
+                        Tiger Nation will always strive to be a welcoming place
+                        where everyone is treated with kindness, respect, and
+                        compassion.
+                    </p>
+
+                    <span aria-hidden="true"></span>
+                </div>
+
+                <div class="never-alone-resources">
+                    <div class="never-alone-resources-heading">
+                        <span class="section-eyebrow">Need support now?</span>
+                        <h2>Trusted Help Is Available</h2>
+                        <p>
+                            If you are in crisis, worried about someone else, or simply need
+                            someone to listen, these resources can help.
+                        </p>
+                    </div>
+
+                    <div class="never-alone-resource-grid">
+
+                        <!-- Canada -->
+                        <a class="never-alone-resource-card" href="https://988.ca/" target="_blank"
+                            rel="noopener noreferrer" aria-label="Visit Canada's 9-8-8 Suicide Crisis Helpline website">
+
+                            <img src="images/ui/canada.png" alt="Canada" class="resource-flag">
+
+                            <span class="resource-country">Canada</span>
+                            <h3>9-8-8 Suicide Crisis Helpline</h3>
+
+                            <p>
+                                Call or text 9-8-8 anytime, 24 hours a day.
+                            </p>
+
+                            <span class="resource-link-text">
+                                Visit 9-8-8 Canada →
+                            </span>
+                        </a>
+
+                        <!-- United States -->
+                        <a class="never-alone-resource-card" href="https://988lifeline.org/" target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Visit the United States 988 Suicide and Crisis Lifeline website">
+
+                            <img src="images/ui/usa.png" alt="United States" class="resource-flag">
+
+                            <span class="resource-country">United States</span>
+                            <h3>988 Suicide &amp; Crisis Lifeline</h3>
+
+                            <p>
+                                Call, text, or chat with a trained crisis counsellor.
+                            </p>
+
+                            <span class="resource-link-text">
+                                Visit 988 Lifeline →
+                            </span>
+                        </a>
+
+                        <!-- United Kingdom -->
+                        <a class="never-alone-resource-card"
+                            href="https://www.samaritans.org/how-we-can-help/contact-samaritan/" target="_blank"
+                            rel="noopener noreferrer" aria-label="Visit Samaritans in the United Kingdom">
+
+                            <img src="images/ui/uk.png" alt="United Kingdom" class="resource-flag">
+
+                            <span class="resource-country">United Kingdom</span>
+                            <h3>Samaritans</h3>
+
+                            <p>
+                                Free confidential support for anyone who is struggling or needs
+                                someone to listen.
+                            </p>
+
+                            <span class="resource-link-text">
+                                Visit Samaritans →
+                            </span>
+                        </a>
+
+                        <!-- Australia -->
+                        <a class="never-alone-resource-card"
+                            href="https://www.healthdirect.gov.au/mental-health-helplines" target="_blank"
+                            rel="noopener noreferrer" aria-label="Visit Australia's mental health helplines">
+
+                            <img src="images/ui/australia.png" alt="Australia" class="resource-flag">
+
+                            <span class="resource-country">Australia</span>
+                            <h3>Mental Health Helplines</h3>
+
+                            <p>
+                                Find trusted crisis and mental health support services throughout
+                                Australia.
+                            </p>
+
+                            <span class="resource-link-text">
+                                View Helplines →
+                            </span>
+                        </a>
+
+                        <!-- Worldwide -->
+                        <a class="never-alone-resource-card" href="https://findahelpline.com/" target="_blank"
+                            rel="noopener noreferrer" aria-label="Find a verified helpline in your country">
+
+                            <img src="images/ui/world.png" alt="Worldwide" class="resource-flag">
+
+                            <span class="resource-country">Worldwide</span>
+                            <h3>Find A Helpline</h3>
+
+                            <p>
+                                Find verified support services in more than 175 countries.
+                            </p>
+
+                            <span class="resource-link-text">
+                                Find Local Support →
+                            </span>
+                        </a>
+
+                    </div>
+
+                    <p class="never-alone-emergency-note">
+                        If you or someone else is in immediate danger, contact local emergency
+                        services right away.
+                    </p>
+                </div>
+
             </div>
+        </section>
 
-            <h2>You're Never Alone</h2>
-
-            <p>
-                Life is not always easy, and that is okay. Whether you are
-                celebrating a victory or going through a difficult time,
-                Tiger Nation is built on kindness, respect, and looking out
-                for one another.
-            </p>
-        </header>
-
-        <div class="never-alone-grid">
-
-            <article
-                class="never-alone-card never-alone-kindness never-alone-reveal"
-            >
-                <div class="never-alone-icon" aria-hidden="true">
-                    <svg
-                        viewBox="0 0 24 24"
-                        role="img"
-                        focusable="false"
-                    >
-                        <path
-                            d="M12 21s-7-4.35-9.33-8.18C.66 9.5 2.17 5.5 6.17 5.07A6.1 6.1 0 0 1 12 8.1a6.1 6.1 0 0 1 5.83-3.03c4 .43 5.51 4.43 3.5 7.75C19 16.65 12 21 12 21Z"
-                        />
-                    </svg>
-                </div>
-
-                <span class="never-alone-card-label">
-                    Kindness
-                </span>
-
-                <h3>Small Words Matter</h3>
-
-                <p>
-                    A few encouraging words can make someone's entire day.
-                    Every member of Tiger Nation deserves kindness and
-                    respect.
-                </p>
-            </article>
-
-            <article
-                class="never-alone-card never-alone-community never-alone-reveal"
-            >
-                <div class="never-alone-icon" aria-hidden="true">
-                    <svg
-                        viewBox="0 0 24 24"
-                        role="img"
-                        focusable="false"
-                    >
-                        <path
-                            d="M16 11a4 4 0 1 0-3.5-5.93A5.5 5.5 0 0 1 14 9c0 .7-.13 1.36-.36 1.97.72.02 1.52.03 2.36.03Zm-8 0c.84 0 1.64-.01 2.36-.03A5.44 5.44 0 0 1 10 9a5.5 5.5 0 0 1 1.5-3.93A4 4 0 1 0 8 11Zm4-1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-4 2c-3.31 0-6 1.57-6 3.5V18h6.08A5.47 5.47 0 0 1 10 13.84 10.2 10.2 0 0 0 8 12Zm8 0c-.72 0-1.4.08-2 .22A5.48 5.48 0 0 1 15.92 18H22v-2.5c0-1.93-2.69-3.5-6-3.5Zm-4 0c-3.31 0-6 1.79-6 4v3h12v-3c0-2.21-2.69-4-6-4Z"
-                        />
-                    </svg>
-                </div>
-
-                <span class="never-alone-card-label">
-                    Community
-                </span>
-
-                <h3>Everyone Belongs</h3>
-
-                <p>
-                    Tiger Nation is more than Fortnite. It is a place where
-                    friendships are made, laughter is shared, and people
-                    can feel welcome.
-                </p>
-            </article>
-
-            <article
-                class="never-alone-card never-alone-reach-out never-alone-reveal"
-            >
-                <div class="never-alone-icon" aria-hidden="true">
-                    <svg
-                        viewBox="0 0 24 24"
-                        role="img"
-                        focusable="false"
-                    >
-                        <path
-                            d="M4 3h16v14H8l-4 4V3Zm3 4v2h10V7H7Zm0 4v2h7v-2H7Z"
-                        />
-                    </svg>
-                </div>
-
-                <span class="never-alone-card-label">
-                    Reach Out
-                </span>
-
-                <h3>Talk To Someone You Trust</h3>
-
-                <p>
-                    If you are struggling, do not keep everything inside.
-                    Talk to a friend, family member, teacher, mentor, or
-                    someone who cares about you.
-                </p>
-            </article>
-
-        </div>
-
-        <blockquote class="never-alone-quote never-alone-reveal">
-            <p>
-                Sometimes all someone needs is to know someone cares.
-            </p>
-        </blockquote>
-
-        <div class="never-alone-reminder never-alone-reveal">
-            <span class="never-alone-reminder-label">
-                Remember
-            </span>
-
-            <div class="never-alone-reminder-copy">
-                <strong>You matter.</strong>
-                <strong>Your story matters.</strong>
-                <strong>Your future matters.</strong>
-            </div>
-
-            <p>
-                Whatever you are facing today, you do not have to face it
-                alone.
-            </p>
-
-            <span class="never-alone-final-line">
-                You're Never Alone.
-            </span>
-        </div>
-
-        <div class="never-alone-closing never-alone-reveal">
-            <span aria-hidden="true"></span>
-
-            <p>
-                Tiger Nation will always strive to be a welcoming place
-                where everyone is treated with kindness, respect, and
-                compassion.
-            </p>
-
-            <span aria-hidden="true"></span>
-        </div>
-
-        <div class="never-alone-resources">
-    <div class="never-alone-resources-heading">
-        <span class="section-eyebrow">Need support now?</span>
-        <h2>Trusted Help Is Available</h2>
-        <p>
-            If you are in crisis, worried about someone else, or simply need
-            someone to listen, these resources can help.
-        </p>
-    </div>
-
-        <div class="never-alone-resource-grid">
-
-            <!-- Canada -->
-            <a
-                class="never-alone-resource-card"
-                href="https://988.ca/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit Canada's 9-8-8 Suicide Crisis Helpline website">
-
-                <img src="images/ui/canada.png"
-                    alt="Canada"
-                    class="resource-flag">
-
-                <span class="resource-country">Canada</span>
-                <h3>9-8-8 Suicide Crisis Helpline</h3>
-
-                <p>
-                    Call or text 9-8-8 anytime, 24 hours a day.
-                </p>
-
-                <span class="resource-link-text">
-                    Visit 9-8-8 Canada →
-                </span>
-            </a>
-
-            <!-- United States -->
-            <a
-                class="never-alone-resource-card"
-                href="https://988lifeline.org/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit the United States 988 Suicide and Crisis Lifeline website">
-
-                <img src="images/ui/usa.png"
-                    alt="United States"
-                    class="resource-flag">
-
-                <span class="resource-country">United States</span>
-                <h3>988 Suicide &amp; Crisis Lifeline</h3>
-
-                <p>
-                    Call, text, or chat with a trained crisis counsellor.
-                </p>
-
-                <span class="resource-link-text">
-                    Visit 988 Lifeline →
-                </span>
-            </a>
-
-            <!-- United Kingdom -->
-            <a
-                class="never-alone-resource-card"
-                href="https://www.samaritans.org/how-we-can-help/contact-samaritan/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit Samaritans in the United Kingdom">
-
-                <img src="images/ui/uk.png"
-                    alt="United Kingdom"
-                    class="resource-flag">
-
-                <span class="resource-country">United Kingdom</span>
-                <h3>Samaritans</h3>
-
-                <p>
-                    Free confidential support for anyone who is struggling or needs
-                    someone to listen.
-                </p>
-
-                <span class="resource-link-text">
-                    Visit Samaritans →
-                </span>
-            </a>
-
-            <!-- Australia -->
-            <a
-                class="never-alone-resource-card"
-                href="https://www.healthdirect.gov.au/mental-health-helplines"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Visit Australia's mental health helplines">
-
-                <img src="images/ui/australia.png"
-                    alt="Australia"
-                    class="resource-flag">
-
-                <span class="resource-country">Australia</span>
-                <h3>Mental Health Helplines</h3>
-
-                <p>
-                    Find trusted crisis and mental health support services throughout
-                    Australia.
-                </p>
-
-                <span class="resource-link-text">
-                    View Helplines →
-                </span>
-            </a>
-
-            <!-- Worldwide -->
-            <a
-                class="never-alone-resource-card"
-                href="https://findahelpline.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Find a verified helpline in your country">
-
-                <img src="images/ui/world.png"
-                    alt="Worldwide"
-                    class="resource-flag">
-
-                <span class="resource-country">Worldwide</span>
-                <h3>Find A Helpline</h3>
-
-                <p>
-                    Find verified support services in more than 175 countries.
-                </p>
-
-                <span class="resource-link-text">
-                    Find Local Support →
-                </span>
-            </a>
-
-        </div>
-
-    <p class="never-alone-emergency-note">
-        If you or someone else is in immediate danger, contact local emergency
-        services right away.
-    </p>
-</div>
-
-    </div>
-</section>
-
-<!-- ---------------------------------
+        <!-- ---------------------------------
      Support Tiger Nation
 ---------------------------------- -->
 
-<section id="support" class="support-section">
-    <div class="support-container">
+        <section id="support" class="support-section">
+            <div class="support-container">
 
-        <header class="support-heading">
-            <span class="support-eyebrow">Help Us Grow</span>
+                <header class="support-heading">
+                    <span class="support-eyebrow">Help Us Grow</span>
 
-            <h2>Support Tiger Nation</h2>
+                    <h2>Support Tiger Nation</h2>
 
-            <p>
-                Enjoying the streams and community? Here are a few optional
-                ways to support Tiger Nation and help us continue creating
-                family-friendly Fortnite content.
-            </p>
-        </header>
+                    <p>
+                        Enjoying the streams and community? Here are a few optional
+                        ways to support Tiger Nation and help us continue creating
+                        family-friendly Fortnite content.
+                    </p>
+                </header>
 
-        <div class="support-layout">
+                <div class="support-layout">
 
-            <!-- Epic Creator Code -->
-            <article class="support-code-card">
-                <div class="support-code-decoration" aria-hidden="true">
-                    TNG
+                    <!-- Epic Creator Code -->
+                    <article class="support-code-card">
+                        <div class="support-code-decoration" aria-hidden="true">
+                            TNG
+                        </div>
+
+                        <div class="support-code-top">
+                            <span class="support-card-label">
+                                Fortnite Creator Code
+                            </span>
+
+                            <span class="support-partner-badge">
+                                #EpicPartner
+                            </span>
+                        </div>
+
+                        <div class="support-code-content">
+                            <div class="support-code-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                    <path d="M4 3h16v14H8l-4 4V3Zm3 4v2h10V7H7Zm0 4v2h7v-2H7Z" />
+                                </svg>
+                            </div>
+
+                            <span class="support-code-intro">
+                                Use code
+                            </span>
+
+                            <strong class="support-code-value">
+                                TIGERNOSLEN
+                            </strong>
+
+                            <p>
+                                Enter creator code <strong>TIGERNOSLEN</strong> when
+                                making eligible Fortnite purchases to support the
+                                channel at no additional cost to you.
+                            </p>
+
+                            <button class="support-copy-button" id="copyCreatorCode" type="button"
+                                data-code="TIGERNOSLEN" aria-describedby="creatorCodeStatus">
+                                <span class="support-copy-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                        <path d="M8 7V3h13v13h-4v5H3V7h5Zm2 0h7v7h2V5h-9v2Zm5 2H5v10h10V9Z" />
+                                    </svg>
+                                </span>
+
+                                <span class="support-copy-text">
+                                    Copy Creator Code
+                                </span>
+                            </button>
+
+                            <span class="support-copy-status" id="creatorCodeStatus" role="status"
+                                aria-live="polite"></span>
+                        </div>
+                    </article>
+
+                    <div class="support-side-cards">
+
+                        <!-- Merch -->
+                        <a class="support-link-card support-merch-card" href="https://tiger-nelson-shop.fourthwall.com"
+                            target="_blank" rel="noopener noreferrer"
+                            aria-label="Visit the official Tiger Noslen merchandise store">
+                            >
+                            <div class="support-card-topline">
+                                <div class="support-link-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                        <path
+                                            d="m8 3 4 2 4-2 5 3-2.5 5L17 10v11H7V10l-1.5 1L3 6l5-3Zm1.2 2.2L6 7.1l.5 1 2.5-1.6V19h6V6.5l2.5 1.6.5-1-3.2-1.9A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1-2.8-1.8Z" />
+                                    </svg>
+                                </div>
+
+                                <span class="support-external-arrow" aria-hidden="true">
+                                    ↗
+                                </span>
+                            </div>
+
+                            <div class="support-link-content">
+                                <span class="support-card-label">
+                                    Official Store
+                                </span>
+
+                                <h3>Tiger Nation Merch</h3>
+
+                                <p>
+                                    Check out official Tiger Noslen merchandise and
+                                    represent Tiger Nation wherever you go.
+                                </p>
+
+                                <span class="support-link-action">
+                                    Visit the Merch Store
+                                    <span aria-hidden="true">→</span>
+                                </span>
+                            </div>
+                        </a>
+
+                        <!-- PayPal -->
+                        <a class="support-link-card support-tip-card" href="https://www.paypal.com/paypalme/tigernoslen"
+                            target="_blank" rel="noopener noreferrer" aria-label="Support Tiger Noslen through PayPal">
+                            <div class="support-card-topline">
+                                <div class="support-link-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                        <path
+                                            d="M12 21s-7-4.35-9.33-8.18C.66 9.5 2.17 5.5 6.17 5.07A6.1 6.1 0 0 1 12 8.1a6.1 6.1 0 0 1 5.83-3.03c4 .43 5.51 4.43 3.5 7.75C19 16.65 12 21 12 21Z" />
+                                    </svg>
+                                </div>
+
+                                <span class="support-external-arrow" aria-hidden="true">
+                                    ↗
+                                </span>
+                            </div>
+
+                            <div class="support-link-content">
+                                <span class="support-card-label">
+                                    Optional Support
+                                </span>
+
+                                <h3>Tip Jar</h3>
+
+                                <p>
+                                    Viewers who would like to support the stream
+                                    directly can send an optional tip securely through
+                                    PayPal.
+                                </p>
+
+                                <span class="support-link-action">
+                                    Open the Tip Jar
+                                    <span aria-hidden="true">→</span>
+                                </span>
+                            </div>
+                        </a>
+
+                    </div>
                 </div>
 
-                <div class="support-code-top">
-                    <span class="support-card-label">
-                        Fortnite Creator Code
-                    </span>
+                <div class="support-note">
+                    <div>
+                        <strong>Watching, liking, and sharing also helps.</strong>
 
-                    <span class="support-partner-badge">
+                        <p>
+                            Financial support is never required. Being part of Tiger
+                            Nation is already greatly appreciated.
+                        </p>
+                    </div>
+
+                    <span class="support-note-tag">
+                        Thank You, Tiger Nation
+                    </span>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ---------------------------------
+     Site Footer
+---------------------------------- -->
+
+    <footer class="site-footer">
+        <div class="footer-container">
+
+            <div class="footer-brand">
+                <a href="#hero" class="footer-logo" aria-label="Return to the Tiger Nation HQ homepage">
+                    <img src="images/logos/tng-logo.png" alt="Tiger Noslen Gaming">
+                </a>
+
+                <div>
+                    <h2>Tiger Nation HQ</h2>
+
+                    <p>
+                        The official home of Tiger Noslen Gaming, Fortnite streams,
+                        community events, and everything Tiger Nation.
+                    </p>
+                </div>
+            </div>
+
+            <div class="footer-columns">
+
+                <div class="footer-column">
+                    <h3>Explore</h3>
+
+                    <a href="#hero">Home</a>
+                    <a href="#schedule">Streams</a>
+                    <a href="#fortnite">Fortnite</a>
+                    <a href="#maps">Tiger's Maps</a>
+                    <a href="#community">Community</a>
+                    <a href="#never-alone">Never Alone</a>
+                    <a href="#support">Support</a>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Follow Tiger</h3>
+
+                    <a href="https://www.youtube.com/@TigerNoslen" target="_blank" rel="noopener noreferrer">
+                        YouTube
+                    </a>
+
+                    <a href="https://www.tiktok.com/@tigernoslen" target="_blank" rel="noopener noreferrer">
+                        TikTok
+                    </a>
+
+                    <a href="https://www.twitch.tv/tigernoslen" target="_blank" rel="noopener noreferrer">
+                        Twitch
+                    </a>
+
+                    <a href="https://x.com/tigernoslen" target="_blank" rel="noopener noreferrer">
+                        X
+                    </a>
+
+                    <a href="https://discord.gg/w4anUNCzE" target="_blank" rel="noopener noreferrer">
+                        Discord
+                    </a>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Support</h3>
+
+                    <a href="https://tiger-nelson-shop.fourthwall.com/en-cad" target="_blank" rel="noopener noreferrer">
+                        Official Merch
+                    </a>
+
+                    <a href="https://www.paypal.com/paypalme/tigernoslen" target="_blank" rel="noopener noreferrer">
+                        Tip Jar
+                    </a>
+
+                    <button class="footer-copy-code" type="button" data-footer-code="TIGERNOSLEN">
+                        Copy Creator Code
+                    </button>
+
+                    <span class="footer-partner">
                         #EpicPartner
                     </span>
                 </div>
 
-                <div class="support-code-content">
-                    <div class="support-code-icon" aria-hidden="true">
-                        <svg
-                            viewBox="0 0 24 24"
-                            role="img"
-                            focusable="false"
-                        >
-                            <path
-                                d="M4 3h16v14H8l-4 4V3Zm3 4v2h10V7H7Zm0 4v2h7v-2H7Z"
-                            />
-                        </svg>
-                    </div>
+            </div>
 
-                    <span class="support-code-intro">
-                        Use code
-                    </span>
+            <div class="footer-bottom">
+                <p>
+                    © <span id="currentYear"></span> Tiger Noslen Gaming.
+                    All rights reserved.
+                </p>
 
-                    <strong class="support-code-value">
-                        TIGERNOSLEN
-                    </strong>
-
-                    <p>
-                        Enter creator code <strong>TIGERNOSLEN</strong> when
-                        making eligible Fortnite purchases to support the
-                        channel at no additional cost to you.
-                    </p>
-
-                    <button
-                        class="support-copy-button"
-                        id="copyCreatorCode"
-                        type="button"
-                        data-code="TIGERNOSLEN"
-                        aria-describedby="creatorCodeStatus"
-                    >
-                        <span class="support-copy-icon" aria-hidden="true">
-                            <svg
-                                viewBox="0 0 24 24"
-                                role="img"
-                                focusable="false"
-                            >
-                                <path
-                                    d="M8 7V3h13v13h-4v5H3V7h5Zm2 0h7v7h2V5h-9v2Zm5 2H5v10h10V9Z"
-                                />
-                            </svg>
-                        </span>
-
-                        <span class="support-copy-text">
-                            Copy Creator Code
-                        </span>
-                    </button>
-
-                    <span
-                        class="support-copy-status"
-                        id="creatorCodeStatus"
-                        role="status"
-                        aria-live="polite"
-                    ></span>
+                <div class="site-version" id="site-version">
+                    Tiger Nation HQ • Loading version...
                 </div>
-            </article>
-
-            <div class="support-side-cards">
-
-                <!-- Merch -->
-                <a
-                    class="support-link-card support-merch-card"
-                    href="https://tiger-nelson-shop.fourthwall.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Visit the official Tiger Noslen merchandise store">
-                >
-                    <div class="support-card-topline">
-                        <div class="support-link-icon" aria-hidden="true">
-                            <svg
-                                viewBox="0 0 24 24"
-                                role="img"
-                                focusable="false"
-                            >
-                                <path
-                                    d="m8 3 4 2 4-2 5 3-2.5 5L17 10v11H7V10l-1.5 1L3 6l5-3Zm1.2 2.2L6 7.1l.5 1 2.5-1.6V19h6V6.5l2.5 1.6.5-1-3.2-1.9A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1-2.8-1.8Z"
-                                />
-                            </svg>
-                        </div>
-
-                        <span
-                            class="support-external-arrow"
-                            aria-hidden="true"
-                        >
-                            ↗
-                        </span>
-                    </div>
-
-                    <div class="support-link-content">
-                        <span class="support-card-label">
-                            Official Store
-                        </span>
-
-                        <h3>Tiger Nation Merch</h3>
-
-                        <p>
-                            Check out official Tiger Noslen merchandise and
-                            represent Tiger Nation wherever you go.
-                        </p>
-
-                        <span class="support-link-action">
-                            Visit the Merch Store
-                            <span aria-hidden="true">→</span>
-                        </span>
-                    </div>
-                </a>
-
-                <!-- PayPal -->
-                <a
-                    class="support-link-card support-tip-card"
-                    href="https://www.paypal.com/paypalme/tigernoslen"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Support Tiger Noslen through PayPal"
-                >
-                    <div class="support-card-topline">
-                        <div class="support-link-icon" aria-hidden="true">
-                            <svg
-                                viewBox="0 0 24 24"
-                                role="img"
-                                focusable="false"
-                            >
-                                <path
-                                    d="M12 21s-7-4.35-9.33-8.18C.66 9.5 2.17 5.5 6.17 5.07A6.1 6.1 0 0 1 12 8.1a6.1 6.1 0 0 1 5.83-3.03c4 .43 5.51 4.43 3.5 7.75C19 16.65 12 21 12 21Z"
-                                />
-                            </svg>
-                        </div>
-
-                        <span
-                            class="support-external-arrow"
-                            aria-hidden="true"
-                        >
-                            ↗
-                        </span>
-                    </div>
-
-                    <div class="support-link-content">
-                        <span class="support-card-label">
-                            Optional Support
-                        </span>
-
-                        <h3>Tip Jar</h3>
-
-                        <p>
-                            Viewers who would like to support the stream
-                            directly can send an optional tip securely through
-                            PayPal.
-                        </p>
-
-                        <span class="support-link-action">
-                            Open the Tip Jar
-                            <span aria-hidden="true">→</span>
-                        </span>
-                    </div>
-                </a>
-
-            </div>
-        </div>
-
-        <div class="support-note">
-            <div>
-                <strong>Watching, liking, and sharing also helps.</strong>
 
                 <p>
-                    Financial support is never required. Being part of Tiger
-                    Nation is already greatly appreciated.
+                    Stronger together. That's the TNG way.
                 </p>
             </div>
 
-            <span class="support-note-tag">
-                Thank You, Tiger Nation
-            </span>
         </div>
+    </footer>
 
-    </div>
-</section>
+    <script src="js/script.js"></script>
 
-</main>
-
-<!-- ---------------------------------
-     Site Footer
----------------------------------- -->
-
-<footer class="site-footer">
-    <div class="footer-container">
-
-        <div class="footer-brand">
-            <a
-                href="#hero"
-                class="footer-logo"
-                aria-label="Return to the Tiger Nation HQ homepage"
-            >
-                <img
-                    src="images/logos/tng-logo.png"
-                    alt="Tiger Noslen Gaming"
-                >
-            </a>
-
-            <div>
-                <h2>Tiger Nation HQ</h2>
-
-                <p>
-                    The official home of Tiger Noslen Gaming, Fortnite streams,
-                    community events, and everything Tiger Nation.
-                </p>
-            </div>
-        </div>
-
-        <div class="footer-columns">
-
-            <div class="footer-column">
-                <h3>Explore</h3>
-
-                <a href="#hero">Home</a>
-                <a href="#schedule">Streams</a>
-                <a href="#fortnite">Fortnite</a>
-                <a href="#maps">Tiger's Maps</a>
-                <a href="#community">Community</a>
-                <a href="#never-alone">Never Alone</a>
-                <a href="#support">Support</a>
-            </div>
-
-            <div class="footer-column">
-                <h3>Follow Tiger</h3>
-
-                <a
-                    href="https://www.youtube.com/@TigerNoslen"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    YouTube
-                </a>
-
-                <a
-                    href="https://www.tiktok.com/@tigernoslen"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    TikTok
-                </a>
-
-                <a
-                    href="https://www.twitch.tv/tigernoslen"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Twitch
-                </a>
-
-                <a
-                    href="https://x.com/tigernoslen"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    X
-                </a>
-
-                <a
-                    href="https://discord.gg/w4anUNCzE"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Discord
-                </a>
-            </div>
-
-            <div class="footer-column">
-                <h3>Support</h3>
-
-                <a
-                    href="https://tiger-nelson-shop.fourthwall.com/en-cad"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Official Merch
-                </a>
-
-                <a
-                    href="https://www.paypal.com/paypalme/tigernoslen"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Tip Jar
-                </a>
-
-                <button
-                    class="footer-copy-code"
-                    type="button"
-                    data-footer-code="TIGERNOSLEN"
-                >
-                    Copy Creator Code
-                </button>
-
-                <span class="footer-partner">
-                    #EpicPartner
-                </span>
-            </div>
-
-        </div>
-
-        <div class="footer-bottom">
-            <p>
-                © <span id="currentYear"></span> Tiger Noslen Gaming.
-                All rights reserved.
-            </p>
-
-            <div class="site-version" id="site-version">
-                Tiger Nation HQ • Loading version...
-            </div>
-
-            <p>
-                Stronger together. That's the TNG way.
-            </p>
-        </div>
-
-    </div>
-</footer>
-
-<script src="js/script.js"></script>
+    <!-- Cloudflare Web Analytics -->
+    <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "a4feb32210e9479d946f637003dfd4b3"}'></script>
+    <!-- End Cloudflare Web Analytics -->
 
 </body>
+
 </html>
