@@ -862,26 +862,7 @@ function renderLiveStatus(status) {
 }
 
 function renderFallbackStatus() {
-    const nextStream = formatNextStream();
-
-    startStreamCountdown(nextStream.date);
-
-    setStatusClasses(liveStatusElements.navIndicator, "stale");
-    setStatusClasses(liveStatusElements.heroStatus, "stale");
-
-    if (liveStatusElements.navText) {
-        liveStatusElements.navText.textContent = "OFFLINE";
-    }
-
-    if (liveStatusElements.heroLabel) {
-        liveStatusElements.heroLabel.textContent =
-            `Next Stream: ${nextStream.title}`;
-    }
-
-    if (liveStatusElements.heroDetail) {
-        liveStatusElements.heroDetail.textContent =
-            nextStream.detail;
-    }
+    renderLiveStatus({ live: false });
 }
 
 function getTestStatus() {
