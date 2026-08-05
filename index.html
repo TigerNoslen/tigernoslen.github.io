@@ -49,11 +49,28 @@
                     <span id="navLiveText">Checking...</span>
                 </div>
 
-                <a href="https://www.youtube.com/@TigerNoslen" class="watch-live-button" id="navWatchButton"
-                    target="_blank" rel="noopener noreferrer">
-                    <span aria-hidden="true">◉</span>
-                    <span id="navWatchText">YouTube</span>
-                </a>
+                <div class="watch-live-menu" id="navWatchMenu">
+                    <button class="watch-live-button" id="navWatchButton" type="button" aria-expanded="false"
+                        aria-controls="navWatchDropdown">
+                        <span aria-hidden="true">◉</span>
+                        <span id="navWatchText">YouTube</span>
+                        <span class="watch-live-chevron" aria-hidden="true">▾</span>
+                    </button>
+
+                    <div class="watch-live-dropdown" id="navWatchDropdown" hidden>
+                        <a href="https://www.youtube.com/@TigerNoslen" id="navWatchHorizontal" target="_blank"
+                            rel="noopener noreferrer">
+                            <span aria-hidden="true">▰</span>
+                            Horizontal
+                        </a>
+
+                        <a href="https://youtube.com/live/rYHpsMq9H0w?feature=share" id="navWatchVertical"
+                            target="_blank" rel="noopener noreferrer">
+                            <span aria-hidden="true">▯</span>
+                            Vertical
+                        </a>
+                    </div>
+                </div>
 
                 <button class="mobile-menu-button" type="button" aria-label="Open navigation menu"
                     aria-expanded="false">
@@ -124,7 +141,7 @@
 
         </section>
 
-                <section class="home-panels">
+        <section class="home-panels">
             <div class="home-panels-container">
 
                 <article id="about" class="about-card">

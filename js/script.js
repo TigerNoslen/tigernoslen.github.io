@@ -354,7 +354,7 @@ if (navLinks.length > 0 && navSections.length > 0) {
     updateActiveNavLink();
 }
 
-    document.addEventListener(
+document.addEventListener(
     "keydown",
     (event) => {
         if (
@@ -534,8 +534,14 @@ const LIVE_STATUS_CONFIG = {
 const liveStatusElements = {
     navIndicator: document.querySelector("#navLiveIndicator"),
     navText: document.querySelector("#navLiveText"),
+
+    navMenu: document.querySelector("#navWatchMenu"),
     navButton: document.querySelector("#navWatchButton"),
     navButtonText: document.querySelector("#navWatchText"),
+    navDropdown: document.querySelector("#navWatchDropdown"),
+    navHorizontalLink: document.querySelector("#navWatchHorizontal"),
+    navVerticalLink: document.querySelector("#navWatchVertical"),
+
     heroStatus: document.querySelector("#heroLiveStatus"),
     heroLabel: document.querySelector("#heroStatusLabel"),
     heroDetail: document.querySelector("#heroStatusDetail"),
@@ -543,6 +549,86 @@ const liveStatusElements = {
     heroButton: document.querySelector("#heroWatchButton"),
     heroButtonText: document.querySelector("#heroWatchText")
 };
+
+function setWatchMenuOpen(open) {
+    const {
+        navMenu,
+        navButton,
+        navDropdown
+    } = liveStatusElements;
+
+    if (!navMenu || !navButton || !navDropdown) {
+        return;
+    }
+
+    const canOpen =
+        !navMenu.classList.contains("is-offline");
+
+    const shouldOpen =
+        Boolean(open) && canOpen;
+
+    navMenu.classList.toggle("is-open", shouldOpen);
+    navButton.setAttribute(
+        "aria-expanded",
+        String(shouldOpen)
+    );
+
+    navDropdown.hidden = !shouldOpen;
+}
+
+if (
+    liveStatusElements.navMenu &&
+    liveStatusElements.navButton &&
+    liveStatusElements.navDropdown
+) {
+    liveStatusElements.navButton.addEventListener(
+        "click",
+        (event) => {
+            event.stopPropagation();
+
+            if (
+                liveStatusElements.navMenu.classList.contains(
+                    "is-offline"
+                )
+            ) {
+                window.open(
+                    LIVE_STATUS_CONFIG.youtubeChannelUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+                return;
+            }
+
+            const isOpen =
+                liveStatusElements.navButton.getAttribute(
+                    "aria-expanded"
+                ) === "true";
+
+            setWatchMenuOpen(!isOpen);
+        }
+    );
+
+    liveStatusElements.navDropdown.addEventListener(
+        "click",
+        (event) => {
+            event.stopPropagation();
+        }
+    );
+
+    document.addEventListener("click", () => {
+        setWatchMenuOpen(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") {
+            return;
+        }
+
+        setWatchMenuOpen(false);
+        liveStatusElements.navButton.focus();
+    });
+}
 
 function getAnnouncementStreamOverride() {
     const announcement =
@@ -771,24 +857,58 @@ function startStreamCountdown(date) {
 
     updateStreamCountdown();
 }
-  
+
 function renderLiveStatus(status) {
     const isLive = status.live === true;
+
+    const hasHorizontal =
+        status.hasHorizontal === true &&
+        Boolean(status.streamUrl);
+
+    const hasVertical =
+        status.hasVertical === true &&
+        Boolean(status.verticalStreamUrl);
+
     const streamUrl =
-        status.streamUrl || LIVE_STATUS_CONFIG.youtubeChannelUrl;
+        status.streamUrl ||
+        status.verticalStreamUrl ||
+        LIVE_STATUS_CONFIG.youtubeChannelUrl;
 
     if (isLive) {
         stopStreamCountdown();
         setStatusClasses(liveStatusElements.navIndicator, "live");
         setStatusClasses(liveStatusElements.heroStatus, "live");
 
+        if (liveStatusElements.navMenu) {
+            liveStatusElements.navMenu.classList.remove("is-offline");
+        }
+
+        if (liveStatusElements.navHorizontalLink) {
+            liveStatusElements.navHorizontalLink.hidden =
+                !hasHorizontal;
+        }
+
+        if (liveStatusElements.navVerticalLink) {
+            liveStatusElements.navVerticalLink.hidden =
+                !hasVertical;
+        }
+
         if (liveStatusElements.navText) {
             liveStatusElements.navText.textContent = "Live Now";
         }
 
         if (liveStatusElements.navButton) {
-            liveStatusElements.navButton.href = streamUrl;
             liveStatusElements.navButton.classList.remove("is-offline");
+        }
+
+        if (liveStatusElements.navHorizontalLink) {
+            liveStatusElements.navHorizontalLink.href = streamUrl;
+        }
+
+        if (liveStatusElements.navVerticalLink) {
+            liveStatusElements.navVerticalLink.href =
+                status.verticalStreamUrl ||
+                "https://youtube.com/live/rYHpsMq9H0w?feature=share";
         }
 
         if (liveStatusElements.navButtonText) {
@@ -823,14 +943,17 @@ function renderLiveStatus(status) {
     setStatusClasses(liveStatusElements.navIndicator, "offline");
     setStatusClasses(liveStatusElements.heroStatus, "offline");
 
+    setWatchMenuOpen(false);
+
+    if (liveStatusElements.navMenu) {
+        liveStatusElements.navMenu.classList.add("is-offline");
+    }
+
     if (liveStatusElements.navText) {
         liveStatusElements.navText.textContent = "Offline";
     }
 
     if (liveStatusElements.navButton) {
-        liveStatusElements.navButton.href =
-            LIVE_STATUS_CONFIG.youtubeChannelUrl;
-
         liveStatusElements.navButton.classList.add("is-offline");
     }
 
@@ -873,7 +996,10 @@ function getTestStatus() {
         return {
             live: true,
             title: "TEST — Tiger Noslen Live",
-            streamUrl: LIVE_STATUS_CONFIG.youtubeChannelUrl
+            streamUrl:
+                "https://www.youtube.com/@TigerNoslen/live",
+            verticalStreamUrl:
+                "https://youtube.com/live/rYHpsMq9H0w?feature=share"
         };
     }
 
