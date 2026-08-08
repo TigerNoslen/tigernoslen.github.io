@@ -4412,3 +4412,108 @@ main {
 
     color: var(--text-secondary);
 }
+
+/* ==========================================
+   HERO LIVE STREAM CARDS
+========================================== */
+
+.hero-live-streams {
+    display: grid;
+    gap: 16px;
+    width: min(620px, 100%);
+    margin-top: 22px;
+}
+
+.hero-live-streams[hidden],
+.hero-live-stream[hidden] {
+    display: none;
+}
+
+.hero-live-stream {
+    padding: 14px 16px 16px;
+
+    border: 1px solid rgba(255, 122, 0, 0.28);
+    border-radius: 12px;
+
+    background:
+        linear-gradient(135deg,
+            rgba(255, 122, 0, 0.08),
+            rgba(17, 20, 25, 0.96));
+
+    box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.hero-live-stream-label {
+    display: block;
+    margin-bottom: 9px;
+
+    color: var(--orange-bright);
+
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.hero-live-stream-link {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+}
+
+.hero-live-stream-thumbnail {
+    width: 150px;
+    aspect-ratio: 16 / 9;
+
+    border-radius: 8px;
+
+    object-fit: cover;
+
+    background: var(--surface-elevated);
+
+    box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.hero-live-stream-title {
+    color: var(--text-primary);
+
+    font-family: "Bebas Neue", "Arial Narrow", Arial, sans-serif;
+    font-size: 1.45rem;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+
+    transition:
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+.hero-live-stream-link:hover .hero-live-stream-title,
+.hero-live-stream-link:focus-visible .hero-live-stream-title {
+    color: var(--orange-bright);
+    transform: translateX(3px);
+}
+
+.hero-live-stream-link:focus-visible {
+    outline: 2px solid var(--orange-bright);
+    outline-offset: 5px;
+    border-radius: 8px;
+}
+
+@media (max-width: 520px) {
+    .hero-live-stream-link {
+        grid-template-columns: 110px minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    .hero-live-stream-thumbnail {
+        width: 110px;
+    }
+
+    .hero-live-stream-title {
+        font-size: 1.18rem;
+    }
+}

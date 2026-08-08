@@ -1,0 +1,11 @@
+{
+    "name": "tng-live-status",
+    "main": "cloudflare/worker.js",
+    "compatibility_date": "2026-08-08",
+    "kv_namespaces": [
+        {
+            "binding": "LIVE_STATUS",
+            "id": "2163cb88b6d6466aa9b4424b42d313be"
+        }
+    ]
+}

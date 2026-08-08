@@ -547,7 +547,19 @@ const liveStatusElements = {
     heroDetail: document.querySelector("#heroStatusDetail"),
     heroCountdown: document.querySelector("#heroCountdown"),
     heroButton: document.querySelector("#heroWatchButton"),
-    heroButtonText: document.querySelector("#heroWatchText")
+    heroButtonText: document.querySelector("#heroWatchText"),
+
+    heroLiveStreams: document.querySelector("#heroLiveStreams"),
+
+    heroHorizontalStream: document.querySelector("#heroHorizontalStream"),
+    heroHorizontalLink: document.querySelector("#heroHorizontalLink"),
+    heroHorizontalThumbnail: document.querySelector("#heroHorizontalThumbnail"),
+    heroHorizontalTitle: document.querySelector("#heroHorizontalTitle"),
+
+    heroVerticalStream: document.querySelector("#heroVerticalStream"),
+    heroVerticalLink: document.querySelector("#heroVerticalLink"),
+    heroVerticalThumbnail: document.querySelector("#heroVerticalThumbnail"),
+    heroVerticalTitle: document.querySelector("#heroVerticalTitle")
 };
 
 function setWatchMenuOpen(open) {
@@ -858,8 +870,115 @@ function startStreamCountdown(date) {
     updateStreamCountdown();
 }
 
+function getYouTubeThumbnail(streamUrl) {
+    if (!streamUrl) {
+        return "";
+    }
+
+    try {
+        const url = new URL(streamUrl);
+        let videoId = "";
+
+        if (url.hostname.includes("youtu.be")) {
+            videoId = url.pathname.split("/").filter(Boolean)[0] || "";
+        } else if (url.pathname.startsWith("/live/")) {
+            videoId = url.pathname.split("/live/")[1]?.split("/")[0] || "";
+        } else {
+            videoId = url.searchParams.get("v") || "";
+        }
+
+        if (!videoId) {
+            return "";
+        }
+
+        return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+    } catch (error) {
+        console.error("Unable to create YouTube thumbnail URL:", error);
+        return "";
+    }
+}
+
+function renderHeroLiveStreams(status) {
+    const {
+        heroLiveStreams,
+        heroHorizontalStream,
+        heroHorizontalLink,
+        heroHorizontalThumbnail,
+        heroHorizontalTitle,
+        heroVerticalStream,
+        heroVerticalLink,
+        heroVerticalThumbnail,
+        heroVerticalTitle
+    } = liveStatusElements;
+
+    if (!heroLiveStreams) {
+        return;
+    }
+
+    const hasHorizontal =
+        status.hasHorizontal === true &&
+        Boolean(status.streamUrl);
+
+    const hasVertical =
+        status.hasVertical === true &&
+        Boolean(status.verticalStreamUrl);
+
+    if (heroHorizontalStream) {
+        heroHorizontalStream.hidden = !hasHorizontal;
+    }
+
+    if (heroVerticalStream) {
+        heroVerticalStream.hidden = !hasVertical;
+    }
+
+    if (hasHorizontal) {
+        if (heroHorizontalLink) {
+            heroHorizontalLink.href = status.streamUrl;
+        }
+
+        if (heroHorizontalThumbnail) {
+            heroHorizontalThumbnail.src =
+                getYouTubeThumbnail(status.streamUrl);
+
+            heroHorizontalThumbnail.alt =
+                `${status.title || "Horizontal live stream"} thumbnail`;
+        }
+
+        if (heroHorizontalTitle) {
+            heroHorizontalTitle.textContent =
+                status.title || "Tiger Noslen Live";
+        }
+    }
+
+    if (hasVertical) {
+        if (heroVerticalLink) {
+            heroVerticalLink.href = status.verticalStreamUrl;
+        }
+
+        if (heroVerticalThumbnail) {
+            heroVerticalThumbnail.src =
+                getYouTubeThumbnail(status.verticalStreamUrl);
+
+            heroVerticalThumbnail.alt =
+                `${status.verticalTitle || "Vertical live stream"} thumbnail`;
+        }
+
+        if (heroVerticalTitle) {
+            heroVerticalTitle.textContent =
+                status.verticalTitle ||
+                status.title ||
+                "Tiger Noslen Live";
+        }
+    }
+
+    heroLiveStreams.hidden =
+        !hasHorizontal && !hasVertical;
+}
+
 function renderLiveStatus(status) {
     const isLive = status.live === true;
+
+    renderHeroLiveStreams(status);
 
     const hasHorizontal =
         status.hasHorizontal === true &&
@@ -995,9 +1114,16 @@ function getTestStatus() {
     if (testState === "live") {
         return {
             live: true,
-            title: "TEST — Tiger Noslen Live",
+
+            hasHorizontal: true,
+            hasVertical: true,
+
+            title: "H - TEST — Tiger Noslen Live",
+            verticalTitle: "TEST — Tiger Noslen Live",
+
             streamUrl:
-                "https://www.youtube.com/@TigerNoslen/live",
+                "https://youtube.com/live/rYHpsMq9H0w?feature=share",
+
             verticalStreamUrl:
                 "https://youtube.com/live/rYHpsMq9H0w?feature=share"
         };
