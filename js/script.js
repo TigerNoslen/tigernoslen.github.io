@@ -642,39 +642,6 @@ if (
     });
 }
 
-function getAnnouncementStreamOverride() {
-    const announcement =
-        document.querySelector("#announcement");
-
-    if (!announcement) {
-        return null;
-    }
-
-    const title =
-        announcement.dataset.nextStreamTitle;
-
-    const dateValue =
-        announcement.dataset.nextStreamDate;
-
-    if (!title || !dateValue) {
-        return null;
-    }
-
-    const date = new Date(dateValue);
-
-    if (
-        !Number.isFinite(date.getTime()) ||
-        date <= new Date()
-    ) {
-        return null;
-    }
-
-    return {
-        title,
-        date
-    };
-}
-
 const weeklyStreams = [
     { day: 1, title: "Mod Mondays", hour: 17, minute: 0 },
     { day: 2, title: "Tiger Strike Tuesdays", hour: 17, minute: 0 },
@@ -701,31 +668,7 @@ function setStatusClasses(element, state) {
 function formatNextStream() {
     const now = new Date();
 
-    const announcementOverride =
-        getAnnouncementStreamOverride();
-
-    if (announcementOverride) {
-        const dateText = new Intl.DateTimeFormat(
-            "en-CA",
-            {
-                weekday: "long",
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                minute: "2-digit",
-                timeZone: "America/Toronto",
-                timeZoneName: "short"
-            }
-        ).format(announcementOverride.date);
-
-        return {
-            title: announcementOverride.title,
-            detail: dateText,
-            date: announcementOverride.date
-        };
-    }
-
-    const candidates = weeklyStreams.map((stream) => {
+        const candidates = weeklyStreams.map((stream) => {
         const candidate = new Date(now);
 
         const daysUntil =
@@ -1284,3 +1227,29 @@ async function loadLatestSiteVersion() {
 }
 
 loadLatestSiteVersion();
+
+/* =========================================
+   HERO SPECIAL ANNOUNCEMENT — AUTO EXPIRE
+   ========================================= */
+
+function updateSpecialAnnouncement() {
+    const announcement = document.getElementById("announcement");
+
+    if (!announcement) {
+        return;
+    }
+
+    const expiresAt = announcement.dataset.expiresAt;
+
+    if (!expiresAt) {
+        return;
+    }
+
+    const expirationTime = new Date(expiresAt);
+
+    if (new Date() >= expirationTime) {
+        announcement.hidden = true;
+    }
+}
+
+updateSpecialAnnouncement();
