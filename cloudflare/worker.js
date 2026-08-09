@@ -10,6 +10,7 @@
  */
 
 const STATUS_KEY = "tng-live-status";
+const ANNOUNCEMENT_KEY = "tng-announcement";
 
 const LIVE_DISCOVERY_INTERVAL_MS = 30000;
 const LIVE_DISCOVERY_MAX_ATTEMPTS = 10;
@@ -1031,6 +1032,110 @@ export default {
                 ok: true,
                 status: nextStatus
             });
+        }
+
+        if (
+            url.pathname === "/announcement" &&
+            request.method === "GET"
+        ) {
+            const storedAnnouncement =
+                await env.LIVE_STATUS.get(
+                    ANNOUNCEMENT_KEY,
+                    "json"
+                );
+
+            return jsonResponse(
+                request,
+                storedAnnouncement || {
+                    active: false,
+                    label: "",
+                    title: "",
+                    message: "",
+                    footer: "",
+                    expiry: "",
+                    showWebsite: false,
+                    updatedAt: null
+                }
+            );
+        }
+
+        if (
+            url.pathname === "/announcement" &&
+            request.method === "POST"
+        ) {
+            const suppliedToken =
+                request.headers.get("X-TNG-Token");
+
+            if (
+                !suppliedToken ||
+                suppliedToken !== env.UPDATE_TOKEN
+            ) {
+                return jsonResponse(
+                    request,
+                    { error: "Unauthorized" },
+                    401
+                );
+            }
+
+            let payload;
+
+            try {
+                payload = await request.json();
+            } catch {
+                return jsonResponse(
+                    request,
+                    { error: "Invalid JSON" },
+                    400
+                );
+            }
+
+            const nextAnnouncement = {
+                active: true,
+
+                label:
+                    typeof payload.label === "string"
+                        ? payload.label.trim().slice(0, 120)
+                        : "",
+
+                title:
+                    typeof payload.title === "string"
+                        ? payload.title.trim().slice(0, 180)
+                        : "",
+
+                message:
+                    typeof payload.message === "string"
+                        ? payload.message.trim().slice(0, 2000)
+                        : "",
+
+                footer:
+                    typeof payload.footer === "string"
+                        ? payload.footer.trim().slice(0, 300)
+                        : "",
+
+                expiry:
+                    typeof payload.expiry === "string"
+                        ? payload.expiry.trim()
+                        : "",
+
+                showWebsite:
+                    payload.showWebsite === true,
+
+                updatedAt:
+                    new Date().toISOString()
+            };
+
+            await env.LIVE_STATUS.put(
+                ANNOUNCEMENT_KEY,
+                JSON.stringify(nextAnnouncement)
+            );
+
+            return jsonResponse(
+                request,
+                {
+                    ok: true,
+                    announcement: nextAnnouncement
+                }
+            );
         }
 
         return jsonResponse(

@@ -668,7 +668,7 @@ function setStatusClasses(element, state) {
 function formatNextStream() {
     const now = new Date();
 
-        const candidates = weeklyStreams.map((stream) => {
+    const candidates = weeklyStreams.map((stream) => {
         const candidate = new Date(now);
 
         const daysUntil =
@@ -1232,6 +1232,9 @@ loadLatestSiteVersion();
    HERO SPECIAL ANNOUNCEMENT — AUTO EXPIRE
    ========================================= */
 
+const announcementApiUrl =
+    "https://tng-live-status.tiger-noslen.workers.dev/announcement";
+
 function updateSpecialAnnouncement() {
     const announcement = document.getElementById("announcement");
 
@@ -1252,4 +1255,102 @@ function updateSpecialAnnouncement() {
     }
 }
 
+async function loadPublishedAnnouncement() {
+    try {
+        const response = await fetch(
+            announcementApiUrl,
+            {
+                headers: {
+                    Accept: "application/json"
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `Announcement API returned ${response.status}`
+            );
+        }
+
+        const announcement =
+            await response.json();
+
+        const announcementElement =
+            document.getElementById("announcement");
+
+        if (!announcementElement) {
+            return;
+        }
+
+        if (
+            !announcement.active ||
+            !announcement.showWebsite
+        ) {
+            announcementElement.hidden = true;
+            return;
+        }
+
+        const labelElement =
+            announcementElement.querySelector(".announcement-label");
+
+        const titleElement =
+            announcementElement.querySelector(".announcement-title");
+
+        const messageElement =
+            announcementElement.querySelector(".announcement-message");
+
+        const footerElement =
+            announcementElement.querySelector(".announcement-footer");
+
+        if (labelElement) {
+            const dotElement =
+                labelElement.querySelector(".announcement-dot");
+
+            labelElement.textContent =
+                announcement.label || "";
+
+            if (dotElement) {
+                labelElement.prepend(dotElement);
+            }
+            }
+
+        if (titleElement) {
+            titleElement.textContent =
+                announcement.title || "";
+        }
+
+        if (messageElement) {
+            messageElement.textContent =
+                announcement.message || "";
+        }
+
+        if (footerElement) {
+            footerElement.textContent =
+                announcement.footer || "";
+        }
+
+        announcementElement.dataset.expiresAt =
+            announcement.expiry || "";
+
+        announcementElement.hidden = false;
+
+        updateSpecialAnnouncement();
+
+    } catch (error) {
+        console.error(
+            "Unable to load published announcement:",
+            error
+        );
+    }
+}
+
 updateSpecialAnnouncement();
+
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        loadPublishedAnnouncement
+    );
+} else {
+    loadPublishedAnnouncement();
+}
