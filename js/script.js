@@ -982,8 +982,7 @@ function renderLiveStatus(status) {
         }
 
         if (liveStatusElements.heroDetail) {
-            liveStatusElements.heroDetail.textContent =
-                status.title || "Tiger Noslen is live on YouTube";
+            liveStatusElements.heroDetail.textContent = "";
         }
 
         if (liveStatusElements.heroButton) {

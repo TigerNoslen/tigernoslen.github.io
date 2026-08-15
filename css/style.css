@@ -633,6 +633,7 @@ main {
 .hero-status strong {
     color: #36d17c;
     text-transform: uppercase;
+    font-size: 1.5rem;
 }
 
 .hero-status-dot {
@@ -3444,6 +3445,21 @@ main {
 
 .hero-status.is-live .hero-status-copy strong {
     color: var(--live-red);
+    animation: heroLivePulse 1.8s ease-in-out infinite;
+}
+
+@keyframes heroLivePulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 8px rgba(255, 59, 59, 0.25);
+    }
+
+    50% {
+        opacity: 0.75;
+        text-shadow: 0 0 18px rgba(255, 59, 59, 0.65);
+    }
 }
 
 .hero-status.is-offline .hero-status-dot {
