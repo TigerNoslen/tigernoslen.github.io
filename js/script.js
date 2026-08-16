@@ -670,6 +670,7 @@ function formatNextStream() {
 
     if (
         scheduleOverride?.active === true &&
+        scheduleOverride.cancelled !== true &&
         scheduleOverride.title &&
         scheduleOverride.date &&
         scheduleOverride.time
@@ -700,8 +701,14 @@ function formatNextStream() {
         }
     }
 
-    const candidates = weeklyStreams.map((stream) => {
-        const candidate = new Date(now);
+    const cancelledDate =
+        scheduleOverride?.active === true &&
+            scheduleOverride.cancelled === true
+            ? scheduleOverride.date
+            : null;
+
+    const candidates = weeklyStreams
+        .map((stream) => {        const candidate = new Date(now);
 
         const daysUntil =
             (stream.day - now.getDay() + 7) % 7;
@@ -723,12 +730,24 @@ function formatNextStream() {
             );
         }
 
-        return {
-            ...stream,
-            date: candidate
-        };
-    });
+            return {
+                ...stream,
+                date: candidate
+            };
+        })
+        .filter((stream) => {
+            if (!cancelledDate) {
+                return true;
+            }
 
+            const year = stream.date.getFullYear();
+            const month = String(stream.date.getMonth() + 1).padStart(2, "0");
+            const day = String(stream.date.getDate()).padStart(2, "0");
+            const streamDate = `${year}-${month}-${day}`;
+
+            return streamDate !== cancelledDate;
+        });
+        
     candidates.sort(
         (a, b) => a.date - b.date
     );

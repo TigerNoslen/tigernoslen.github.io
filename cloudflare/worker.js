@@ -1190,6 +1190,7 @@ export default {
 
             const nextOverride = {
                 active: true,
+                cancelled: payload.cancelled === true,
                 title:
                     typeof payload.title === "string"
                         ? payload.title.trim().slice(0, 100)
