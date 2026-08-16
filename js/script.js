@@ -668,6 +668,38 @@ function setStatusClasses(element, state) {
 function formatNextStream() {
     const now = new Date();
 
+    if (
+        scheduleOverride?.active === true &&
+        scheduleOverride.title &&
+        scheduleOverride.date &&
+        scheduleOverride.time
+    ) {
+        const overrideDate = new Date(
+            `${scheduleOverride.date}T${scheduleOverride.time}:00`
+        );
+
+        if (overrideDate > now) {
+            const dateText = new Intl.DateTimeFormat(
+                "en-CA",
+                {
+                    weekday: "long",
+                    month: "short",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "2-digit",
+                    timeZone: "America/Toronto",
+                    timeZoneName: "short"
+                }
+            ).format(overrideDate);
+
+            return {
+                title: scheduleOverride.title,
+                detail: dateText,
+                date: overrideDate
+            };
+        }
+    }
+
     const candidates = weeklyStreams.map((stream) => {
         const candidate = new Date(now);
 
@@ -722,6 +754,37 @@ function formatNextStream() {
         date: next.date
     };
 }
+
+let scheduleOverride = null;
+
+const scheduleOverrideApiUrl =
+    LIVE_STATUS_CONFIG.endpoint.replace("/status", "/schedule-override");
+
+async function loadScheduleOverride() {
+    try {
+        const response = await fetch(scheduleOverrideApiUrl, {
+            headers: {
+                Accept: "application/json"
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(
+                `Schedule override API returned ${response.status}`
+            );
+        }
+
+        const data = await response.json();
+
+        scheduleOverride =
+            data?.override?.active === true
+                ? data.override
+                : null;
+    } catch (error) {
+        console.error("Schedule override load failed:", error);
+        scheduleOverride = null;
+    }
+    }
 
 let countdownTargetDate = null;
 
@@ -1081,6 +1144,8 @@ function getTestStatus() {
 }
 
 async function refreshLiveStatus() {
+    await loadScheduleOverride();
+    
     const testStatus = getTestStatus();
 
     if (testStatus) {

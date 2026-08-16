@@ -1018,7 +1018,7 @@ export default {
                 lastDiscoveryAt:
                     isLive
                         ? new Date().toISOString()
-                            : null,
+                        : null,
 
                 updatedAt: new Date().toISOString()
             };
@@ -1134,6 +1134,95 @@ export default {
                 {
                     ok: true,
                     announcement: nextAnnouncement
+                }
+            );
+        }
+
+        if (url.pathname === "/schedule-override" && request.method === "GET") {
+            const storedOverride = await env.LIVE_STATUS.get(
+                "TNHQ_SCHEDULE_OVERRIDE",
+                "json"
+            );
+
+            return jsonResponse(
+                request,
+                {
+                    ok: true,
+                    override: storedOverride || null
+                }
+            );
+        }
+
+        if (url.pathname === "/schedule-override" && request.method === "POST") {
+            const suppliedToken = request.headers.get("X-TNG-Token");
+
+            if (!suppliedToken || suppliedToken !== env.UPDATE_TOKEN) {
+                return jsonResponse(
+                    request,
+                    { error: "Unauthorized" },
+                    401
+                );
+            }
+
+            let payload;
+
+            try {
+                payload = await request.json();
+            } catch {
+                return jsonResponse(
+                    request,
+                    { error: "Invalid JSON" },
+                    400
+                );
+            }
+
+            if (payload?.clear === true) {
+                await env.LIVE_STATUS.delete("TNHQ_SCHEDULE_OVERRIDE");
+
+                return jsonResponse(
+                    request,
+                    {
+                        ok: true,
+                        override: null
+                    }
+                );
+            }
+
+            const nextOverride = {
+                active: true,
+                title:
+                    typeof payload.title === "string"
+                        ? payload.title.trim().slice(0, 100)
+                        : "",
+                date:
+                    typeof payload.date === "string"
+                        ? payload.date.trim()
+                        : "",
+                time:
+                    typeof payload.time === "string"
+                        ? payload.time.trim()
+                        : "",
+                updatedAt: new Date().toISOString()
+            };
+
+            if (!nextOverride.title || !nextOverride.date || !nextOverride.time) {
+                return jsonResponse(
+                    request,
+                    { error: "Title, date and time are required" },
+                    400
+                );
+            }
+
+            await env.LIVE_STATUS.put(
+                "TNHQ_SCHEDULE_OVERRIDE",
+                JSON.stringify(nextOverride)
+            );
+
+            return jsonResponse(
+                request,
+                {
+                    ok: true,
+                    override: nextOverride
                 }
             );
         }
