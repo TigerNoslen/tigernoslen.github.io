@@ -4,10 +4,11 @@
  * Cloudflare bindings:
  *   KV namespace: LIVE_STATUS
  *
- * Cloudflare secrets:
- *   UPDATE_TOKEN
- *   YOUTUBE_API_KEY
- */
+* Cloudflare secrets:
+*   UPDATE_TOKEN
+*   YOUTUBE_API_KEY
+*   DISCORD_WEBHOOK_URL
+*/
 
 const STATUS_KEY = "tng-live-status";
 const ANNOUNCEMENT_KEY = "tng-announcement";
@@ -52,6 +53,33 @@ function wait(milliseconds) {
     return new Promise((resolve) => {
         setTimeout(resolve, milliseconds);
     });
+}
+
+async function sendDiscordWebhook(webhookUrl, message) {
+    if (!webhookUrl) {
+        throw new Error(
+            "The DISCORD_WEBHOOK_URL secret is missing."
+        );
+    }
+
+    const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            content: message
+        })
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+
+        throw new Error(
+            `Discord webhook failed: ` +
+            `${response.status} ${errorText}`
+        );
+    }
 }
 
 async function getYouTubeChannelId(apiKey) {
@@ -1218,6 +1246,25 @@ export default {
                 "TNHQ_SCHEDULE_OVERRIDE",
                 JSON.stringify(nextOverride)
             );
+
+            if (nextOverride.cancelled === true) {
+                const cancellationMessage =
+                    `🔴 STREAM CANCELLED\n\n` +
+                    `${nextOverride.title} has been cancelled.\n\n` +
+                    `Date: ${nextOverride.date}`;
+
+                try {
+                    await sendDiscordWebhook(
+                        env.DISCORD_WEBHOOK_URL,
+                        cancellationMessage
+                    );
+                } catch (error) {
+                    console.error(
+                        "Discord cancellation post failed:",
+                        error
+                    );
+                }
+            }
 
             return jsonResponse(
                 request,
