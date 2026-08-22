@@ -55,11 +55,29 @@ function wait(milliseconds) {
     });
 }
 
-async function sendDiscordWebhook(webhookUrl, message) {
+async function sendDiscordWebhook(
+    webhookUrl,
+    message,
+    imageUrl = ""
+) {
     if (!webhookUrl) {
         throw new Error(
             "The DISCORD_WEBHOOK_URL secret is missing."
         );
+    }
+
+    const payload = {
+        content: message
+    };
+
+    if (imageUrl) {
+        payload.embeds = [
+            {
+                image: {
+                    url: imageUrl
+                }
+            }
+        ];
     }
 
     const response = await fetch(webhookUrl, {
@@ -67,9 +85,7 @@ async function sendDiscordWebhook(webhookUrl, message) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            content: message
-        })
+        body: JSON.stringify(payload)
     });
 
     if (!response.ok) {
@@ -82,6 +98,67 @@ async function sendDiscordWebhook(webhookUrl, message) {
     }
 }
 
+function formatScheduleDateForDiscord(dateValue) {
+    if (
+        typeof dateValue !== "string" ||
+        !dateValue.trim()
+    ) {
+        return "";
+    }
+
+    const date = new Date(
+        `${dateValue.trim()}T12:00:00`
+    );
+
+    if (Number.isNaN(date.getTime())) {
+        return dateValue.trim();
+    }
+
+    return new Intl.DateTimeFormat(
+        "en-CA",
+        {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+            timeZone: "America/Toronto"
+        }
+    ).format(date);
+}
+
+    function getCancellationReasonMessage(reason) {
+        const messages = {
+            traffic:
+                "Traffic has thrown a wrench into today's plans, so unfortunately we won't be able to make the stream.",
+    
+            overtime:
+                "Work is running later than expected today, so unfortunately we won't be able to make the stream.",
+    
+            "under-weather":
+                "We're feeling a little under the weather today, so we're going to take the night off and rest up.",
+    
+            technical:
+                "We're dealing with some technical issues that are preventing us from going live as planned.",
+    
+            "power-weather":
+                "Power or weather conditions are preventing us from going live as planned.",
+    
+            other:
+                "Unfortunately, something has come up and we won't be able to make the stream as planned."
+        };
+    
+        return messages[reason] || "";
+    }
+    
+    function getCancellationReasonImageUrl(reason) {
+        const images = {
+            traffic:
+                "https://tigernoslen.github.io/images/announcements/stream-cancelled-traffic.png"
+        };
+    
+        return images[reason] || "";
+    }
+    
 async function getYouTubeChannelId(apiKey) {
     const endpoint = new URL(
         "https://www.googleapis.com/youtube/v3/channels"
@@ -1219,6 +1296,10 @@ export default {
             const nextOverride = {
                 active: true,
                 cancelled: payload.cancelled === true,
+                cancellationReason:
+                    typeof payload.cancellationReason === "string"
+                        ? payload.cancellationReason.trim().slice(0, 80)
+                        : "",
                 title:
                     typeof payload.title === "string"
                         ? payload.title.trim().slice(0, 100)
@@ -1248,16 +1329,37 @@ export default {
             );
 
             if (nextOverride.cancelled === true) {
+                const formattedDate =
+                    formatScheduleDateForDiscord(
+                        nextOverride.date
+                    );
+
+                const reasonMessage =
+                    getCancellationReasonMessage(
+                        nextOverride.cancellationReason
+                    );
+
+                const cancellationImageUrl =
+                    getCancellationReasonImageUrl(
+                        nextOverride.cancellationReason
+                    );
+
                 const cancellationMessage =
-                    `🔴 STREAM CANCELLED\n\n` +
-                    `${nextOverride.title} has been cancelled.\n\n` +
-                    `Date: ${nextOverride.date}`;
+                    `🔴 **STREAM CANCELLED**\n\n` +
+                    `Hey Tiger Nation! 🐯\n\n` +
+                    `Unfortunately, **${nextOverride.title}** ` +
+                    `scheduled for **${formattedDate}** has been cancelled.\n\n` +
+                    `${reasonMessage}\n\n` +
+                    `We'll be back for the next scheduled stream. 🧡\n\n` +
+                    `**— Tiger Nation HQ**`;
 
                 try {
                     await sendDiscordWebhook(
                         env.DISCORD_WEBHOOK_URL,
-                        cancellationMessage
+                        cancellationMessage,
+                        cancellationImageUrl
                     );
+                
                 } catch (error) {
                     console.error(
                         "Discord cancellation post failed:",
