@@ -840,7 +840,7 @@ function renderCancellationAnnouncement() {
             "Power / Weather",
 
         other:
-            "Other"
+            "Something Came Up"
     };
 
     const reasonImages = {
@@ -862,7 +862,7 @@ function renderCancellationAnnouncement() {
         other:
             "images/announcements/stream-cancelled-other.png"
     };
-    
+
     if (title) {
         title.textContent =
             scheduleOverride.title || "Today's stream";
