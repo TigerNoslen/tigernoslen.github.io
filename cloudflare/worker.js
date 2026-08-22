@@ -126,39 +126,54 @@ function formatScheduleDateForDiscord(dateValue) {
     ).format(date);
 }
 
-    function getCancellationReasonMessage(reason) {
-        const messages = {
-            traffic:
-                "Traffic has thrown a wrench into today's plans, so unfortunately we won't be able to make the stream.",
-    
-            overtime:
-                "Work is running later than expected today, so unfortunately we won't be able to make the stream.",
-    
-            "under-weather":
-                "We're feeling a little under the weather today, so we're going to take the night off and rest up.",
-    
-            technical:
-                "We're dealing with some technical issues that are preventing us from going live as planned.",
-    
-            "power-weather":
-                "Power or weather conditions are preventing us from going live as planned.",
-    
-            other:
-                "Unfortunately, something has come up and we won't be able to make the stream as planned."
-        };
-    
-        return messages[reason] || "";
-    }
-    
-    function getCancellationReasonImageUrl(reason) {
-        const images = {
-            traffic:
-                "https://tigernoslen.github.io/images/announcements/stream-cancelled-traffic.png"
-        };
-    
-        return images[reason] || "";
-    }
-    
+function getCancellationReasonMessage(reason) {
+    const messages = {
+        traffic:
+            "Traffic has thrown a wrench into today's plans, so unfortunately we won't be able to make the stream.",
+
+        overtime:
+            "Work is running later than expected today, so unfortunately we won't be able to make the stream.",
+
+        "under-weather":
+            "We're feeling a little under the weather today, so we're going to take the night off and rest up.",
+
+        technical:
+            "We're dealing with some technical issues that are preventing us from going live as planned.",
+
+        "power-weather":
+            "Power or weather conditions are preventing us from going live as planned.",
+
+        other:
+            "Unfortunately, something has come up and we won't be able to make the stream as planned."
+    };
+
+    return messages[reason] || "";
+}
+
+function getCancellationReasonImageUrl(reason) {
+    const images = {
+        traffic:
+            "https://tigernoslen.github.io/images/announcements/stream-cancelled-traffic.png",
+
+        overtime:
+            "https://tigernoslen.github.io/images/announcements/stream-cancelled-overtime.png",
+
+        "under-weather":
+            "https://tigernoslen.github.io/images/announcements/stream-cancelled-under-weather.png",
+
+        technical:
+            "https://tigernoslen.github.io/images/announcements/stream-cancelled-technical.png",
+
+        "power-weather":
+            "https://tigernoslen.github.io/images/announcements/stream-cancelled-power-weather.png",
+
+        other:
+            "https://tigernoslen.github.io/images/announcements/stream-cancelled-other.png"
+    };
+
+    return images[reason] || "";
+}
+
 async function getYouTubeChannelId(apiKey) {
     const endpoint = new URL(
         "https://www.googleapis.com/youtube/v3/channels"
@@ -1359,7 +1374,7 @@ export default {
                         cancellationMessage,
                         cancellationImageUrl
                     );
-                
+
                 } catch (error) {
                     console.error(
                         "Discord cancellation post failed:",

@@ -708,27 +708,28 @@ function formatNextStream() {
             : null;
 
     const candidates = weeklyStreams
-        .map((stream) => {        const candidate = new Date(now);
+        .map((stream) => {
+            const candidate = new Date(now);
 
-        const daysUntil =
-            (stream.day - now.getDay() + 7) % 7;
+            const daysUntil =
+                (stream.day - now.getDay() + 7) % 7;
 
-        candidate.setDate(
-            now.getDate() + daysUntil
-        );
-
-        candidate.setHours(
-            stream.hour,
-            stream.minute,
-            0,
-            0
-        );
-
-        if (candidate <= now) {
             candidate.setDate(
-                candidate.getDate() + 7
+                now.getDate() + daysUntil
             );
-        }
+
+            candidate.setHours(
+                stream.hour,
+                stream.minute,
+                0,
+                0
+            );
+
+            if (candidate <= now) {
+                candidate.setDate(
+                    candidate.getDate() + 7
+                );
+            }
 
             return {
                 ...stream,
@@ -747,7 +748,7 @@ function formatNextStream() {
 
             return streamDate !== cancelledDate;
         });
-        
+
     candidates.sort(
         (a, b) => a.date - b.date
     );
@@ -772,6 +773,137 @@ function formatNextStream() {
         detail: dateText,
         date: next.date
     };
+}
+
+const cancellationAnnouncementElements = {
+    card: document.getElementById(
+        "cancellationAnnouncement"
+    ),
+
+    title: document.getElementById(
+        "cancellationStreamTitle"
+    ),
+
+    date: document.getElementById(
+        "cancellationStreamDate"
+    ),
+
+    reason: document.getElementById(
+        "cancellationReason"
+    ),
+
+    imageWrap: document.getElementById(
+        "cancellationImageWrap"
+    ),
+
+    image: document.getElementById(
+        "cancellationImage"
+    )
+};
+
+function renderCancellationAnnouncement() {
+    const {
+        card,
+        title,
+        date,
+        reason,
+        imageWrap,
+        image
+    } = cancellationAnnouncementElements;
+
+    if (!card) {
+        return;
+    }
+
+    if (
+        scheduleOverride?.active !== true ||
+        scheduleOverride.cancelled !== true
+    ) {
+        card.hidden = true;
+        return;
+    }
+
+    const reasonMessages = {
+        traffic:
+            "Traffic / Running Late",
+
+        overtime:
+            "Work / Overtime",
+
+        "under-weather":
+            "Under the Weather",
+
+        technical:
+            "Technical Issues",
+
+        "power-weather":
+            "Power / Weather",
+
+        other:
+            "Other"
+    };
+
+    const reasonImages = {
+        traffic:
+            "images/announcements/stream-cancelled-traffic.png",
+
+        overtime:
+            "images/announcements/stream-cancelled-overtime.png",
+
+        "under-weather":
+            "images/announcements/stream-cancelled-under-weather.png",
+
+        technical:
+            "images/announcements/stream-cancelled-technical.png",
+
+        "power-weather":
+            "images/announcements/stream-cancelled-power-weather.png",
+
+        other:
+            "images/announcements/stream-cancelled-other.png"
+    };
+    
+    if (title) {
+        title.textContent =
+            scheduleOverride.title || "Today's stream";
+    }
+
+    if (date) {
+        const cancelledDate = new Date(
+            `${scheduleOverride.date}T12:00:00`
+        );
+
+        date.textContent = new Intl.DateTimeFormat(
+            "en-CA",
+            {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+                year: "numeric"
+            }
+        ).format(cancelledDate);
+    }
+
+    if (reason) {
+        reason.textContent =
+            reasonMessages[
+            scheduleOverride.cancellationReason
+            ] || "Schedule change";
+    }
+
+    const imageUrl =
+        reasonImages[
+        scheduleOverride.cancellationReason
+        ] || "";
+
+    if (image && imageWrap && imageUrl) {
+        image.src = imageUrl;
+        imageWrap.hidden = false;
+    } else if (imageWrap) {
+        imageWrap.hidden = true;
+    }
+
+    card.hidden = false;
 }
 
 let scheduleOverride = null;
@@ -799,11 +931,13 @@ async function loadScheduleOverride() {
             data?.override?.active === true
                 ? data.override
                 : null;
+        renderCancellationAnnouncement();
     } catch (error) {
         console.error("Schedule override load failed:", error);
         scheduleOverride = null;
+        renderCancellationAnnouncement();
     }
-    }
+}
 
 let countdownTargetDate = null;
 
@@ -1164,7 +1298,7 @@ function getTestStatus() {
 
 async function refreshLiveStatus() {
     await loadScheduleOverride();
-    
+
     const testStatus = getTestStatus();
 
     if (testStatus) {
@@ -1395,7 +1529,7 @@ async function loadPublishedAnnouncement() {
             if (dotElement) {
                 labelElement.prepend(dotElement);
             }
-            }
+        }
 
         if (titleElement) {
             titleElement.textContent =

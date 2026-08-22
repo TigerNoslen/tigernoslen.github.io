@@ -104,7 +104,47 @@
                         and everything Tiger Nation.
                     </p>
 
-                    
+                    <!-- Dynamic Stream Cancellation Notice -->
+                    <section id="cancellationAnnouncement" class="cancellation-announcement" aria-live="polite" hidden>
+                        <div class="cancellation-announcement-card">
+
+                            <div class="cancellation-announcement-header">
+                                <h2 class="cancellation-title">
+                                    <span class="cancellation-pulse-dot" aria-hidden="true"></span>
+                                    Stream Cancelled
+                                </h2>
+                            </div>
+
+                            <div class="cancellation-announcement-body">
+
+                                <p class="cancellation-announcement-stream">
+                                    Unfortunately,
+                                    <strong id="cancellationStreamTitle"></strong>
+                                    scheduled for
+                                    <strong id="cancellationStreamDate"></strong>
+                                    has been cancelled.
+                                </p>
+
+                                <div class="cancellation-announcement-reason">
+                                    <span>Reason</span>
+
+                                    <p id="cancellationReason"></p>
+                                </div>
+
+                                <p class="cancellation-announcement-next">
+                                    We'll be back for the next scheduled stream. 🧡
+                                </p>
+
+                            </div>
+
+                            <div class="cancellation-announcement-image-wrap" id="cancellationImageWrap" hidden>
+                                <img id="cancellationImage" class="cancellation-announcement-image" src=""
+                                    alt="Tiger Nation stream cancellation announcement">
+                            </div>
+
+                        </div>
+                    </section>
+
 
                     <div class="hero-status is-checking" id="heroLiveStatus" role="status" aria-live="polite">
                         <div class="hero-status-copy">
@@ -156,41 +196,6 @@
                             </a>
                         </div>
                     </div>
-
-                    <section id="announcement" class="announcement-section" data-expires-at="2026-08-15T15:00:00-04:00">
-
-                        <div class="announcement-container">
-
-                            <article class="announcement-alert">
-
-                                <div class="announcement-label">
-                                    <span class="announcement-dot" aria-hidden="true"></span>
-                                    Special Saturday Stream
-                                </div>
-
-                                <h2 class="announcement-title">
-                                    Fortnite: Unstable
-                                </h2>
-
-                                <p class="announcement-message">
-                                    Tiger Nation is going live early this Saturday!
-                                    Join Tiger beginning at <strong>1:00 PM ET</strong>
-                                    as we get ready for Fortnite's
-                                    <strong>Unstable Story Moment</strong>, happening live
-                                    at <strong>2:00 PM ET</strong>.
-                                    We'll have an hour to squad up, get ready, and make sure
-                                    we're in position before the event begins.
-                                </p>
-
-                                <p class="announcement-footer">
-                                    Saturday, August 15 • Stream starts at 1:00 PM ET
-                                    • Unstable begins at 2:00 PM ET
-                                </p>
-
-                            </article>
-
-                        </div>
-                    </section>
 
                 </div>
 
@@ -1194,7 +1199,7 @@
     </footer>
 
     <script src="js/script.js?v=20260816-1"></script>
-    
+
     <!-- Cloudflare Web Analytics -->
     <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js'
         data-cf-beacon='{"token": "a4feb32210e9479d946f637003dfd4b3"}'></script>
