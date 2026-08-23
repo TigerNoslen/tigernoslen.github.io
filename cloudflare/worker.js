@@ -1209,7 +1209,32 @@ export default {
                 );
             }
 
+            if (payload.clear === true) {
+                await env.LIVE_STATUS.delete(
+                    ANNOUNCEMENT_KEY
+                );
+
+                return jsonResponse(
+                    request,
+                    {
+                        ok: true,
+                        announcement: {
+                            active: false,
+                            label: "",
+                            title: "",
+                            message: "",
+                            footer: "",
+                            expiry: "",
+                            showWebsite: false,
+                            updatedAt:
+                                new Date().toISOString()
+                        }
+                    }
+                );
+            }
+
             const nextAnnouncement = {
+                
                 active: true,
 
                 label:
