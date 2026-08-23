@@ -1475,8 +1475,10 @@ function updateSpecialAnnouncement() {
 async function loadPublishedAnnouncement() {
     try {
         const response = await fetch(
-            announcementApiUrl,
+            `${announcementApiUrl}?t=${Date.now()}`,
             {
+                method: "GET",
+                cache: "no-store",
                 headers: {
                     Accept: "application/json"
                 }
@@ -1571,3 +1573,8 @@ if (document.readyState === "loading") {
 } else {
     loadPublishedAnnouncement();
 }
+
+window.setInterval(
+    loadPublishedAnnouncement,
+    15000
+);
