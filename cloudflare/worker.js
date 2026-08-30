@@ -12,6 +12,14 @@
 
 const STATUS_KEY = "tng-live-status";
 const ANNOUNCEMENT_KEY = "tng-announcement";
+const DISCORD_ANNOUNCEMENT_CHANNELS = {
+    announcements: "DISCORD_ANNOUNCEMENTS_WEBHOOK_URL",
+    "general-info": "DISCORD_GENERAL_INFO_WEBHOOK_URL",
+    giveaways: "DISCORD_GIVEAWAYS_WEBHOOK_URL",
+    "customs-chat": "DISCORD_CUSTOMS_CHAT_WEBHOOK_URL",
+    "tiger-chat": "DISCORD_TIGER_CHAT_WEBHOOK_URL",
+    "stream-announcements": "DISCORD_STREAM_WEBHOOK_URL"
+};
 
 const LIVE_DISCOVERY_INTERVAL_MS = 30000;
 const LIVE_DISCOVERY_MAX_ATTEMPTS = 10;
@@ -95,6 +103,103 @@ async function sendDiscordWebhook(
             `Discord webhook failed: ` +
             `${response.status} ${errorText}`
         );
+    }
+}
+
+function getDiscordAnnouncementWebhookUrl(
+    env,
+    channel
+) {
+    const secretName =
+        DISCORD_ANNOUNCEMENT_CHANNELS[channel];
+
+    if (!secretName) {
+        return "";
+    }
+
+    const webhookUrl = env[secretName];
+
+    return typeof webhookUrl === "string"
+        ? webhookUrl.trim()
+        : "";
+}
+
+function buildDiscordAnnouncementMessage(announcement) {
+    const parts = [
+        "@everyone",
+        ""
+    ];
+
+    if (announcement.label) {
+        parts.push(
+            `🐯 **${announcement.label.toUpperCase()}**`,
+            ""
+        );
+    }
+
+    if (announcement.title) {
+        parts.push(
+            `**${announcement.title}**`,
+            ""
+        );
+    }
+
+    parts.push(announcement.message);
+
+    if (announcement.footer) {
+        parts.push(
+            "",
+            `**— ${announcement.footer}**`
+        );
+    }
+
+    return parts.join("\n");
+}
+
+async function publishAnnouncementToDiscord(
+    env,
+    announcement
+) {
+    const channels =
+        Array.isArray(announcement.discordChannels)
+            ? announcement.discordChannels
+            : [];
+
+    if (channels.length === 0) {
+        return;
+    }
+
+    const message =
+        buildDiscordAnnouncementMessage(
+            announcement
+        );
+
+    for (const channel of channels) {
+        const webhookUrl =
+            getDiscordAnnouncementWebhookUrl(
+                env,
+                channel
+            );
+
+        if (!webhookUrl) {
+            console.warn(
+                `Discord announcement webhook is missing for: ${channel}`
+            );
+
+            continue;
+        }
+
+        try {
+            await sendDiscordWebhook(
+                webhookUrl,
+                message
+            );
+        } catch (error) {
+            console.error(
+                `Discord announcement post failed for ${channel}:`,
+                error
+            );
+        }
     }
 }
 
@@ -1234,7 +1339,7 @@ export default {
             }
 
             const nextAnnouncement = {
-                
+
                 active: true,
 
                 label:
@@ -1265,6 +1370,17 @@ export default {
                 showWebsite:
                     payload.showWebsite === true,
 
+                discordChannels:
+                    Array.isArray(payload.discordChannels)
+                        ? payload.discordChannels.filter(
+                            (channel) =>
+                                Object.prototype.hasOwnProperty.call(
+                                    DISCORD_ANNOUNCEMENT_CHANNELS,
+                                    channel
+                                )
+                        )
+                        : [],
+
                 updatedAt:
                     new Date().toISOString()
             };
@@ -1272,6 +1388,11 @@ export default {
             await env.LIVE_STATUS.put(
                 ANNOUNCEMENT_KEY,
                 JSON.stringify(nextAnnouncement)
+            );
+
+            await publishAnnouncementToDiscord(
+                env,
+                nextAnnouncement
             );
 
             return jsonResponse(
@@ -1385,7 +1506,7 @@ export default {
                     );
 
                 const cancellationMessage =
-                    `🔴 **STREAM CANCELLED**\n\n` +
+                    `@everyone\n\n🔴 **STREAM CANCELLED**\n\n` +
                     `Hey Tiger Nation! 🐯\n\n` +
                     `Unfortunately, **${nextOverride.title}** ` +
                     `scheduled for **${formattedDate}** has been cancelled.\n\n` +
