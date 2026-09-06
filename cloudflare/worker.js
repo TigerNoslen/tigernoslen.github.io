@@ -12,6 +12,9 @@
 
 const STATUS_KEY = "tng-live-status";
 const ANNOUNCEMENT_KEY = "tng-announcement";
+const LEGACY_SCHEDULE_OVERRIDE_KEY = "TNHQ_SCHEDULE_OVERRIDE";
+const SCHEDULE_EXCEPTIONS_KEY = "TNHQ_SCHEDULE_EXCEPTIONS";
+
 const DISCORD_ANNOUNCEMENT_CHANNELS = {
     announcements: "DISCORD_ANNOUNCEMENTS_WEBHOOK_URL",
     "general-info": "DISCORD_GENERAL_INFO_WEBHOOK_URL",
@@ -201,6 +204,113 @@ async function publishAnnouncementToDiscord(
             );
         }
     }
+}
+
+function getTorontoDateString() {
+    const parts = new Intl.DateTimeFormat(
+        "en-CA",
+        {
+            timeZone: "America/Toronto",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }
+    ).formatToParts(new Date());
+
+    const values = {};
+
+    for (const part of parts) {
+        values[part.type] = part.value;
+    }
+
+    return `${values.year}-${values.month}-${values.day}`;
+}
+
+function isScheduleExceptionExpired(exception) {
+    const exceptionDate =
+        typeof exception?.date === "string"
+            ? exception.date.trim()
+            : "";
+
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(exceptionDate)) {
+        return false;
+    }
+
+    return exceptionDate < getTorontoDateString();
+}
+
+function sortScheduleExceptions(exceptions) {
+    return [...exceptions].sort((a, b) => {
+        const aValue = `${a?.date || ""}T${a?.time || ""}`;
+        const bValue = `${b?.date || ""}T${b?.time || ""}`;
+
+        return aValue.localeCompare(bValue);
+    });
+}
+
+function getActiveScheduleExceptions(exceptions) {
+    if (!Array.isArray(exceptions)) {
+        return [];
+    }
+
+    return sortScheduleExceptions(
+        exceptions.filter(
+            (exception) =>
+                exception?.active !== false &&
+                !isScheduleExceptionExpired(exception)
+        )
+    );
+}
+
+async function loadScheduleExceptions(env) {
+    const storedExceptions =
+        await env.LIVE_STATUS.get(
+            SCHEDULE_EXCEPTIONS_KEY,
+            "json"
+        );
+
+    if (Array.isArray(storedExceptions)) {
+        return sortScheduleExceptions(
+            storedExceptions
+        );
+    }
+
+    const legacyOverride =
+        await env.LIVE_STATUS.get(
+            LEGACY_SCHEDULE_OVERRIDE_KEY,
+            "json"
+        );
+
+    if (
+        legacyOverride &&
+        typeof legacyOverride === "object" &&
+        legacyOverride.date
+    ) {
+        const migratedExceptions = [
+            legacyOverride
+        ];
+
+        await env.LIVE_STATUS.put(
+            SCHEDULE_EXCEPTIONS_KEY,
+            JSON.stringify(migratedExceptions)
+        );
+
+        return migratedExceptions;
+    }
+
+    return [];
+}
+
+async function saveScheduleExceptions(env, exceptions) {
+    const sortedExceptions =
+        sortScheduleExceptions(exceptions);
+
+    await env.LIVE_STATUS.put(
+        SCHEDULE_EXCEPTIONS_KEY,
+        JSON.stringify(sortedExceptions)
+    );
+
+    return sortedExceptions;
 }
 
 function formatScheduleDateForDiscord(dateValue) {
@@ -1405,20 +1515,25 @@ export default {
         }
 
         if (url.pathname === "/schedule-override" && request.method === "GET") {
-            const storedOverride = await env.LIVE_STATUS.get(
-                "TNHQ_SCHEDULE_OVERRIDE",
-                "json"
-            );
+            const exceptions =
+                await loadScheduleExceptions(env);
+
+            const activeExceptions =
+                getActiveScheduleExceptions(
+                    exceptions
+                );
 
             return jsonResponse(
                 request,
                 {
                     ok: true,
-                    override: storedOverride || null
+                    override:
+                        activeExceptions[0] || null,
+                    overrides:
+                        activeExceptions
                 }
             );
         }
-
         if (url.pathname === "/schedule-override" && request.method === "POST") {
             const suppliedToken = request.headers.get("X-TNG-Token");
 
@@ -1443,13 +1558,49 @@ export default {
             }
 
             if (payload?.clear === true) {
-                await env.LIVE_STATUS.delete("TNHQ_SCHEDULE_OVERRIDE");
+                const exceptions =
+                    await loadScheduleExceptions(env);
+
+                const activeExceptions =
+                    getActiveScheduleExceptions(
+                        exceptions
+                    );
+
+                const exceptionToClear =
+                    activeExceptions[0] || null;
+
+                const remainingExceptions =
+                    exceptionToClear
+                        ? exceptions.filter(
+                            (exception) =>
+                                !(
+                                    exception.date ===
+                                    exceptionToClear.date &&
+                                    exception.time ===
+                                    exceptionToClear.time
+                                )
+                        )
+                        : exceptions;
+
+                const savedExceptions =
+                    await saveScheduleExceptions(
+                        env,
+                        remainingExceptions
+                    );
+
+                const remainingActiveExceptions =
+                    getActiveScheduleExceptions(
+                        savedExceptions
+                    );
 
                 return jsonResponse(
                     request,
                     {
                         ok: true,
-                        override: null
+                        override:
+                            remainingActiveExceptions[0] || null,
+                        overrides:
+                            remainingActiveExceptions
                     }
                 );
             }
@@ -1484,10 +1635,26 @@ export default {
                 );
             }
 
-            await env.LIVE_STATUS.put(
-                "TNHQ_SCHEDULE_OVERRIDE",
-                JSON.stringify(nextOverride)
-            );
+            const existingExceptions =
+                await loadScheduleExceptions(env);
+
+            const remainingExceptions =
+                existingExceptions.filter(
+                    (exception) =>
+                        !(
+                            exception.date === nextOverride.date &&
+                            exception.time === nextOverride.time
+                        )
+                );
+
+            const savedExceptions =
+                await saveScheduleExceptions(
+                    env,
+                    [
+                        ...remainingExceptions,
+                        nextOverride
+                    ]
+                );
 
             if (nextOverride.cancelled === true) {
                 const formattedDate =
@@ -1529,11 +1696,19 @@ export default {
                 }
             }
 
+            const activeExceptions =
+                getActiveScheduleExceptions(
+                    savedExceptions
+                );
+
             return jsonResponse(
                 request,
                 {
                     ok: true,
-                    override: nextOverride
+                    override:
+                        activeExceptions[0] || null,
+                    overrides:
+                        activeExceptions
                 }
             );
         }

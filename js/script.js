@@ -701,11 +701,16 @@ function formatNextStream() {
         }
     }
 
-    const cancelledDate =
-        scheduleOverride?.active === true &&
-            scheduleOverride.cancelled === true
-            ? scheduleOverride.date
-            : null;
+    const cancelledDates = new Set(
+        scheduleOverrides
+            .filter(
+                (override) =>
+                    override?.active === true &&
+                    override?.cancelled === true &&
+                    typeof override?.date === "string"
+            )
+            .map((override) => override.date)
+    );
 
     const candidates = weeklyStreams
         .map((stream) => {
@@ -737,16 +742,15 @@ function formatNextStream() {
             };
         })
         .filter((stream) => {
-            if (!cancelledDate) {
+            if (cancelledDates.size === 0) {
                 return true;
             }
-
             const year = stream.date.getFullYear();
             const month = String(stream.date.getMonth() + 1).padStart(2, "0");
             const day = String(stream.date.getDate()).padStart(2, "0");
             const streamDate = `${year}-${month}-${day}`;
 
-            return streamDate !== cancelledDate;
+            return !cancelledDates.has(streamDate);
         });
 
     candidates.sort(
@@ -907,6 +911,7 @@ function renderCancellationAnnouncement() {
 }
 
 let scheduleOverride = null;
+let scheduleOverrides = [];
 
 const scheduleOverrideApiUrl =
     LIVE_STATUS_CONFIG.endpoint.replace("/status", "/schedule-override");
@@ -926,6 +931,11 @@ async function loadScheduleOverride() {
         }
 
         const data = await response.json();
+
+        scheduleOverrides =
+            Array.isArray(data?.overrides)
+                ? data.overrides
+                : [];
 
         scheduleOverride =
             data?.override?.active === true
