@@ -10,6 +10,7 @@ export const authClient = createClient(
     AUTH_CONFIG.supabasePublishableKey,
     {
         auth: {
+            storage: window.localStorage,
             flowType: "pkce",
             detectSessionInUrl: true,
             persistSession: true,
