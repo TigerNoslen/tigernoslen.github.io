@@ -44,6 +44,21 @@
             </nav>
 
             <div class="nav-actions">
+
+                <div class="account-controls" id="accountControls">
+                    <button id="googleSignInButton" type="button" disabled>
+                        Sign in with Google
+                    </button>
+
+                    <span id="accountName" hidden></span>
+
+                    <button id="signOutButton" type="button" hidden>
+                        Sign out
+                    </button>
+
+                    <span id="authStatus" role="status" aria-live="polite"></span>
+                </div>
+
                 <div class="live-indicator is-checking" id="navLiveIndicator" role="status" aria-live="polite">
                     <span class="live-dot" aria-hidden="true"></span>
                     <span id="navLiveText">Checking...</span>
@@ -158,18 +173,19 @@
                         </div>
                     </div>
 
-                    <section id="announcement" class="announcement-section" data-expires-at="" aria-live="polite" hidden>
+                    <section id="announcement" class="announcement-section" data-expires-at="" aria-live="polite"
+                        hidden>
                         <div class="announcement-container">
                             <div class="announcement-alert">
                                 <p class="announcement-label">
                                     <span class="announcement-dot" aria-hidden="true"></span>
                                     Announcement
                                 </p>
-                    
+
                                 <h2 class="announcement-title"></h2>
-                    
+
                                 <p class="announcement-message"></p>
-                    
+
                                 <p class="announcement-footer"></p>
                             </div>
                         </div>
@@ -1217,6 +1233,7 @@
     </footer>
 
     <script src="js/script.js?v=20260816-1"></script>
+    <script type="module" src="js/auth-ui.js"></script>
 
     <!-- Cloudflare Web Analytics -->
     <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js'
