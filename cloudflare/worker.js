@@ -1619,6 +1619,53 @@ export default {
                         savedExceptions
                     );
 
+                if (
+                    exceptionToClear?.cancelled === true &&
+                    Array.isArray(exceptionToClear.discordChannels) &&
+                    exceptionToClear.discordChannels.length > 0
+                ) {
+                    const formattedDate =
+                        formatScheduleDateForDiscord(
+                            exceptionToClear.date
+                        );
+
+                    const restoredMessage =
+                        `@everyone\n\n🟢 **STREAM RESTORED**\n\n` +
+                        `Hey Tiger Nation! 🐯\n\n` +
+                        `Good news! **${exceptionToClear.title}** ` +
+                        `scheduled for **${formattedDate}** is back on the schedule.\n\n` +
+                        `We'll see you in The Tiger's Den! 🧡\n\n` +
+                        `**— Tiger Nation HQ**`;
+
+                    for (const channel of exceptionToClear.discordChannels) {
+                        const webhookUrl =
+                            getDiscordAnnouncementWebhookUrl(
+                                env,
+                                channel
+                            );
+
+                        if (!webhookUrl) {
+                            console.warn(
+                                `Discord restoration webhook is missing for ${channel}.`
+                            );
+
+                            continue;
+                        }
+
+                        try {
+                            await sendDiscordWebhook(
+                                webhookUrl,
+                                restoredMessage
+                            );
+                        } catch (error) {
+                            console.error(
+                                `Discord restoration post failed for ${channel}:`,
+                                error
+                            );
+                        }
+                    }
+                }
+
                 return jsonResponse(
                     request,
                     {
