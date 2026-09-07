@@ -1566,9 +1566,25 @@ export default {
                         exceptions
                     );
 
-                const exceptionToClear =
-                    activeExceptions[0] || null;
+                const requestedDate =
+                    typeof payload.date === "string"
+                        ? payload.date.trim()
+                        : "";
 
+                const requestedTime =
+                    typeof payload.time === "string"
+                        ? payload.time.trim()
+                        : "";
+
+                const exceptionToClear =
+                    activeExceptions.find(
+                        (exception) =>
+                            exception.date === requestedDate &&
+                            exception.time === requestedTime
+                    ) ||
+                    activeExceptions[0] ||
+                    null;
+                    
                 const remainingExceptions =
                     exceptionToClear
                         ? exceptions.filter(
