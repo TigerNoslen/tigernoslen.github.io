@@ -1355,6 +1355,16 @@ export default {
                         ? new Date().toISOString()
                         : null,
 
+                showWebsite:
+                    payload.showWebsite !== false,
+
+                discordChannels:
+                    Array.isArray(payload.discordChannels)
+                        ? payload.discordChannels.filter(
+                            (channel) =>
+                                typeof channel === "string"
+                        )
+                        : [],
                 updatedAt: new Date().toISOString()
             };
 
@@ -1584,7 +1594,7 @@ export default {
                     ) ||
                     activeExceptions[0] ||
                     null;
-                    
+
                 const remainingExceptions =
                     exceptionToClear
                         ? exceptions.filter(
@@ -1640,6 +1650,17 @@ export default {
                     typeof payload.time === "string"
                         ? payload.time.trim()
                         : "",
+
+                showWebsite:
+                    payload.showWebsite !== false,
+
+                discordChannels:
+                    Array.isArray(payload.discordChannels)
+                        ? payload.discordChannels.filter(
+                            (channel) =>
+                                typeof channel === "string"
+                        )
+                        : [],
                 updatedAt: new Date().toISOString()
             };
 
@@ -1672,7 +1693,10 @@ export default {
                     ]
                 );
 
-            if (nextOverride.cancelled === true) {
+            if (
+                nextOverride.cancelled === true &&
+                nextOverride.discordChannels.length > 0
+            ) {
                 const formattedDate =
                     formatScheduleDateForDiscord(
                         nextOverride.date
@@ -1697,18 +1721,33 @@ export default {
                     `We'll be back for the next scheduled stream. 🧡\n\n` +
                     `**— Tiger Nation HQ**`;
 
-                try {
-                    await sendDiscordWebhook(
-                        env.DISCORD_WEBHOOK_URL,
-                        cancellationMessage,
-                        cancellationImageUrl
-                    );
+                for (const channel of nextOverride.discordChannels) {
+                    const webhookUrl =
+                        getDiscordAnnouncementWebhookUrl(
+                            env,
+                            channel
+                        );
 
-                } catch (error) {
-                    console.error(
-                        "Discord cancellation post failed:",
-                        error
-                    );
+                    if (!webhookUrl) {
+                        console.warn(
+                            `Discord cancellation webhook is missing for ${channel}.`
+                        );
+
+                        continue;
+                    }
+
+                    try {
+                        await sendDiscordWebhook(
+                            webhookUrl,
+                            cancellationMessage,
+                            cancellationImageUrl
+                        );
+                    } catch (error) {
+                        console.error(
+                            `Discord cancellation post failed for ${channel}:`,
+                            error
+                        );
+                    }
                 }
             }
 

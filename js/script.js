@@ -934,13 +934,17 @@ async function loadScheduleOverride() {
 
         scheduleOverrides =
             Array.isArray(data?.overrides)
-                ? data.overrides
+                ? data.overrides.filter(
+                    (override) =>
+                        override?.showWebsite !== false
+                )
                 : [];
 
         scheduleOverride =
-            data?.override?.active === true
+            data?.override?.active === true &&
+                data.override?.showWebsite !== false
                 ? data.override
-                : null;
+                : scheduleOverrides[0] || null;
         renderCancellationAnnouncement();
     } catch (error) {
         console.error("Schedule override load failed:", error);
