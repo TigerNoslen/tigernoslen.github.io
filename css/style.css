@@ -4768,3 +4768,17 @@ main {
         flex-shrink: 0;
     }
 }
+
+/* Keep the mobile header visible while navigating */
+@media (max-width: 820px) {
+    .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    body {
+        padding-top: var(--header-height);
+    }
+}
