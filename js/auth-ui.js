@@ -46,7 +46,28 @@ async function initializeAuth() {
             throw error;
         }
 
-        renderSession(data.session);
+        let session = data.session;
+
+        if (session) {
+            const { data: userData, error: userError } =
+                await authClient.auth.getUser();
+
+            if (userError?.code === "user_not_found") {
+                await signOut();
+                session = null;
+            } else if (userError) {
+                throw userError;
+            } else if (userData.user) {
+                session = {
+                    ...session,
+                    user: userData.user
+                };
+            } else {
+                throw new Error("Unable to verify account.");
+            }
+        }
+
+        renderSession(session);
 
         authClient.auth.onAuthStateChange((_event, session) => {
             renderSession(session);
