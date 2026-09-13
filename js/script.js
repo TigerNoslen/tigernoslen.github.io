@@ -819,6 +819,13 @@ function renderCancellationAnnouncement() {
         return;
     }
 
+    const scheduleOverride =
+        scheduleOverrides.find(
+            (override) =>
+                override?.active === true &&
+                override?.cancelled === true
+        ) || null;
+
     if (
         scheduleOverride?.active !== true ||
         scheduleOverride.cancelled !== true
