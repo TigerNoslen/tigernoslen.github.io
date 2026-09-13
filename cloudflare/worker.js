@@ -343,6 +343,9 @@ function formatScheduleDateForDiscord(dateValue) {
 
 function getCancellationReasonMessage(reason) {
     const messages = {
+        holiday:
+            "There will be no stream today as we're taking the holiday off. We'll be back for the next scheduled stream.",
+
         traffic:
             "Traffic has thrown a wrench into today's plans, so unfortunately we won't be able to make the stream.",
 
@@ -367,6 +370,9 @@ function getCancellationReasonMessage(reason) {
 
 function getCancellationReasonImageUrl(reason) {
     const images = {
+        holiday:
+            "https://tigernoslen.github.io/images/announcements/stream-cancelled-holiday.png",
+            
         traffic:
             "https://tigernoslen.github.io/images/announcements/stream-cancelled-traffic.png",
 
@@ -1685,6 +1691,10 @@ export default {
                     typeof payload.cancellationReason === "string"
                         ? payload.cancellationReason.trim().slice(0, 80)
                         : "",
+                cancellationCustomReason:
+                    typeof payload.cancellationCustomReason === "string"
+                        ? payload.cancellationCustomReason.trim().slice(0, 200)
+                        : "",
                 title:
                     typeof payload.title === "string"
                         ? payload.title.trim().slice(0, 100)
@@ -1750,9 +1760,12 @@ export default {
                     );
 
                 const reasonMessage =
-                    getCancellationReasonMessage(
-                        nextOverride.cancellationReason
-                    );
+                    nextOverride.cancellationReason === "other" &&
+                        nextOverride.cancellationCustomReason
+                        ? nextOverride.cancellationCustomReason
+                        : getCancellationReasonMessage(
+                            nextOverride.cancellationReason
+                        );
 
                 const cancellationImageUrl =
                     getCancellationReasonImageUrl(

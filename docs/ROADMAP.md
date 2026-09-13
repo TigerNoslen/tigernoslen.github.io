@@ -29,6 +29,11 @@ below. That outline is retained for historical planning context.
   the homepage footer and Google Auth Platform Branding settings.
 - Privacy questions and account-deletion requests are directed to
   tiger.noslen@gmail.com.
+- Signed-in users display their Google profile picture and account name in the website header.
+- A fallback avatar remains available if the Google profile picture cannot be loaded.
+- The desktop header account controls were reordered to:
+  OFFLINE | YouTube | Profile Picture | User Name | Sign out.
+- The deployed live website was tested after this change and the new header layout and authentication flow functioned correctly.  
 
 ### Account-Deletion Verification
 
@@ -55,6 +60,13 @@ Follow-up session testing on September 13, 2026:
 
 Immediate sign-out in an already-open page without reloading, and
 automatic cleanup at token expiry, remain unverified.
+
+### OAuth Redirect Behaviour
+
+During local Live Server testing, Google sign-in redirected back to the deployed
+GitHub Pages website rather than the local 127.0.0.1 page.
+
+Signed-in header testing was therefore completed on the deployed public website.
 
 ### Resolved Browser Issue
 
