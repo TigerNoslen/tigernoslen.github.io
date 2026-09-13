@@ -860,7 +860,7 @@ function renderCancellationAnnouncement() {
     const reasonImages = {
         holiday:
             "images/announcements/stream-cancelled-holiday.png",
-            
+
         traffic:
             "images/announcements/stream-cancelled-traffic.png",
 
@@ -903,11 +903,14 @@ function renderCancellationAnnouncement() {
 
     if (reason) {
         reason.textContent =
-            reasonMessages[
-            scheduleOverride.cancellationReason
-            ] || "Schedule change";
+            scheduleOverride.cancellationReason === "other" &&
+                scheduleOverride.cancellationCustomReason
+                ? scheduleOverride.cancellationCustomReason
+                : reasonMessages[
+                scheduleOverride.cancellationReason
+                ] || "Schedule change";
     }
-
+    
     const imageUrl =
         reasonImages[
         scheduleOverride.cancellationReason
