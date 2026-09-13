@@ -34,6 +34,13 @@ below. That outline is retained for historical planning context.
 - The desktop header account controls were reordered to:
   OFFLINE | YouTube | Profile Picture | User Name | Sign out.
 - The deployed live website was tested after this change and the new header layout and authentication flow functioned correctly.  
+- The public website now supports Holiday stream cancellations with a dedicated
+  Holiday reason label and cancellation graphic.
+- Custom Other cancellation reasons published from the Control Centre are
+  displayed on the public website using the entered custom text.
+- Cancellation cards now correctly display when multiple schedule exceptions
+  coexist, including when an earlier special stream and a later cancellation
+  are both active.
 
 ### Account-Deletion Verification
 
