@@ -45,27 +45,6 @@
 
             <div class="nav-actions">
 
-                <div class="account-controls" id="accountControls">
-                    <button id="googleSignInButton" type="button" disabled>
-                        Sign in with Google
-                    </button>
-
-                    <span class="account-identity" id="accountIdentity" hidden>
-                        <span class="account-avatar" aria-hidden="true">
-                            <img id="accountAvatar" alt="" width="32" height="32" referrerpolicy="no-referrer" hidden>
-                            <span id="accountAvatarFallback">?</span>
-                        </span>
-
-                        <span id="accountName" hidden></span> 
-                    </span>
-
-                    <button id="signOutButton" type="button" hidden>
-                        Sign out
-                    </button>
-
-                    <span id="authStatus" role="status" aria-live="polite"></span>
-                </div>
-
                 <div class="live-indicator is-checking" id="navLiveIndicator" role="status" aria-live="polite">
                     <span class="live-dot" aria-hidden="true"></span>
                     <span id="navLiveText">Checking...</span>
@@ -94,6 +73,27 @@
                     </div>
                 </div>
 
+                <div class="account-controls" id="accountControls">
+                    <button id="googleSignInButton" type="button" disabled>
+                        Sign in with Google
+                    </button>
+
+                    <span class="account-identity" id="accountIdentity" hidden>
+                        <span class="account-avatar" aria-hidden="true">
+                            <img id="accountAvatar" alt="" width="32" height="32" referrerpolicy="no-referrer" hidden>
+                            <span id="accountAvatarFallback">?</span>
+                        </span>
+
+                        <span id="accountName" hidden></span>
+                    </span>
+
+                    <button id="signOutButton" type="button" hidden>
+                        Sign out
+                    </button>
+
+                    <span id="authStatus" role="status" aria-live="polite"></span>
+                </div>
+
                 <button class="mobile-menu-button" type="button" aria-label="Open navigation menu"
                     aria-expanded="false">
                     <span></span>
@@ -101,7 +101,7 @@
                     <span></span>
                 </button>
             </div>
-
+            
         </div>
     </header>
 
