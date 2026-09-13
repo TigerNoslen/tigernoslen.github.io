@@ -43,8 +43,18 @@ This verifies removal of the authentication account record.
 It does not establish deletion of every possible related data record,
 provider backup, or log.
 
-Existing-session behavior after deletion remains untested because
-no website tab was signed in with the deleted account.
+Follow-up session testing on September 13, 2026:
+- The deleted account's name remained visible, including after refresh.
+- Session renewal was rejected with refresh_token_not_found.
+- Supabase's account check returned user_not_found.
+- The website now checks stored accounts with Supabase on page load
+  and signs out locally when user_not_found is returned.
+- After deployment, refreshing the deleted account's tab cleared its
+  signed-in display and showed Sign in with Google.
+- Valid-account sign-in, refresh persistence, and sign-out passed.
+
+Immediate sign-out in an already-open page without reloading, and
+automatic cleanup at token expiry, remain unverified.
 
 ### Resolved Browser Issue
 
@@ -54,7 +64,7 @@ Sign-in then worked.
 
 ### Still Planned or Unverified
 
-- Existing-session behavior after account deletion.
+- Deleted-account cleanup without reloading and at token expiry.
 - Member profiles, roles, permissions, and member-only features.
 - Account management through the Control Centre.
 - Additional deletion checks as user-related data storage expands.
