@@ -835,6 +835,9 @@ function renderCancellationAnnouncement() {
     }
 
     const reasonMessages = {
+        holiday:
+            "Holiday",
+
         traffic:
             "Traffic / Running Late",
 
@@ -855,6 +858,9 @@ function renderCancellationAnnouncement() {
     };
 
     const reasonImages = {
+        holiday:
+            "images/announcements/stream-cancelled-holiday.png",
+            
         traffic:
             "images/announcements/stream-cancelled-traffic.png",
 
