@@ -52,6 +52,10 @@ async function initializeAuth() {
             accountName.hidden = !user;
             accountName.textContent = user ? displayName : "";
 
+            if (user) {
+                void loadHeaderProfileName(user);
+            }
+
             profileButton.hidden = !user;
 
             if (!user) {
@@ -97,6 +101,38 @@ async function initializeAuth() {
                 accountAvatarFallback.hidden = false;
                 accountAvatar.src = pictureUrl;
             }
+        }
+
+        async function loadHeaderProfileName(user) {
+            const { data: profile, error: profileError } =
+                await authClient
+                    .from("profiles")
+                    .select("display_name")
+                    .eq("id", user.id)
+                    .single();
+
+            if (profileError || !profile) {
+                return;
+            }
+
+            const savedDisplayName =
+                typeof profile.display_name === "string"
+                    ? profile.display_name.trim()
+                    : "";
+
+            if (!savedDisplayName) {
+                return;
+            }
+
+            accountName.textContent = savedDisplayName;
+
+            accountAvatarFallback.textContent =
+                savedDisplayName
+                    .split(/\s+/)
+                    .slice(0, 2)
+                    .map(part => Array.from(part)[0])
+                    .join("")
+                    .toUpperCase();
         }
 
         async function loadProfile() {
