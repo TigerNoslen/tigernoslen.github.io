@@ -41,7 +41,7 @@ async function initializeAuth() {
             accountAvatar.hidden = true;
             accountAvatarFallback.hidden = false;
         });
-        k
+        
         function renderSession(session) {
             const user = session?.user;
             const metadata = user?.user_metadata || {};
