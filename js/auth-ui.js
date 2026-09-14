@@ -9,6 +9,8 @@ const accountAvatar = document.querySelector("#accountAvatar");
 const accountAvatarFallback =
     document.querySelector("#accountAvatarFallback");
 const profileButton = document.querySelector("#profileButton");
+const profileCloseButton =
+    document.querySelector("#profileCloseButton");
 const profileSection = document.querySelector("#profileSection");
 const profileAvatar = document.querySelector("#profileAvatar");
 const profileAvatarFallback =
@@ -18,6 +20,8 @@ const profileDisplayName =
 const profileSaveButton =
     document.querySelector("#profileSaveButton");
 const profileStatus = document.querySelector("#profileStatus");
+
+let loadedProfileName = "";
 
 async function initializeAuth() {
     try {
@@ -37,7 +41,7 @@ async function initializeAuth() {
             accountAvatar.hidden = true;
             accountAvatarFallback.hidden = false;
         });
-
+        k
         function renderSession(session) {
             const user = session?.user;
             const metadata = user?.user_metadata || {};
@@ -163,6 +167,9 @@ async function initializeAuth() {
             profileDisplayName.value =
                 profile.display_name || "";
 
+            loadedProfileName = profileDisplayName.value.trim();
+            profileSaveButton.disabled = true;
+
             profileAvatarFallback.textContent =
                 profile.display_name
                     ? profile.display_name
@@ -242,8 +249,15 @@ async function initializeAuth() {
 
                 profileStatus.textContent =
                     "Profile saved.";
+                loadedProfileName = displayName;
+
             } finally {
-                profileSaveButton.disabled = false;
+                const currentName =
+                    profileDisplayName.value.trim();
+
+                profileSaveButton.disabled =
+                    !currentName ||
+                    currentName === loadedProfileName;
             }
         }
 
@@ -392,6 +406,31 @@ async function initializeAuth() {
             void loadProfile();
         });
 
+        profileCloseButton.addEventListener("click", () => {
+            profileSection.hidden = true;
+
+            profileButton.focus();
+        });
+
+        profileDisplayName.addEventListener("input", () => {
+            const currentName =
+                profileDisplayName.value.trim();
+
+            profileSaveButton.disabled =
+                !currentName ||
+                currentName === loadedProfileName;
+        });
+
+        profileDisplayName.addEventListener("keydown", event => {
+            if (
+                event.key === "Enter" &&
+                !profileSaveButton.disabled
+            ) {
+                event.preventDefault();
+                void saveProfile();
+            }
+        });
+
         profileSaveButton.addEventListener("click", () => {
             void saveProfile();
         });
@@ -413,6 +452,7 @@ if (
     accountAvatar &&
     accountAvatarFallback &&
     profileButton &&
+    profileCloseButton &&
     profileSection &&
     profileAvatar &&
     profileAvatarFallback &&

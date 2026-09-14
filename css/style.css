@@ -4859,8 +4859,39 @@ main {
 }
 
 .profile-heading {
+    position: relative;
     margin-bottom: 28px;
     text-align: center;
+}
+
+.profile-close-button {
+    position: absolute;
+    top: -6px;
+    right: 0;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-secondary);
+    font-size: 1.6rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.profile-close-button:hover,
+.profile-close-button:focus-visible {
+    border-color: var(--orange-bright);
+    color: var(--orange-bright);
+    background: rgba(255, 122, 0, 0.08);
+}
+
+.profile-close-button:focus-visible {
+    outline: 2px solid var(--orange-bright);
+    outline-offset: 3px;
 }
 
 .profile-eyebrow {
@@ -5014,6 +5045,11 @@ main {
 }
 
 @media (max-width: 520px) {
+    .profile-close-button {
+        top: -10px;
+        right: -2px;
+    }
+
     .profile-section {
         padding: 52px 0;
     }
