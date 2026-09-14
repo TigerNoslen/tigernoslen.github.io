@@ -4741,17 +4741,18 @@ main {
     }
 
     .account-controls {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
+        display: flex;
         align-items: center;
+        justify-content: flex-end;
         gap: 8px;
-        max-width: 240px;
+        max-width: none;
         min-width: 0;
+        margin-left: auto;
     }
 
     #googleSignInButton,
     #authStatus {
-        grid-column: 1 / -1;
+        flex: 0 0 auto;
     }
 
     #accountName {
@@ -4768,6 +4769,16 @@ main {
 
     .mobile-menu-button {
         flex-shrink: 0;
+    }
+}
+
+@media (max-width: 520px) {
+    .account-controls {
+        gap: 4px;
+    }
+
+    .account-identity {
+        gap: 5px;
     }
 }
 
