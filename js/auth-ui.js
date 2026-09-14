@@ -322,6 +322,10 @@ async function initializeAuth() {
             }
         });
 
+        signInButton.addEventListener("click", () => {
+            void runAction(signInWithGoogle, "Opening Google sign-in...");
+        });
+
         signOutButton.addEventListener("click", () => {
             void runAction(signOut, "Signing out...");
         });
