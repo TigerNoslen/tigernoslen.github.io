@@ -8,6 +8,16 @@ const accountIdentity = document.querySelector("#accountIdentity");
 const accountAvatar = document.querySelector("#accountAvatar");
 const accountAvatarFallback =
     document.querySelector("#accountAvatarFallback");
+const profileButton = document.querySelector("#profileButton");
+const profileSection = document.querySelector("#profileSection");
+const profileAvatar = document.querySelector("#profileAvatar");
+const profileAvatarFallback =
+    document.querySelector("#profileAvatarFallback");
+const profileDisplayName =
+    document.querySelector("#profileDisplayName");
+const profileSaveButton =
+    document.querySelector("#profileSaveButton");
+const profileStatus = document.querySelector("#profileStatus");
 
 async function initializeAuth() {
     try {
@@ -41,6 +51,12 @@ async function initializeAuth() {
             accountIdentity.hidden = !user;
             accountName.hidden = !user;
             accountName.textContent = user ? displayName : "";
+
+            profileButton.hidden = !user;
+
+            if (!user) {
+                profileSection.hidden = true;
+            }
 
             accountAvatarFallback.textContent = fullName
                 ? fullName.split(/\s+/)
@@ -80,6 +96,118 @@ async function initializeAuth() {
                 accountAvatar.hidden = true;
                 accountAvatarFallback.hidden = false;
                 accountAvatar.src = pictureUrl;
+            }
+        }
+
+        async function loadProfile() {
+            profileStatus.textContent = "Loading profile...";
+
+            const { data: userData, error: userError } =
+                await authClient.auth.getUser();
+
+            if (userError || !userData.user) {
+                profileStatus.textContent =
+                    "Unable to load your profile.";
+                return;
+            }
+
+            const { data: profile, error: profileError } =
+                await authClient
+                    .from("profiles")
+                    .select("display_name, avatar_url")
+                    .eq("id", userData.user.id)
+                    .single();
+
+            if (profileError || !profile) {
+                profileStatus.textContent =
+                    "Unable to load your profile.";
+                return;
+            }
+
+            profileDisplayName.value =
+                profile.display_name || "";
+
+            profileAvatarFallback.textContent =
+                profile.display_name
+                    ? profile.display_name
+                        .split(/\s+/)
+                        .slice(0, 2)
+                        .map(part => Array.from(part)[0])
+                        .join("")
+                        .toUpperCase()
+                    : "?";
+
+            const pictureUrl =
+                typeof profile.avatar_url === "string"
+                    ? profile.avatar_url
+                    : "";
+
+            if (pictureUrl) {
+                profileAvatar.hidden = true;
+                profileAvatarFallback.hidden = false;
+                profileAvatar.src = pictureUrl;
+            } else {
+                profileAvatar.hidden = true;
+                profileAvatarFallback.hidden = false;
+                profileAvatar.removeAttribute("src");
+            }
+
+            profileStatus.textContent = "";
+        }
+
+        async function saveProfile() {
+            const displayName = profileDisplayName.value.trim();
+
+            if (!displayName) {
+                profileStatus.textContent =
+                    "Please enter a display name.";
+                return;
+            }
+
+            profileSaveButton.disabled = true;
+            profileStatus.textContent = "Saving profile...";
+
+            try {
+                const { data: userData, error: userError } =
+                    await authClient.auth.getUser();
+
+                if (userError || !userData.user) {
+                    profileStatus.textContent =
+                        "Unable to verify your account.";
+                    return;
+                }
+
+                const { error: profileError } =
+                    await authClient
+                        .from("profiles")
+                        .update({
+                            display_name: displayName,
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq("id", userData.user.id);
+
+                if (profileError) {
+                    console.error(profileError);
+
+                    profileStatus.textContent =
+                        "Unable to save your profile.";
+                    return;
+                }
+
+                accountName.textContent = displayName;
+
+                profileAvatarFallback.textContent =
+                    displayName
+                        .split(/\s+/)
+                        .slice(0, 2)
+                        .map(part => Array.from(part)[0])
+                        .join("")
+                        .toUpperCase();
+
+                profileStatus.textContent =
+                    "Profile saved.";
+            } finally {
+                profileSaveButton.disabled = false;
             }
         }
 
@@ -173,7 +301,7 @@ async function initializeAuth() {
                 return;
             }
 
-        
+
             if (userError || !userData.user) {
                 return;
             }
@@ -194,15 +322,42 @@ async function initializeAuth() {
             }
         });
 
-        signInButton.addEventListener("click", () => {
-            void runAction(signInWithGoogle, "Opening Google sign-in…");
+        signOutButton.addEventListener("click", () => {
+            void runAction(signOut, "Signing out...");
         });
 
-        signOutButton.addEventListener("click", () => {
-            void runAction(signOut, "Signing out…");
+        profileAvatar.addEventListener("load", () => {
+            if (
+                !profileSection.hidden &&
+                profileAvatar.naturalWidth > 0
+            ) {
+                profileAvatar.hidden = false;
+                profileAvatarFallback.hidden = true;
+            }
+        });
+
+        profileAvatar.addEventListener("error", () => {
+            profileAvatar.hidden = true;
+            profileAvatarFallback.hidden = false;
+        });
+
+        profileButton.addEventListener("click", () => {
+            profileSection.hidden = false;
+
+            profileSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+            void loadProfile();
+        });
+
+        profileSaveButton.addEventListener("click", () => {
+            void saveProfile();
         });
 
         signInButton.disabled = false;
+
     } catch {
         authStatus.textContent =
             "Sign-in is unavailable. Please refresh to try again.";
@@ -216,7 +371,14 @@ if (
     authStatus &&
     accountIdentity &&
     accountAvatar &&
-    accountAvatarFallback
+    accountAvatarFallback &&
+    profileButton &&
+    profileSection &&
+    profileAvatar &&
+    profileAvatarFallback &&
+    profileDisplayName &&
+    profileSaveButton &&
+    profileStatus
 ) {
     void initializeAuth();
 }

@@ -87,10 +87,13 @@
                         <span id="accountName" hidden></span>
                     </span>
 
+                    <button id="profileButton" type="button" hidden>
+                        My Profile
+                    </button>
+
                     <button id="signOutButton" type="button" hidden>
                         Sign out
                     </button>
-
                     <span id="authStatus" role="status" aria-live="polite"></span>
                 </div>
 
@@ -101,7 +104,7 @@
                     <span></span>
                 </button>
             </div>
-            
+
         </div>
     </header>
 
@@ -248,6 +251,50 @@
             </div>
 
 
+        </section>
+
+        <!-- ---------------------------------
+                Member Profile
+           ---------------------------------- -->
+        
+        <section class="profile-section" id="profileSection" hidden>
+            <div class="profile-container">
+        
+                <header class="profile-heading">
+                    <span class="profile-eyebrow">Tiger Nation Account</span>
+                    <h2>My Profile</h2>
+                    <p>
+                        Manage how your Tiger Nation profile appears.
+                    </p>
+                </header>
+        
+                <div class="profile-card">
+                    <div class="profile-avatar" aria-hidden="true">
+                        <img id="profileAvatar" alt="" referrerpolicy="no-referrer" hidden>
+                        <span id="profileAvatarFallback">?</span>
+                    </div>
+        
+                    <div class="profile-details">
+                        <label for="profileDisplayName">
+                            Display Name
+                        </label>
+        
+                        <input id="profileDisplayName" type="text" maxlength="50" autocomplete="nickname">
+        
+                        <p class="profile-help">
+                            This is the name that will be used for your Tiger Nation profile.
+                        </p>
+        
+                        <button id="profileSaveButton" type="button">
+                            Save Profile
+                        </button>
+        
+                        <span id="profileStatus" role="status" aria-live="polite">
+                        </span>
+                    </div>
+                </div>
+        
+            </div>
         </section>
 
         <!-- ---------------------------------
