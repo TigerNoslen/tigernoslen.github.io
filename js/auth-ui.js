@@ -437,11 +437,12 @@ async function initializeAuth() {
 
         signInButton.disabled = false;
 
-    } catch {
+    } catch (error) {
+        console.error("Auth initialization failed:", error);
+
         authStatus.textContent =
             "Sign-in is unavailable. Please refresh to try again.";
-    }
-}
+    }}
 
 if (
     signInButton &&
