@@ -969,7 +969,7 @@ main {
 
 @media (max-width: 1180px) {
     .home-panels-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .schedule-grid {
@@ -4672,11 +4672,13 @@ main {
 
 .account-controls {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
-    max-width: 280px;
+    min-width: 0;
+    max-width: none;
+    white-space: nowrap;
 }
 
 .account-controls [hidden] {
