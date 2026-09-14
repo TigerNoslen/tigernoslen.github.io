@@ -173,6 +173,7 @@ async function initializeAuth() {
                 return;
             }
 
+        
             if (userError || !userData.user) {
                 return;
             }
