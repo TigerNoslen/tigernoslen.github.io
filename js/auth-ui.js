@@ -112,7 +112,15 @@ async function initializeAuth() {
             const { data: userData, error: userError } =
                 await authClient.auth.getUser();
 
-            if (userError?.code === "user_not_found") {
+            if (
+                userError?.code === "user_not_found" ||
+                (
+                    userError?.status === 403 &&
+                    userError?.message?.includes(
+                        "User from sub claim in JWT does not exist"
+                    )
+                )
+            ) {
                 await signOut();
                 session = null;
             } else if (userError) {
@@ -151,7 +159,15 @@ async function initializeAuth() {
             const { data: userData, error: userError } =
                 await authClient.auth.getUser();
 
-            if (userError?.code === "user_not_found") {
+            if (
+                userError?.code === "user_not_found" ||
+                (
+                    userError?.status === 403 &&
+                    userError?.message?.includes(
+                        "User from sub claim in JWT does not exist"
+                    )
+                )
+            ) {
                 await signOut();
                 renderSession(null);
                 return;
