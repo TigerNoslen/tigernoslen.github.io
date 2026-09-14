@@ -397,6 +397,7 @@ async function initializeAuth() {
 
         profileButton.addEventListener("click", () => {
             profileSection.hidden = false;
+            profileStatus.textContent = "";
 
             profileSection.scrollIntoView({
                 behavior: "smooth",
@@ -413,6 +414,7 @@ async function initializeAuth() {
         });
 
         profileDisplayName.addEventListener("input", () => {
+            profileStatus.textContent = "";
             const currentName =
                 profileDisplayName.value.trim();
 
