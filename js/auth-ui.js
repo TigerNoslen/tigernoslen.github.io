@@ -133,6 +133,50 @@ async function initializeAuth() {
             renderSession(session);
         });
 
+        async function verifyCurrentUser() {
+            const { data: sessionData, error: sessionError } =
+                await authClient.auth.getSession();
+
+            if (sessionError) {
+                return;
+            }
+
+            const currentSession = sessionData.session;
+
+            if (!currentSession) {
+                renderSession(null);
+                return;
+            }
+
+            const { data: userData, error: userError } =
+                await authClient.auth.getUser();
+
+            if (userError?.code === "user_not_found") {
+                await signOut();
+                renderSession(null);
+                return;
+            }
+
+            if (userError || !userData.user) {
+                return;
+            }
+
+            renderSession({
+                ...currentSession,
+                user: userData.user
+            });
+        }
+
+        window.addEventListener("focus", () => {
+            void verifyCurrentUser();
+        });
+
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") {
+                void verifyCurrentUser();
+            }
+        });
+
         signInButton.addEventListener("click", () => {
             void runAction(signInWithGoogle, "Opening Google sign-in…");
         });
