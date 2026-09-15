@@ -81,6 +81,7 @@ Current profile data includes:
 - Tiger Nation display name
 - Epic Games display name
 - About Me bio
+- Profile visibility
 - Google avatar URL
 - Created timestamp
 - Updated timestamp
@@ -94,12 +95,18 @@ The current profile experience includes:
 - Optional About Me bio of up to 300 characters.
 - Read-only Member badge.
 - Join month and year derived from the profile created_at timestamp.
+- Profile Visibility control with Private, Tiger Nation Members, and Public options.
+- Existing and new profiles default to Private visibility.
+- My Profile includes an Account Details section.
+- Account Details displays the member's current YouTube Membership status.
+- Account Details displays Tiger Nation Member as the current account status.
 - Save Profile remains disabled until an editable field changes.
 - Blank Tiger Nation display names cannot be saved.
 - Optional Epic Games display name and About Me fields may be cleared.
 - Pressing Enter saves a valid changed Display Name or Epic Games Display Name.
 - The About Me field retains normal multiline Enter behaviour.
 - Saved profile information persists after refresh.
+- Profile Visibility selections persist after save and refresh.
 - The saved Tiger Nation display name takes priority over the Google account name in the website header.
 - Successful display-name changes update the signed-in header immediately.
 - Closing My Profile restores focus to the My Profile button.
@@ -115,32 +122,61 @@ Supabase profile security includes:
 - Existing authentication users were backfilled when the profile system was introduced.
 - Row Level Security testing confirmed that a signed-in user cannot retrieve another member's profile through the public website.
 
+### Protected YouTube Membership Status Foundation
+
+A separate public.member_status table stores protected YouTube membership information.
+
+Current membership-status data includes:
+
+- YouTube member status
+- YouTube membership tier
+- Verification timestamp
+- Created timestamp
+- Updated timestamp
+
+Security rules include:
+
+- public.member_status is linked to auth.users by authenticated user ID.
+- Authenticated users may read only their own member-status record.
+- Authenticated users cannot insert, update, or delete their own member-status record.
+- Anonymous users do not receive direct access to member-status data.
+- Existing authenticated users were backfilled into public.member_status.
+- YouTube membership status currently defaults to false until a trusted verification process updates it.
+
+The website currently displays Not a YouTube Member when youtube_member is false.
+
+Members cannot mark themselves as YouTube members or assign themselves a membership tier through My Profile.
+
+Future YouTube membership recognition must update protected membership status through a trusted administrative or automated process.
+
 The Member badge is currently a presentation label only.
 
-It does not represent an administrator role, moderator role, subscription status,
+It does not represent an administrator role, YouTube moderator status, subscription status,
 member-only permission, or access-control level.
 
-### OAuth Redirect Behaviour
+### Profile v3 Verification — September 15, 2026
 
-During local Live Server testing, Google sign-in redirected back to the deployed
-GitHub Pages website rather than the local 127.0.0.1 page.
+The following Profile v3 behaviour was verified on the live website:
 
-Signed-in header testing was therefore completed on the deployed public website.
-
-### Resolved Browser Issue
-
-Norton AntiTrack was isolated as the cause of failed sign-in in the
-owner's regular browser. The owner permanently disabled the extension.
-Sign-in then worked.
+- Profile Visibility defaults to Private — Only me.
+- Changing Profile Visibility enables Save Profile.
+- Tiger Nation Members visibility persists after save and refresh.
+- Public visibility persists after save and refresh.
+- Profile Visibility dropdown options are readable.
+- YouTube Membership displays Not a YouTube Member when youtube_member is false.
+- Account Status displays Tiger Nation Member.
+- Display Name, Epic Games Display Name, About Me, Member badge, and Join Date continued to work.
+- Save Profile remains disabled when no editable profile value has changed.
 
 ### Still Planned
 
-- Expanded member profiles and access levels.
+- Further expanded member profiles and access levels.
 - YouTube membership recognition and member privileges.
+- YouTube moderator recognition and visual moderator identifiers.
 - Member-only content or permissions.
-- Moderator and administrator roles.
+- Website moderator and administrator roles.
 - Account management through the Control Centre.
-- Additional deletion checks as user-related data storage expands.- Additional deletion checks as user-related data storage expands.
+- Additional deletion checks as user-related data storage expands.
 
 ## Development Workflow — 12+ Hour Rule
 
