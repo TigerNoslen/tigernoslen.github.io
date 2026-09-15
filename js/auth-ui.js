@@ -27,6 +27,8 @@ const profileJoinDate =
     document.querySelector("#profileJoinDate");
 const profileYouTubeMembership =
     document.querySelector("#profileYouTubeMembership");
+const profileYouTubeModerator =
+    document.querySelector("#profileYouTubeModerator");
 const profileSaveButton =
     document.querySelector("#profileSaveButton");
 const profileStatus = document.querySelector("#profileStatus");
@@ -262,7 +264,9 @@ async function initializeAuth() {
                 error: memberStatusError
             } = await authClient
                 .from("member_status")
-                .select("youtube_member, youtube_tier")
+                .select(
+                    "youtube_member, youtube_tier, youtube_moderator"
+                )
                 .eq("user_id", userData.user.id)
                 .single();
 
@@ -277,6 +281,17 @@ async function initializeAuth() {
             } else {
                 profileYouTubeMembership.textContent =
                     "Not a YouTube Member";
+            }
+
+            if (memberStatusError || !memberStatus) {
+                profileYouTubeModerator.textContent =
+                    "Unavailable";
+            } else if (memberStatus.youtube_moderator) {
+                profileYouTubeModerator.textContent =
+                    "YouTube Moderator";
+            } else {
+                profileYouTubeModerator.textContent =
+                    "Not a Moderator";
             }
 
             profileStatus.textContent = "";
@@ -625,6 +640,7 @@ if (
     profileVisibility &&
     profileJoinDate &&
     profileYouTubeMembership &&
+    profileYouTubeModerator &&
     profileSaveButton &&
     profileStatus
 ) {
