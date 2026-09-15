@@ -249,16 +249,6 @@ async function initializeAuth() {
                 profileAvatar.removeAttribute("src");
             }
 
-            if (pictureUrl) {
-                profileAvatar.hidden = true;
-                profileAvatarFallback.hidden = false;
-                profileAvatar.src = pictureUrl;
-            } else {
-                profileAvatar.hidden = true;
-                profileAvatarFallback.hidden = false;
-                profileAvatar.removeAttribute("src");
-            }
-
             const {
                 data: memberStatus,
                 error: memberStatusError
@@ -283,17 +273,25 @@ async function initializeAuth() {
                     "Not a YouTube Member";
             }
 
+            profileYouTubeModerator.classList.remove(
+                "is-moderator"
+            );
+
             if (memberStatusError || !memberStatus) {
                 profileYouTubeModerator.textContent =
                     "Unavailable";
             } else if (memberStatus.youtube_moderator) {
                 profileYouTubeModerator.textContent =
                     "YouTube Moderator";
+
+                profileYouTubeModerator.classList.add(
+                    "is-moderator"
+                );
             } else {
                 profileYouTubeModerator.textContent =
                     "Not a Moderator";
             }
-
+            
             profileStatus.textContent = "";
         }
 
