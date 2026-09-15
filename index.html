@@ -282,22 +282,63 @@
                     </div>
 
                     <div class="profile-details">
-                        <label for="profileDisplayName">
-                            Display Name
-                        </label>
 
-                        <input id="profileDisplayName" type="text" maxlength="50" autocomplete="nickname">
+                        <div class="profile-member-meta">
+                            <span class="profile-member-badge">
+                                Member
+                            </span>
 
-                        <p class="profile-help">
-                            This is the name that will be used for your Tiger Nation profile.
-                        </p>
+                            <span class="profile-join-date" id="profileJoinDate">
+                                Joined —
+                            </span>
+                        </div>
 
-                        <button id="profileSaveButton" type="button">
-                            Save Profile
-                        </button>
+                        <div class="profile-field">
+                            <label for="profileDisplayName">
+                                Display Name
+                            </label>
 
-                        <span id="profileStatus" role="status" aria-live="polite">
-                        </span>
+                            <input id="profileDisplayName" type="text" maxlength="50" autocomplete="nickname">
+
+                            <p class="profile-help">
+                                This is the name that will be used for your Tiger Nation profile.
+                            </p>
+                        </div>
+
+                        <div class="profile-field">
+                            <label for="profileEpicName">
+                                Epic Games Display Name
+                            </label>
+
+                            <input id="profileEpicName" type="text" maxlength="50" autocomplete="off"
+                                placeholder="Optional">
+
+                            <p class="profile-help">
+                                Add your Epic Games display name so Tiger Nation can recognize you in Fortnite.
+                            </p>
+                        </div>
+
+                        <div class="profile-field">
+                            <label for="profileBio">
+                                About Me
+                            </label>
+
+                            <textarea id="profileBio" maxlength="300" rows="4"
+                                placeholder="Tell Tiger Nation a little about yourself."></textarea>
+
+                            <p class="profile-help">
+                                Optional — up to 300 characters.
+                            </p>
+                        </div>
+
+                        <div class="profile-actions">
+                            <button id="profileSaveButton" type="button">
+                                Save Profile
+                            </button>
+
+                            <span id="profileStatus" role="status" aria-live="polite">
+                            </span>
+                        </div>
                     </div>
                 </div>
 

@@ -17,11 +17,19 @@ const profileAvatarFallback =
     document.querySelector("#profileAvatarFallback");
 const profileDisplayName =
     document.querySelector("#profileDisplayName");
+const profileEpicName =
+    document.querySelector("#profileEpicName");
+const profileBio =
+    document.querySelector("#profileBio");
+const profileJoinDate =
+    document.querySelector("#profileJoinDate");
 const profileSaveButton =
     document.querySelector("#profileSaveButton");
 const profileStatus = document.querySelector("#profileStatus");
 
 let loadedProfileName = "";
+let loadedProfileEpicName = "";
+let loadedProfileBio = "";
 
 async function initializeAuth() {
     try {
@@ -154,7 +162,9 @@ async function initializeAuth() {
             const { data: profile, error: profileError } =
                 await authClient
                     .from("profiles")
-                    .select("display_name, avatar_url")
+                    .select(
+                        "display_name, avatar_url, bio, epic_display_name, created_at"
+                    )
                     .eq("id", userData.user.id)
                     .single();
 
@@ -167,7 +177,38 @@ async function initializeAuth() {
             profileDisplayName.value =
                 profile.display_name || "";
 
-            loadedProfileName = profileDisplayName.value.trim();
+            profileEpicName.value =
+                profile.epic_display_name || "";
+
+            profileBio.value =
+                profile.bio || "";
+
+            loadedProfileName =
+                profileDisplayName.value.trim();
+
+            loadedProfileEpicName =
+                profileEpicName.value.trim();
+
+            loadedProfileBio =
+                profileBio.value.trim();
+
+            if (profile.created_at) {
+                const joinedDate =
+                    new Date(profile.created_at);
+
+                profileJoinDate.textContent =
+                    `Joined ${joinedDate.toLocaleDateString(
+                        undefined,
+                        {
+                            year: "numeric",
+                            month: "long"
+                        }
+                    )}`;
+            } else {
+                profileJoinDate.textContent =
+                    "Joined —";
+            }
+
             profileSaveButton.disabled = true;
 
             profileAvatarFallback.textContent =
@@ -199,7 +240,14 @@ async function initializeAuth() {
         }
 
         async function saveProfile() {
-            const displayName = profileDisplayName.value.trim();
+            const displayName =
+                profileDisplayName.value.trim();
+
+            const epicDisplayName =
+                profileEpicName.value.trim();
+
+            const bio =
+                profileBio.value.trim();
 
             if (!displayName) {
                 profileStatus.textContent =
@@ -225,6 +273,8 @@ async function initializeAuth() {
                         .from("profiles")
                         .update({
                             display_name: displayName,
+                            epic_display_name: epicDisplayName || null,
+                            bio: bio || null,
                             updated_at: new Date().toISOString()
                         })
                         .eq("id", userData.user.id);
@@ -250,14 +300,26 @@ async function initializeAuth() {
                 profileStatus.textContent =
                     "Profile saved.";
                 loadedProfileName = displayName;
+                loadedProfileEpicName = epicDisplayName;
+                loadedProfileBio = bio;
 
             } finally {
                 const currentName =
                     profileDisplayName.value.trim();
 
+                const currentEpicName =
+                    profileEpicName.value.trim();
+
+                const currentBio =
+                    profileBio.value.trim();
+
                 profileSaveButton.disabled =
                     !currentName ||
-                    currentName === loadedProfileName;
+                    (
+                        currentName === loadedProfileName &&
+                        currentEpicName === loadedProfileEpicName &&
+                        currentBio === loadedProfileBio
+                    );
             }
         }
 
@@ -414,15 +476,41 @@ async function initializeAuth() {
             profileButton.focus();
         });
 
-        profileDisplayName.addEventListener("input", () => {
+        function updateProfileSaveState() {
             profileStatus.textContent = "";
+
             const currentName =
                 profileDisplayName.value.trim();
 
+            const currentEpicName =
+                profileEpicName.value.trim();
+
+            const currentBio =
+                profileBio.value.trim();
+
             profileSaveButton.disabled =
                 !currentName ||
-                currentName === loadedProfileName;
-        });
+                (
+                    currentName === loadedProfileName &&
+                    currentEpicName === loadedProfileEpicName &&
+                    currentBio === loadedProfileBio
+                );
+        }
+
+        profileDisplayName.addEventListener(
+            "input",
+            updateProfileSaveState
+        );
+
+        profileEpicName.addEventListener(
+            "input",
+            updateProfileSaveState
+        );
+
+        profileBio.addEventListener(
+            "input",
+            updateProfileSaveState
+        );
 
         profileDisplayName.addEventListener("keydown", event => {
             if (
@@ -462,6 +550,9 @@ if (
     profileAvatar &&
     profileAvatarFallback &&
     profileDisplayName &&
+    profileEpicName &&
+    profileBio &&
+    profileJoinDate &&
     profileSaveButton &&
     profileStatus
 ) {

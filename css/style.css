@@ -4969,6 +4969,91 @@ main {
     min-width: 0;
 }
 
+.profile-member-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-member-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 0 10px;
+    border: 1px solid rgba(255, 122, 0, 0.45);
+    border-radius: 999px;
+    background: rgba(255, 122, 0, 0.08);
+    color: var(--orange-bright);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.profile-join-date {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.profile-field+.profile-field {
+    margin-top: 20px;
+}
+
+.profile-field label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+#profileEpicName,
+#profileBio {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.035);
+    color: var(--text-primary);
+    font: inherit;
+    font-weight: 600;
+    transition:
+        border-color 180ms ease,
+        background 180ms ease,
+        box-shadow 180ms ease;
+}
+
+#profileEpicName {
+    min-height: 50px;
+}
+
+#profileBio {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+#profileEpicName:focus-visible,
+#profileBio:focus-visible {
+    outline: none;
+    border-color: var(--orange-bright);
+    background: rgba(255, 122, 0, 0.05);
+    box-shadow:
+        0 0 0 3px rgba(255, 122, 0, 0.10),
+        0 0 20px rgba(255, 122, 0, 0.08);
+}
+
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
 .profile-details label {
     display: block;
     margin-bottom: 8px;
@@ -5106,6 +5191,20 @@ main {
     .profile-avatar {
         width: 84px;
         height: 84px;
+    }
+
+    .profile-member-meta {
+        justify-content: center;
+    }
+
+    .profile-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    #profileStatus {
+        margin-left: 0;
+        text-align: center;
     }
 
     #profileSaveButton {
