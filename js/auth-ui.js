@@ -512,7 +512,7 @@ async function initializeAuth() {
             updateProfileSaveState
         );
 
-        profileDisplayName.addEventListener("keydown", event => {
+        function handleProfileEnterSave(event) {
             if (
                 event.key === "Enter" &&
                 !profileSaveButton.disabled
@@ -520,8 +520,17 @@ async function initializeAuth() {
                 event.preventDefault();
                 void saveProfile();
             }
-        });
+        }
 
+        profileDisplayName.addEventListener(
+            "keydown",
+            handleProfileEnterSave
+        );
+
+        profileEpicName.addEventListener(
+            "keydown",
+            handleProfileEnterSave
+        );
         profileSaveButton.addEventListener("click", () => {
             void saveProfile();
         });
