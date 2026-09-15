@@ -133,6 +133,8 @@ Current membership-status data includes:
 - Verification timestamp
 - Created timestamp
 - Updated timestamp
+- YouTube moderator status
+- YouTube moderator verification timestamp
 
 Security rules include:
 
@@ -148,6 +150,33 @@ The website currently displays Not a YouTube Member when youtube_member is false
 Members cannot mark themselves as YouTube members or assign themselves a membership tier through My Profile.
 
 Future YouTube membership recognition must update protected membership status through a trusted administrative or automated process.
+
+### YouTube Moderator Recognition Foundation — Implemented and Verified
+
+The public website now supports protected recognition of actual YouTube channel moderators.
+
+Implemented:
+
+- public.member_status stores YouTube moderator status separately from member-editable profile data.
+- YouTube moderator status is not editable through My Profile.
+- My Profile includes a YouTube Moderator row in Account Details.
+- When youtube_moderator is false, the website displays Not a Moderator.
+- When youtube_moderator is true, the website displays YouTube Moderator.
+- Verified YouTube moderators receive a blue visual badge.
+- The badge is presentation-only and does not grant website administrator, website moderator, or Control Centre permissions.
+
+Verified:
+
+- The true moderator state displays the blue YouTube Moderator badge.
+- The false moderator state displays Not a Moderator with no blue badge.
+- Existing YouTube Membership and Account Status displays continued to work.
+- Existing profile fields and Profile Visibility continued to work.
+- Google sign-in was restored after correcting the missing YouTube Membership element required by authentication initialization.
+
+Still planned:
+
+- Automatic synchronization with the channel owner's current YouTube moderator list.
+- A trusted Google/YouTube verification workflow for moderator status.
 
 The Member badge is currently a presentation label only.
 
