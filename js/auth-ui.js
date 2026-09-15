@@ -540,12 +540,16 @@ async function initializeAuth() {
             const currentBio =
                 profileBio.value.trim();
 
+            const currentVisibility =
+                profileVisibility.value;
+
             profileSaveButton.disabled =
                 !currentName ||
                 (
                     currentName === loadedProfileName &&
                     currentEpicName === loadedProfileEpicName &&
-                    currentBio === loadedProfileBio
+                    currentBio === loadedProfileBio &&
+                    currentVisibility === loadedProfileVisibility
                 );
         }
 
