@@ -21,8 +21,12 @@ const profileEpicName =
     document.querySelector("#profileEpicName");
 const profileBio =
     document.querySelector("#profileBio");
+const profileVisibility =
+    document.querySelector("#profileVisibility");
 const profileJoinDate =
     document.querySelector("#profileJoinDate");
+const profileYouTubeMembership =
+    document.querySelector("#profileYouTubeMembership");
 const profileSaveButton =
     document.querySelector("#profileSaveButton");
 const profileStatus = document.querySelector("#profileStatus");
@@ -30,6 +34,7 @@ const profileStatus = document.querySelector("#profileStatus");
 let loadedProfileName = "";
 let loadedProfileEpicName = "";
 let loadedProfileBio = "";
+let loadedProfileVisibility = "private";
 
 async function initializeAuth() {
     try {
@@ -163,7 +168,7 @@ async function initializeAuth() {
                 await authClient
                     .from("profiles")
                     .select(
-                        "display_name, avatar_url, bio, epic_display_name, created_at"
+                        "display_name, avatar_url, bio, epic_display_name, created_at, profile_visibility"
                     )
                     .eq("id", userData.user.id)
                     .single();
@@ -183,6 +188,9 @@ async function initializeAuth() {
             profileBio.value =
                 profile.bio || "";
 
+            profileVisibility.value =
+                profile.profile_visibility || "private";
+
             loadedProfileName =
                 profileDisplayName.value.trim();
 
@@ -191,6 +199,9 @@ async function initializeAuth() {
 
             loadedProfileBio =
                 profileBio.value.trim();
+
+            loadedProfileVisibility =
+                profileVisibility.value;
 
             if (profile.created_at) {
                 const joinedDate =
@@ -236,6 +247,38 @@ async function initializeAuth() {
                 profileAvatar.removeAttribute("src");
             }
 
+            if (pictureUrl) {
+                profileAvatar.hidden = true;
+                profileAvatarFallback.hidden = false;
+                profileAvatar.src = pictureUrl;
+            } else {
+                profileAvatar.hidden = true;
+                profileAvatarFallback.hidden = false;
+                profileAvatar.removeAttribute("src");
+            }
+
+            const {
+                data: memberStatus,
+                error: memberStatusError
+            } = await authClient
+                .from("member_status")
+                .select("youtube_member, youtube_tier")
+                .eq("user_id", userData.user.id)
+                .single();
+
+            if (memberStatusError || !memberStatus) {
+                profileYouTubeMembership.textContent =
+                    "Unavailable";
+            } else if (memberStatus.youtube_member) {
+                profileYouTubeMembership.textContent =
+                    memberStatus.youtube_tier
+                        ? `Member — ${memberStatus.youtube_tier}`
+                        : "YouTube Member";
+            } else {
+                profileYouTubeMembership.textContent =
+                    "Not a YouTube Member";
+            }
+
             profileStatus.textContent = "";
         }
 
@@ -248,6 +291,9 @@ async function initializeAuth() {
 
             const bio =
                 profileBio.value.trim();
+
+            const profileVisibilityValue =
+                profileVisibility.value;
 
             if (!displayName) {
                 profileStatus.textContent =
@@ -275,6 +321,7 @@ async function initializeAuth() {
                             display_name: displayName,
                             epic_display_name: epicDisplayName || null,
                             bio: bio || null,
+                            profile_visibility: profileVisibilityValue,
                             updated_at: new Date().toISOString()
                         })
                         .eq("id", userData.user.id);
@@ -302,6 +349,8 @@ async function initializeAuth() {
                 loadedProfileName = displayName;
                 loadedProfileEpicName = epicDisplayName;
                 loadedProfileBio = bio;
+                loadedProfileVisibility =
+                    profileVisibilityValue;
 
             } finally {
                 const currentName =
@@ -312,6 +361,9 @@ async function initializeAuth() {
 
                 const currentBio =
                     profileBio.value.trim();
+
+                const currentVisibility =
+                    profileVisibility.value;
 
                 profileSaveButton.disabled =
                     !currentName ||
@@ -512,6 +564,11 @@ async function initializeAuth() {
             updateProfileSaveState
         );
 
+        profileVisibility.addEventListener(
+            "change",
+            updateProfileSaveState
+        );
+
         function handleProfileEnterSave(event) {
             if (
                 event.key === "Enter" &&
@@ -561,7 +618,9 @@ if (
     profileDisplayName &&
     profileEpicName &&
     profileBio &&
+    profileVisibility &&
     profileJoinDate &&
+    profileYouTubeMembership &&
     profileSaveButton &&
     profileStatus
 ) {
