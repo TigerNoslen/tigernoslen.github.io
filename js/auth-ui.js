@@ -41,7 +41,7 @@ async function initializeAuth() {
             accountAvatar.hidden = true;
             accountAvatarFallback.hidden = false;
         });
-        
+
         function renderSession(session) {
             const user = session?.user;
             const metadata = user?.user_metadata || {};
@@ -409,6 +409,7 @@ async function initializeAuth() {
 
         profileCloseButton.addEventListener("click", () => {
             profileSection.hidden = true;
+            profileStatus.textContent = "";
 
             profileButton.focus();
         });
@@ -444,7 +445,8 @@ async function initializeAuth() {
 
         authStatus.textContent =
             "Sign-in is unavailable. Please refresh to try again.";
-    }}
+    }
+}
 
 if (
     signInButton &&
